@@ -4,14 +4,12 @@ namespace App\Http\Controllers\Web\gehat;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Mokasher;
+use Auth ;
 
 class MokasherController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         //
@@ -81,5 +79,11 @@ class MokasherController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function mokashrt_geha()
+    {
+      $geha_id = Auth::user()->id;
+      Mokasher::where();
+
     }
 }

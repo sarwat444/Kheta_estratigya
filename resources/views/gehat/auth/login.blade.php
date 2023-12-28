@@ -51,11 +51,11 @@
                             </div>
                         </div>
                         <div class="p-2" >
-                            <form class="form-horizontal" action="{{route('admins.login')}}" method="POST">
+                            <form class="form-horizontal" action="{{route('authenticate')}}" method="POST">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="job_number" class="form-label">الرقم الوظيفى</label>
-                                    <input type="text" name="text" class="form-control" id="job_number" placeholder="الرقم  الوظيفى">
+                                    <input type="text" name="job_number" class="form-control" id="job_number" placeholder="الرقم  الوظيفى">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">الرقم السري </label>
