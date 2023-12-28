@@ -1,12 +1,7 @@
 <?php
-
-use App\Http\Controllers\Apis\site\Instructor\InstructorRequestController;
 use App\Http\Controllers\Web\Auth\User\{ForgetPasswordController, LoginController, NewPasswordController};
 use App\Http\Controllers\Web\SetLanguageController;
-use App\Http\Controllers\Web\Site\{CartController,
-    CheckoutController,
-    CourseController,
-    CourseLessonController,
+use App\Http\Controllers\Web\Site\{
     HomeController,
     UserCourseController};
 use Illuminate\Support\Facades\Route;
@@ -31,35 +26,12 @@ Route::controller(NewPasswordController::class)->prefix('users')->middleware('gu
 
 
 /** site routes */
-Route::group(['as' => 'site.'], function () {
-
-    Route::get('/', [HomeController::class, 'index'])->name('home');
-
-    Route::get('courses/{course}/information', [CourseController::class, 'course'])->name('courses.information');
-    //Route::get('courses/{course}/checkout', [CourseController::class, 'checkout'])->name('courses.checkout');
-    Route::get('courses/{course}', [CourseController::class, 'show'])->name('courses.show');
-    Route::get('courses', [CourseController::class, 'index'])->name('courses');
-
-    Route::get('courses/{course}/lessons/preview', [CourseLessonController::class, 'preview'])->name('courses.lessons.preview');
+Route::group(['as' => 'gehat.'], function () {
+    Route::get('/login', [HomeController::class, 'login'])->name('login');
+    Route::post('/login', [HomeController::class, 'authenticate']);
 
     Route::group(['middleware' => 'auth'], function () {
-
-        Route::get('courses/{course}/enroll', [UserCourseController::class, 'enroll'])->name('courses.enroll');
-        Route::get('courses/enrolled/me', [UserCourseController::class, 'myCourses'])->name('courses.me');
-        Route::get('courses/{course}/watch', [UserCourseController::class, 'watchCourse'])->name('courses.me.watch');
-        Route::get('courses/{course}/sections/{section}/lessons/{lesson}/watch', [UserCourseController::class, 'watchLesson'])->scopeBindings()->name('courses.me.watch.lesson');
-        Route::post('courses/{course}/sections/{section}/lessons/{lesson}/progress', [UserCourseController::class, 'watchLessonProgress'])->scopeBindings()->name('courses.me.watch.lesson.progress');
-        Route::post('courses/{course}/sections/{section}/lessons/{lesson}/complete', [UserCourseController::class, 'completeLesson'])->scopeBindings()->name('courses.me.mark.complete.lesson');
-
-
-        Route::get('instructors/request', [InstructorRequestController::class, 'index'])->name('instructors.request.index');
-        Route::post('instructors/request/store', [InstructorRequestController::class, 'store'])->name('instructors.request.store');
-
-        Route::post('cart/{course}/store', [CartController::class, 'store'])->name('cart.store');
-        Route::get('cart/{course}/destroy', [CartController::class, 'destroy'])->name('cart.destroy');
-
-        Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-        Route::post('checkout/completed', [CheckoutController::class, 'store'])->name('checkout.store');
+        Route::get('/login', [HomeController::class, 'login'])->name('moksherat.index');
     });
 });
 
