@@ -61,11 +61,13 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
     /** Mokshrat  routes */
     Route::resource('moksherat', MokasherController::class);
 
-    /** Mokshrat  routes */
-    Route::resource('users', UsersController::class);
-
     /** Mangements */
+
     Route::resource('mangements',MangementController::class);
+
+    /** Mokshrat  routes */
+
+    Route::resource('users', UsersController::class);
 
     /** Admins Routes */
 

@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Web\gehat;
+namespace App\Http\Controllers\Web\Site;
 
 use App\Http\Controllers\Controller;
-use App\Models\MokasherInput;
 use Illuminate\Http\Request;
-use App\Models\Mokasher;
-use Auth ;
 
-class MokasherController extends Controller
+class MangementController extends Controller
 {
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         //
@@ -80,16 +81,5 @@ class MokasherController extends Controller
     public function destroy($id)
     {
         //
-    }
-    public function mokashrt_geha()
-    {
-      $geha_id = Auth::user()->id;
-      $mokashert =  MokasherInput::where('users' , $geha_id)->get();
-      return view('gehat.moksherat.index' , compact('mokashert')) ;
-    }
-    public  function create_mokashrt_geha_data($id =null)
-    {
-         $mokasher_data = Mokasher::find($id) ;
-         return view('gehat.moksherat.create_mokaseerinput', compact('mokasher_data'));
     }
 }

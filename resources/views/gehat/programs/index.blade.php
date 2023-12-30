@@ -1,15 +1,15 @@
 @extends('gehat.layouts.app')
 
-@push('title','المؤشرات'))
+@push('title','البرامج'))
 
 @push('styles')
-    <link href="{{asset('/assets/admin/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('/assets/admin/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet"
+          type="text/css"/>
     <!-- DataTables -->
     <link href="{{asset('/assets/admin/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('/assets/admin/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Responsive datatable examples -->
     <link href="{{asset('/assets/admin/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-
 @endpush
 @section('content')
     <div class="row">
@@ -19,33 +19,31 @@
                     <div class="d-flex flex-wrap gap-2 mb-3">
                         <button type="button" class="btn btn-primary waves-effect waves-light"
                                 data-bs-toggle="modal" data-bs-target="#create-new-category">
-                            <i class="bx bx-add-to-queue font-size-16 align-middle me-2"></i>أضافه مؤشر جديد
+                            <i class="bx bx-add-to-queue font-size-16 align-middle me-2"></i>أضافه برنامج جديد
                         </button>
                     </div>
                     <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100 text-center">
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>المؤشر</th>
-                            <th> نوع المؤشر</th>
-                            <th>مدخلات المؤشر</th>
+                            <th>البرنامج</th>
+                            <th>عدد المؤشرات </th>
                             <th>المضاف بواسطه</th>
                             <th>التحكم</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse($mokashert  as $mokasher)
+                        @forelse($programs  as $program)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td style="text-align: right">{{ $mokasher->name }} </td>
-                                <td style="text-align: right">{{ $mokasher->type }} </td>
-                                <td style="text-align: right">{{ $mokasher->addedBy }} </td>
-                                <td><a  class="btn btn-success btn btn-sm" href="{{ route('dashboard.moksherat.mokaseerinput', $mokasher->id) }}"> مدخلات المؤشر </a></td>
+                                <td style="text-align: right"><a href="{{route('gehat.moksherat.show' , $program->id )}}"> {{ $program->program }} </a> </td>
+                                <td> <span class="badge badge-pill badge-soft-primary font-size-12">{{ $program->moksherat_count}}</span> </td>
+                                <td> {{ $program->addedBy }} </td>
                                 <td>
                                     <div class="btn-group">
-
-                                        <a href="{{ route('dashboard.moksherat.edit', $mokasher->id) }}" class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
-                                        <form action="{{ route('dashboard.moksherat.destroy', $mokasher->id) }}"
+                                        <a href="javascript:void(0);" data-category-id="{{ $program->id }}"
+                                           class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
+                                        <form action="{{ route('dashboard.programs.destroy', $program->id) }}"
                                               method="POST">@csrf @method('delete')
                                             <a class="text-muted font-size-20 confirm-delete"><i
                                                     class="bx bx-trash"></i></a>
@@ -65,9 +63,12 @@
             </div>
         </div>
     </div>
-    @include('admins.moksherat.modals.store-modal')
-    @include('admins.moksherat.modals.edit-modal')
+
+    @include('admins.programs.modals.store-modal')
+    @include('admins.programs.modals.edit-modal')
 @endsection
+
+
 @push('scripts')
     <script src="{{asset('/assets/admin/libs/sweetalert2/sweetalert2.min.js')}}"></script>
     <script src="{{asset('/assets/admin/js/pages/sweet-alerts.init.js')}}"></script>
@@ -80,7 +81,7 @@
     <!-- Datatable init js -->
     <script src="{{asset('/assets/admin/js/pages/datatables.init.js')}}"></script>
 
-    @include('admins.moksherat.scripts.store')
-    @include('admins.moksherat.scripts.delete')
-    @include('admins.moksherat.scripts.edit')
+    @include('admins.programs.scripts.store')
+    @include('admins.programs.scripts.delete')
+    @include('admins.programs.scripts.edit')
 @endpush

@@ -1,7 +1,5 @@
 @extends('gehat.layouts.app')
-
-@push('title','المؤشرات'))
-
+@push('title','الغايات'))
 @push('styles')
     <link href="{{asset('/assets/admin/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
     <!-- DataTables -->
@@ -16,41 +14,20 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex flex-wrap gap-2 mb-3">
-                        <button type="button" class="btn btn-primary waves-effect waves-light"
-                                data-bs-toggle="modal" data-bs-target="#create-new-category">
-                            <i class="bx bx-add-to-queue font-size-16 align-middle me-2"></i>أضافه مؤشر جديد
-                        </button>
-                    </div>
-                    <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100 text-center">
+                    <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100 table-striped">
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>المؤشر</th>
-                            <th> نوع المؤشر</th>
-                            <th>مدخلات المؤشر</th>
-                            <th>المضاف بواسطه</th>
-                            <th>التحكم</th>
+                            <th>الغايه</th>
+                            <th>عدد الأهداف الاستراتيجيه</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse($mokashert  as $mokasher)
+                        @forelse($objectives  as $objective)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td style="text-align: right">{{ $mokasher->name }} </td>
-                                <td style="text-align: right">{{ $mokasher->type }} </td>
-                                <td style="text-align: right">{{ $mokasher->addedBy }} </td>
-                                <td><a  class="btn btn-success btn btn-sm" href="{{ route('dashboard.moksherat.mokaseerinput', $mokasher->id) }}"> مدخلات المؤشر </a></td>
-                                <td>
-                                    <div class="btn-group">
-
-                                        <a href="{{ route('dashboard.moksherat.edit', $mokasher->id) }}" class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
-                                        <form action="{{ route('dashboard.moksherat.destroy', $mokasher->id) }}"
-                                              method="POST">@csrf @method('delete')
-                                            <a class="text-muted font-size-20 confirm-delete"><i
-                                                    class="bx bx-trash"></i></a>
-                                        </form>
-                                    </div>
+                                <td><a href="{{route('gehat.goals.show' ,$objective->id  )}}"> {{ $objective->objective }} </a> </td>
+                                <td> <span class="badge badge-pill badge-soft-primary font-size-12">{{ $objective->goals_count }}</span>
                                 </td>
                             </tr>
                         @empty
@@ -58,17 +35,15 @@
                                 <td colspan="4" class="text-center">لا يوجد بيانات بالجدول</td>
                             </tr>
                         @endforelse
-
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    @include('admins.moksherat.modals.store-modal')
-    @include('admins.moksherat.modals.edit-modal')
 @endsection
 @push('scripts')
+
     <script src="{{asset('/assets/admin/libs/sweetalert2/sweetalert2.min.js')}}"></script>
     <script src="{{asset('/assets/admin/js/pages/sweet-alerts.init.js')}}"></script>
     <!-- Required datatable js -->
@@ -80,7 +55,4 @@
     <!-- Datatable init js -->
     <script src="{{asset('/assets/admin/js/pages/datatables.init.js')}}"></script>
 
-    @include('admins.moksherat.scripts.store')
-    @include('admins.moksherat.scripts.delete')
-    @include('admins.moksherat.scripts.edit')
 @endpush

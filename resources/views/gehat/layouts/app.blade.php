@@ -49,10 +49,10 @@
 <!-- Begin page -->
 <div id="layout-wrapper">
 
-    @include('admins.partials.header')
+    @include('gehat.partials.header')
 
     <!-- ========== Left Sidebar Start ========== -->
-    @include('admins.partials.side-menu')
+    @include('gehat.partials.side-menu')
     <!-- Left Sidebar End -->
 
 
@@ -69,7 +69,7 @@
         </div>
         <!-- End Page-content -->
 
-        @include('admins.partials.footer')
+        @include('gehat.partials.footer')
     </div>
     <!-- end main content-->
 
@@ -77,7 +77,7 @@
 <!-- END layout-wrapper -->
 
 <!-- Right Sidebar -->
-@include('admins.partials.right-bar')
+@include('gehat.partials.right-bar')
 <!-- /Right-bar -->
 
 <!-- Right bar overlay-->
@@ -93,11 +93,11 @@
 {{-- this file under comment control language files --}}
 <script src="{{asset('/assets/admin/js/app.js')}}"></script>
 <script  src="{{asset('/assets/admin/js/flasher.min.js')}}"></script>
-@include('admins.partials.scripts.flash-messages')
-@include('admins.partials.scripts.remove-is-invalid-class-inputs')
-@include('admins.partials.scripts.automatic-validation-flash')
-@include('admins.partials.scripts.constants-localization')
-@include('admins.partials.scripts.search')
+@include('gehat.partials.scripts.flash-messages')
+@include('gehat.partials.scripts.remove-is-invalid-class-inputs')
+@include('gehat.partials.scripts.automatic-validation-flash')
+@include('gehat.partials.scripts.constants-localization')
+@include('gehat.partials.scripts.search')
 @stack('scripts')
 </body>
 </html>

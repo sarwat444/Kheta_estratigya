@@ -11,14 +11,12 @@ class HomeController extends Controller
     use ResponseJson;
 
     public function index()
-    {}
+    {
+        return view('gehat.dashboard.index');
+    }
     public function login()
     {
-        if (Auth::check()) {
-            return view('gehat.moksherat.index');
-        } else {
-            return view('gehat.auth.login');
-        }
+     return view('gehat.auth.login') ;
     }
     public function authenticate(Request $request)
     {

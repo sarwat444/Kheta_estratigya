@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('programs', function (Blueprint $table) {
             $table->id();
             $table->string('program')->nullable() ;
+            $table->integer('added')->nullable() ;
             $table->foreignId('goal_id')->constrained('goals')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->integer('addedBy')->nullable() ;
             $table->timestamps();
         });
     }

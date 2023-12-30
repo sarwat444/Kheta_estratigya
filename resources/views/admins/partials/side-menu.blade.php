@@ -5,7 +5,7 @@
                 <li>
                     <a href="{{route('dashboard.index')}}">
                         <i class="bx bx-home"></i>
-                        <span key="t-maps"> الأحصائيات </span>
+                        <span key="t-maps">لوحه التحكم </span>
                     </a>
                 </li>
                 <li>

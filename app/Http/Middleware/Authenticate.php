@@ -6,8 +6,10 @@ use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
 class Authenticate extends Middleware
 {
-    protected function redirectTo($request):string
+    protected function redirectTo($request): string
     {
-        return route('site.home');
+        if (!$request->expectsJson()) {
+            return route('login');
+        }
     }
 }
