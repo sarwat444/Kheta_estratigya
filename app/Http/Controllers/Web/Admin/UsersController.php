@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Admin\users\StoreAdminRequest;
 use App\Http\Requests\Web\Admin\users\UpdateStaffRequest;
+use App\Models\Execution_year;
 use App\Models\Mangement;
 use App\Models\User;
 use App\Models\Admin;
@@ -27,7 +28,8 @@ class UsersController extends Controller
     public function index()
     {
         $users  =  $this->user->with('mangemnet')->get() ;
-        return  view('admins.users.geaht.index')->with(compact('users')) ;
+        $execution_years  = Execution_year::get() ;
+        return  view('admins.users.geaht.index')->with(compact('users' ,'execution_years')) ;
     }
     public function create()
     {
@@ -160,6 +162,20 @@ class UsersController extends Controller
         }else
         {
             return  redirect()->back()->with('error' , 'تم حذف  مدير  النظام بنجاح ') ;
+        }
+    }
+    public function change_execution_year(Request $request)
+    {
+        try {
+            // Reset the currently selected execution year
+            Execution_year::where('selected', 1)->update(['selected' => 0]);
+            // Set the new execution year as selected
+            Execution_year::where('year_name', $request->execuation_year)->update(['selected' => 1]);
+
+            return redirect()->back()->with('success', 'تم بث السنه بنجاح');
+        } catch (\Exception $e) {
+            // Handle any exceptions that might occur during the update
+            return redirect()->back()->with('error' , 'something went error');
         }
     }
 }

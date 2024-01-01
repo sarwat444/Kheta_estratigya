@@ -24,7 +24,8 @@ class StoreMangementRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'min:3', 'max:900']
+            'name' => ['required', 'string', 'min:3', 'max:900'] ,
+            'top_mangement' => ['sometimes']
         ];
     }
 }

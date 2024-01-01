@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('programs', function (Blueprint $table) {
+        Schema::create('execution_years', function (Blueprint $table) {
             $table->id();
-            $table->string('program')->nullable() ;
-            $table->integer('added')->nullable() ;
-            $table->foreignId('goal_id')->constrained('goals')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->integer('addedBy')->default(0) ;
+            $table->string('year_name') ;
+            $table->tinyInteger('selected')->default(0) ;
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('programs');
+        Schema::dropIfExists('execution_years');
     }
 };

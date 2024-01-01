@@ -16,7 +16,7 @@ class ProgramController extends Controller
 
     public function show($goal_id =null ): \Illuminate\View\View
     {
-        $programs = $this->programModel->withCount('moksherat')->where('goal_id' , $goal_id)->get() ;
+        $programs = $this->programModel->with('addedBy_fun')->withCount('moksherat')->where('goal_id' , $goal_id)->get() ;
         return view('gehat.programs.index', compact('programs' ,  'goal_id' ));
     }
     public function create(): \Illuminate\View\View

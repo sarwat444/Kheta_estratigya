@@ -11,7 +11,7 @@
                 </li>
 
                 <li>
-                    <a href="{{route('gehat.goals.index')}}">
+                    <a href="{{route('gehat.mangements.index')}}">
                         <i class="bx bx-briefcase"></i>
                         <span key="t-maps">الأدارات</span>
                     </a>

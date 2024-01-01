@@ -13,4 +13,8 @@ class Program extends Model
     {
        return $this->hasMany(Mokasher::class) ;
     }
+    public function addedBy_fun()
+    {
+        return $this->belongsTo(User::class , 'addedBy' , 'id') ;
+    }
 }

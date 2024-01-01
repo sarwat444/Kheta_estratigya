@@ -25,7 +25,7 @@ class StoreProgramRequest extends FormRequest
     {
         return [
             'program' => ['required', 'string', 'min:3', 'max:255'],
-            'addedBy' => ['required'],
+            'addedBy' => ['sometimes'],
             'goal_id' => ['required']
         ];
     }

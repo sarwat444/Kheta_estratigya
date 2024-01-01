@@ -25,9 +25,9 @@ class HomeController extends Controller
 
             $user = Auth::user();
             if ($user->is_manager == 0 ) {
-                return redirect()->route('gehat.moksherat.index');
+                return redirect()->route('gehat.dashboard.index');
             } else {
-                return redirect()->route('gehat.moksherat.manger');
+                return redirect()->route('gehat.dashboard.manger');
             }
         } else {
             return view('gehat.auth.login')->with('error', 'Invalid credentials');

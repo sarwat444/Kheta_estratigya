@@ -16,6 +16,26 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    <div class="col-md-4">
+                        <form method="post" action="{{route('dashboard.change_execution_year')}}">
+                            @csrf
+                                <div class="card-title font-size-14">أختيار سنه التنفيذ </div>
+                                <select name="execuation_year" class="form-control">
+                                    @foreach($execution_years as $ex_year)
+                                        <option value="{{$ex_year->year_name}}" @if($ex_year->selected == 1) selected @endif>{{$ex_year->year_name}}</option>
+                                    @endforeach
+                                </select>
+                            <button type="submit"  class="btn btn-primary mt-4" >تنفيذ </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
                     <div class="card-title"> الجهات</div>
                     <div class="d-flex flex-wrap gap-2 mb-3">
                         <a href="{{route('dashboard.users.create')}}" class="btn btn-primary waves-effect waves-light">

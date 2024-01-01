@@ -25,7 +25,8 @@ class UpdateProgramRequest extends FormRequest
     {
         return [
             'program' => ['required', 'string', 'min:3', 'max:255'],
-            'goal_id' => ['sometimes']
+            'goal_id' => ['sometimes'] ,
+            'addedBy' => ['sometimes'],
         ];
     }
 }

@@ -12,6 +12,7 @@
                     <div class="form-group">
                         <label for="program">أسم البرنامج</label>
                         <input type="text" name="program" class="form-control" id="program" placeholder="أسم البرنامج "  required>
+                        <input type="hidden" name="addedBy" value="{{\Illuminate\Support\Facades\Auth::user()->id }}">
                     </div>
                     <div class="form-group text-center mt-2">
                         <button id="modal-blockui" type="submit" class="btn btn-primary">حفظ التعديل</button>

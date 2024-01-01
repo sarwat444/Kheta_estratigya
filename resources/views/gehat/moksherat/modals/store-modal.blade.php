@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{route('dashboard.moksherat.store')}}" id="store-new-category">
+                <form action="{{route('gehat.moksherat.store')}}" id="store-new-category">
                     @csrf
                     <div class="mb-2">
                         <label for="type" class="col-form-label">نوع المؤشر</label>
@@ -16,6 +16,7 @@
                             <option value="مؤشر كليه" >الكل</option>
                         </select>
                         <input type="hidden" name="program_id" value="{{$program_id}}">
+                        <input type="hidden" name="addedBy" value="{{\Illuminate\Support\Facades\Auth::user()->id }}">
                     </div>
                     <div class="mb-2">
                         <label for="program" class="col-form-label" name="name" >أسم المؤشر</label>

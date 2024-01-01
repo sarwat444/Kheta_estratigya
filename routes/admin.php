@@ -68,6 +68,7 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
     /** Mokshrat  routes */
 
     Route::resource('users', UsersController::class);
+    Route::post('change_execution_year' , [UsersController::class ,'change_execution_year'])->name('change_execution_year');
 
     /** Admins Routes */
 

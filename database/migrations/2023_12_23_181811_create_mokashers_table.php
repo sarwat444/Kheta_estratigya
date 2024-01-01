@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name')->nullable() ;
             $table->string('type')->nullable() ;
             $table->foreignId('program_id')->constrained('programs')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->integer('addedBy')->nullable() ;
+            $table->integer('addedBy')->default(0) ;
             $table->timestamps();
         });
     }

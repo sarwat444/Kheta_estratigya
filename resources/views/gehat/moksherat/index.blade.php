@@ -1,6 +1,6 @@
 @extends('gehat.layouts.app')
 
-@push('title','المؤشرات'))
+@push('title','المؤشرات')
 
 @push('styles')
     <link href="{{asset('/assets/admin/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
@@ -12,6 +12,21 @@
 
 @endpush
 @section('content')
+
+    @php
+        $selectedYear = config('app.selected_year');
+    @endphp
+
+    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+        <h4 class="mb-sm-0 font-size-18">Saas</h4>
+
+        <div class="page-title-right">
+            <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
+                <li class="breadcrumb-item active">Saas</li>
+            </ol>
+        </div>
+    </div>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -39,18 +54,22 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td style="text-align: right">{{ $mokasher->name }} </td>
                                 <td style="text-align: right">{{ $mokasher->type }} </td>
-                                <td style="text-align: right">{{ $mokasher->addedBy }} </td>
+                                <td>  @if( $mokasher->addedBy == 0 ) الأداره@else {{ $mokasher->addedBy_fun->geha }} @endif  </td>
+
                                 <td><a  class="btn btn-success btn btn-sm" href="{{ route('dashboard.moksherat.mokaseerinput', $mokasher->id) }}"> مدخلات المؤشر </a></td>
                                 <td>
-                                    <div class="btn-group">
-
-                                        <a href="{{ route('dashboard.moksherat.edit', $mokasher->id) }}" class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
-                                        <form action="{{ route('dashboard.moksherat.destroy', $mokasher->id) }}"
-                                              method="POST">@csrf @method('delete')
-                                            <a class="text-muted font-size-20 confirm-delete"><i
-                                                    class="bx bx-trash"></i></a>
-                                        </form>
-                                    </div>
+                                    @if($mokasher->addedBy == \Illuminate\Support\Facades\Auth::user()->id )
+                                        <div class="btn-group">
+                                            <a href="{{ route('dashboard.moksherat.edit', $mokasher->id) }}" class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
+                                            <form action="{{ route('dashboard.moksherat.destroy', $mokasher->id) }}"
+                                                  method="POST">@csrf @method('delete')
+                                                <a class="text-muted font-size-20 confirm-delete"><i
+                                                        class="bx bx-trash"></i></a>
+                                            </form>
+                                        </div>
+                                      @else
+                                        <span class="badge badge-soft-danger">غير مصرح بالتعديل بالحذف </span>
+                                    @endif
                                 </td>
                             </tr>
                         @empty
@@ -65,8 +84,8 @@
             </div>
         </div>
     </div>
-    @include('admins.moksherat.modals.store-modal')
-    @include('admins.moksherat.modals.edit-modal')
+    @include('gehat.moksherat.modals.store-modal')
+    @include('gehat.moksherat.modals.edit-modal')
 @endsection
 @push('scripts')
     <script src="{{asset('/assets/admin/libs/sweetalert2/sweetalert2.min.js')}}"></script>
@@ -80,7 +99,7 @@
     <!-- Datatable init js -->
     <script src="{{asset('/assets/admin/js/pages/datatables.init.js')}}"></script>
 
-    @include('admins.moksherat.scripts.store')
-    @include('admins.moksherat.scripts.delete')
-    @include('admins.moksherat.scripts.edit')
+    @include('gehat.moksherat.scripts.store')
+    @include('gehat.moksherat.scripts.delete')
+    @include('gehat.moksherat.scripts.edit')
 @endpush

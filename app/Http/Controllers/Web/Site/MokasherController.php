@@ -21,7 +21,7 @@ class MokasherController extends Controller
     {}
     public function show($program_id =null ): \Illuminate\View\View
     {
-        $mokashert = $this->mokasherModel->where('program_id' , $program_id)->get() ;
+        $mokashert = $this->mokasherModel->with('addedBy_fun')->where('program_id' , $program_id)->get() ;
         return view('gehat.moksherat.index', compact('mokashert' ,  'program_id'));
     }
 

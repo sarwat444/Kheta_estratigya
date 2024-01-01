@@ -26,7 +26,8 @@ class StoreMokasherRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'min:3', 'max:255'],
             'type' => ['required'],
-            'program_id' => ['sometimes']
+            'program_id' => ['sometimes'] ,
+            'addedBy' => ['sometimes']
         ];
     }
 }
