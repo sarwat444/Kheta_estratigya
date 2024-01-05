@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Admin\mokashers\StoreMokasherRequest;
 use App\Http\Requests\Web\Admin\mokashers\UpdateMokasherRequest;
 use App\Http\Requests\Web\Admin\users\StoremokasharatInputs;
-use App\Models\Mokasher;
+use App\Models\{Mokasher ,MokasherGehaInput};
 use App\Models\MokasherInput;
 use App\Models\User;
 use App\Traits\ResponseJson;
+use Dotenv\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator as ValidatorFacade; // Alias the Validator facade
 use Symfony\Component\HttpFoundation\Response;
 
 class MokasherController extends Controller
@@ -54,10 +56,11 @@ class MokasherController extends Controller
         $mokasher->update($UpdateMokasherRequest->validated());
         return redirect()->route('gehat.moksherat.show',$mokasher->program_id)->with('success', ' تم  تعديل  المؤشر بنجاح');
     }
-    public function mokaseerinput ($mokasher_id)
+    public function mokaseerinput($mokasher_id)
     {
         $users = User::get() ;
-        return view('gehat.moksherat.create_mokaseerinput' , compact('users' ,'mokasher_id'));
+        $mokasher = Mokasher::with('mokasher_inputs')->where('id'  ,$mokasher_id)->first();
+        return view('gehat.moksherat.create_mokaseerinput' , compact('users' ,'mokasher_id' , 'mokasher'));
     }
 
     public function store_mokaseerinput(StoremokasharatInputs $StoremokasharatInputs)
@@ -66,6 +69,24 @@ class MokasherController extends Controller
         MokasherInput::create($StoremokasharatInputs->validated());
         // Redirect back or return a response
         return redirect()->back()->with('success', 'تم أضافه بيانات المؤشر بنجاح');
+    }
+    public function redirect_mokasher(Request $request, $id)
+    {
+        $validate = ValidatorFacade::make($request->all(), [
+            'target' => 'required',
+            'mokasher_id' => 'required',
+            'geha_id' => 'required',
+        ]);
+
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', 'يوجد خطا  ما  ');
+        }
+
+        MokasherGehaInput::updateOrCreate(
+            ['mokasher_id' => $request->mokasher_id , 'target' => $request->target],['geha_id' => $request->geha_id]
+        );
+
+        return redirect()->back()->with('success', 'تم توجيه المؤشر  للجهه بنجاح ');
     }
 
 }

@@ -34,6 +34,11 @@ Route::group(['as' => 'gehat.'  ,'middleware' => 'auth'], function () {
     /** Mokshrat  routes */
     Route::resource('moksherat', MokasherController::class);
 
+
+
+    Route::get('mokaseerinput/{id}' , [MokasherController::class , 'mokaseerinput'])->name('mokaseerinput') ;
+    Route::post('redirect_mokasher/{id}' , [MokasherController::class , 'redirect_mokasher'])->name('redirect_mokasher') ;
+
     /** Mangements */
 
     Route::resource('mangements',MangementController::class);

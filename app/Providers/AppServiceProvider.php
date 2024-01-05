@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Execution_year;
+use App\Models\MokasherInput;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use App\Observers\CourseObserver;
@@ -23,9 +24,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Retrieve the selected year from the database
         $selectedYear = Execution_year::where('selected', 1)->value('year_name');
-
         // Bind the selected year to the service container as a global variable
-        config(['app.selected_year' => $selectedYear]);
+        config(['app.selected_year' => $selectedYear ]);
 
     }
 }

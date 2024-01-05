@@ -12,7 +12,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'job_number' => 'user@gmail.com',
+            'job_number' => '123',
             'geha' =>  'كليه الطب  جامعه ينها',
              'password' => Hash::make('password') ,
              'is_manger' => 0 ,

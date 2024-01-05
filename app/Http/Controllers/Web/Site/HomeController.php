@@ -21,15 +21,16 @@ class HomeController extends Controller
     public function authenticate(Request $request)
     {
         $credentials = $request->only('job_number', 'password');
-        if (Auth::attempt($credentials)) {
 
+        if(Auth::attempt($credentials)) {
             $user = Auth::user();
-            if ($user->is_manager == 0 ) {
-                return redirect()->route('gehat.dashboard.index');
+            if ($user->is_manager == 0) {
+                return view('gehat.dashboard.index');
             } else {
-                return redirect()->route('gehat.dashboard.manger');
+                return view('gehat.dashboard.manger');
             }
-        } else {
+        }
+         else {
             return view('gehat.auth.login')->with('error', 'Invalid credentials');
         }
     }

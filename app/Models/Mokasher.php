@@ -12,4 +12,8 @@ class Mokasher extends Model
     {
         return $this->belongsTo(User::class , 'addedBy' , 'id') ;
     }
+    public function mokasher_inputs()
+    {
+        return $this->hasMany(MokasherInput::class , 'mokasher_id' , 'id') ;
+    }
 }

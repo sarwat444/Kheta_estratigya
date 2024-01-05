@@ -18,11 +18,13 @@ return new class extends Migration
             $table->enum('type' , ['parcent' ,'num']);
             $table->bigInteger('target')->nullable();
             $table->enum('equation' , ['total' ,'modal']);
-            $table->bigInteger('year_one')->nullable();
-            $table->bigInteger('year_two')->nullable();
-            $table->bigInteger('year_three')->nullable();
-            $table->bigInteger('year_four')->nullable();
-            $table->bigInteger('year_five')->nullable();
+            $table->string('2023')->nullable();
+            $table->string('2024')->nullable();
+            $table->string('2025')->nullable();
+            $table->string('2026')->nullable();
+            $table->string('2027')->nullable();
+            $table->string('2028')->nullable();
+            $table->string('2029')->nullable();
             $table->string('users')->nullable() ;
             $table->foreignId('mokasher_id')->constrained('mokashers')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

@@ -43,8 +43,9 @@
                             <th>#</th>
                             <th>المؤشر</th>
                             <th> نوع المؤشر</th>
-                            <th>مدخلات المؤشر</th>
                             <th>المضاف بواسطه</th>
+                            <th>توجيه  المؤشر</th>
+                            <th>عرض المؤشر </th>
                             <th>التحكم</th>
                         </tr>
                         </thead>
@@ -55,8 +56,9 @@
                                 <td style="text-align: right">{{ $mokasher->name }} </td>
                                 <td style="text-align: right">{{ $mokasher->type }} </td>
                                 <td>  @if( $mokasher->addedBy == 0 ) الأداره@else {{ $mokasher->addedBy_fun->geha }} @endif  </td>
+                                <td><a  class="btn btn-success btn btn-sm" href="{{ route('gehat.mokaseerinput', $mokasher->id) }}"> توجيه المؤشر </a></td>
+                                <td><a  class="btn btn-primary  btn btn-sm" href="{{ route('gehat.mokaseerinput', $mokasher->id) }}"> عرض المؤشر </a></td>
 
-                                <td><a  class="btn btn-success btn btn-sm" href="{{ route('dashboard.moksherat.mokaseerinput', $mokasher->id) }}"> مدخلات المؤشر </a></td>
                                 <td>
                                     @if($mokasher->addedBy == \Illuminate\Support\Facades\Auth::user()->id )
                                         <div class="btn-group">

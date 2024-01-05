@@ -4,37 +4,35 @@
     <link href="{{asset('/assets/admin/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
 @endpush
 @section('content')
+    @php
+        $selected  = config('app.selected_year') ;
+        $selected_year_value = 0  ;
+        if(!empty($mokasher->mokasher_inputs) && count($mokasher->mokasher_inputs))
+         {
+              $selected_year_value =  $mokasher->mokasher_inputs[0]->{"year_" . $selected};
+          }
+    @endphp
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body" style="text-align: right">
-                    <h4 class="card-title mb-5"> أضافه مدخلات  المؤشر </h4>
-                     <form id="store-mokasher-input" class="repeater" action="{{route('dashboard.moksherat.store_mokaseerinput')}}" method="POST" enctype="multipart/form-data">
+                    <h4 class="card-title mb-5"> توجيه المؤشر </h4>
+                     <form id="store-mokasher-input" class="repeater" action="{{route('gehat.redirect_mokasher' ,  $mokasher_id )}}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                        <label>المستهدف فى سنه {{ config('app.selected_year') }}</label>
+                                        <input type="text" readonly value="{{$selected_year_value}}" class="form-control" >
+                                        <input  type="hidden" name="target" value="{{$selected_year_value}}">
+                                </div>
+                        </div>
                         <div class="row mb-5">
                             <input type="hidden" name="mokasher_id" value="{{$mokasher_id}}">
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label for="type" class="form-label">النوع<span class="text-danger">*</span> </label>
-                                    <select name="type" id="type" class="form-control " required>
-                                        <option value="parcent"> نسبه </option>
-                                        <option value="num">عدد  </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label for="type" class="form-label">المعادله<span class="text-danger">*</span> </label>
-                                    <select name="type" id="type" class="form-control" required style="text-align: right;direction: rtl">
-                                        <option value="parcent"> مجموع </option>
-                                        <option value="num">معدل</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
                                     <label class="form-label">الجهه المختصه</label>
-                                    <select class="select2 form-control select2-multiple" multiple="multiple" data-placeholder="أختر الجهه المختصه" style="text-align: right">
+                                    <select class="select2 form-control select2" name="geha_id" data-placeholder="أختر الجهه المختصه" style="text-align: right">
+                                        <option>أختر الجهه  المختصه</option>
                                         @foreach($users as $user)
                                             <option value="{{$user->id}}"> {{$user->geha}} </option>
                                         @endforeach
@@ -43,57 +41,12 @@
                             </div>
                         </div>
 
-                            <p class="text-primary"><span class="text-danger">*</span> برجاء كتابه أرقام صحيحه بدون كسور </p>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <div class="mb-4">
-                                        <label for="year_one" class="form-label">السنه الأولى </label>
-                                        <input type="number" min="0" name="year_one" placeholder="السنه الأولى"  class="form-control" id="year_one">
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="mb-4">
-                                        <label for="year_two" class="form-label">السنه الثانيه</label>
-                                        <input type="number" min="0" name="year_two" placeholder="السنه الثانيه"  class="form-control" id="year_two">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-2">
-                                    <div class="mb-4">
-                                        <label for="year_three" class="form-label">السنه الثالثه</label>
-                                        <input type="number" min="0"  name="year_three" placeholder="السنه الثالثه"  class="form-control" id="year_three">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-2">
-                                    <div class="mb-4">
-                                        <label for="year_four" class="form-label">السنه الرابعه</label>
-                                        <input type="number" min="0"  name="year_four" placeholder="السنه الرابعه"  class="form-control" id="year_four">
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="mb-4">
-                                        <label for="year_five" class="form-label">السنه الخامسه</label>
-                                        <input type="number" min="0"  name="year_five" placeholder="السنه الخامسه"  class="form-control" id="year_five">
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="mb-3">
-                                        <label for="target" class="form-label text-success bg-success" style="color: #fff !important;border-radius: 2px;" >المستهدف</label>
-                                        <input type="number"  name="target" placeholder="اجمالى المستهدف"  class="form-control" id="target" readonly required>
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-                            <div class="mb-2 text-center">
-                                <div class="spinner-border text-primary m-1 d-none" role="status"><span class="sr-only"></span></div>
-                            </div>
-                            <div>
-                                <button type="submit" id="submit-button" class="btn btn-primary w-md btn-lg">حفظ المدخلات  </button>
-                            </div>
-
+                         <div class="mb-2 text-center">
+                             <div class="spinner-border text-primary m-1 d-none" role="status"><span class="sr-only"></span></div>
+                         </div>
+                          <div>
+                              <button type="submit" id="submit-button" class="btn btn-primary w-md btn-lg">توجيه</button>
+                           </div>
                     </form>
                 </div>
             </div>
