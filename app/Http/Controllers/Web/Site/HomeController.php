@@ -24,10 +24,10 @@ class HomeController extends Controller
 
         if(Auth::attempt($credentials)) {
             $user = Auth::user();
-            if ($user->is_manager == 0) {
+            if ($user->is_manager == 1) {
                 return view('gehat.dashboard.index');
             } else {
-                return view('gehat.dashboard.manger');
+                return view('sub_geha.dashboard.index');
             }
         }
          else {

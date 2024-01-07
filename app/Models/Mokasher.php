@@ -16,4 +16,8 @@ class Mokasher extends Model
     {
         return $this->hasMany(MokasherInput::class , 'mokasher_id' , 'id') ;
     }
+    public function mokasher_geha_inputs()
+    {
+        return $this->hasOne(MokasherGehaInput::class , 'mokasher_id' , 'id') ;
+    }
 }

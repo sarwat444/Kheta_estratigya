@@ -8,11 +8,23 @@
             <div class="modal-body">
                 <form action="{{route('gehat.mangements.store')}}" id="store-new-category">
                     @csrf
+                    <input type="hidden" value="{{\Illuminate\Support\Facades\Auth::user()->id}}" name="top_mangement">
+
                     <div class="mb-2">
                         <label for="name" class="col-form-label">الأداره</label>
                         <input type="text" name="name" placeholder="الأداره" class="form-control" id="name" required>
                     </div>
-                    <input type="hidden" value="{{\Illuminate\Support\Facades\Auth::user()->id}}" name="top_mangement">
+
+                    <div class="mb-2">
+                        <label for="geha_number" class="col-form-label">الرقم الوظيفى</label>
+                        <input type="text" name="geha_number" placeholder="الرقم الوظيفى " class="form-control" id="geha_number" required>
+                    </div>
+
+                    <div class="mb-2">
+                        <label for="password" class="col-form-label">الرقم السري </label>
+                        <input type="text" name="password" placeholder="الرقم  السري" class="form-control" id="password" required>
+                    </div>
+                    
                     <div class="mb-2 text-center">
                         <div class="spinner-border text-primary m-1 d-none" role="status"><span class="sr-only"></span>
                         </div>
