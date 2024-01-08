@@ -1,4 +1,4 @@
-\<header id="page-topbar">
+<header id="page-topbar">
     <div class="navbar-header">
         <div class="d-flex">
             <!-- LOGO -->
@@ -86,13 +86,13 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
-                    <form id="logout-form" action="{{route('admins.logout')}}" method="post">
+                    <form id="logout-form" action="{{route('gehat.Gehtlogout')}}" method="post">
                         @csrf
                     </form>
                     <a class="dropdown-item text-danger" href="javascript:void(0);"
                        onclick="event.preventDefault(); $('#logout-form').submit();"><i
                             class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span
-                            key="t-logout">Logout</span></a>
+                            key="t-logout">تسجيل الخروج</span></a>
                 </div>
             </div>
 

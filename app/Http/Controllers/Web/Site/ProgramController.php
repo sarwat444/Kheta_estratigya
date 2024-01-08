@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Admin\programs\StoreProgramRequest;
 use App\Http\Requests\Web\Admin\programs\UpdateProgramRequest;
 use App\Models\Program;
+use App\Traits\ResponseJson;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProgramController extends Controller
 {
+    use ResponseJson ;
     public function __construct(private readonly Program $programModel)
     {}
 

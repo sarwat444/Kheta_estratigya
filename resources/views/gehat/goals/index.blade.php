@@ -25,6 +25,7 @@
                         </thead>
                         <tbody>
                           @forelse($goals  as $goal)
+
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td><a href="{{route('gehat.programs.show' , $goal->id )}}"> {{ $goal->goal }} </a> </td>

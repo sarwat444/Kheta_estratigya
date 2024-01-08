@@ -11,13 +11,11 @@
                 </li>
 
                 <li>
-                    <a href="{{route('gehat.mangements.index')}}">
+                    <a href="{{route('gehat.users.index')}}">
                         <i class="bx bx-briefcase"></i>
                         <span key="t-maps">الأدارات</span>
                     </a>
                 </li>
-
-
             </ul>
         </div>
     </div>

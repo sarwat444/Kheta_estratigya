@@ -11,27 +11,37 @@ class HomeController extends Controller
     use ResponseJson;
 
     public function index()
+
     {
         return view('gehat.dashboard.index');
     }
+    public  function subgeha()
+    {
+        return view('sub_geha.dashboard.index');
+    }
     public function login()
     {
-     return view('gehat.auth.login') ;
+      return view('gehat.auth.login') ;
     }
     public function authenticate(Request $request)
     {
         $credentials = $request->only('job_number', 'password');
-
         if(Auth::attempt($credentials)) {
-            $user = Auth::user();
-            if ($user->is_manager == 1) {
-                return view('gehat.dashboard.index');
-            } else {
-                return view('sub_geha.dashboard.index');
-            }
+                $user = Auth::user();
+                if ($user->is_manger == 1) {
+                    return redirect()->intended(route('gehat.index'));
+                } else {
+                    return redirect()->intended(route('sub_geha.index'));
+                }
+
         }
          else {
             return view('gehat.auth.login')->with('error', 'Invalid credentials');
         }
+    }
+    public  function logout()
+    {
+        Auth::logout();
+        return redirect()->intended(route('login')) ;
     }
 }

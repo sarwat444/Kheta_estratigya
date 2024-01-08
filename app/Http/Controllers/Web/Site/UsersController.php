@@ -9,20 +9,23 @@ use App\Models\Execution_year;
 use App\Models\Mangement;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
+    public function __construct( private  User $user)
+    {
+    }
     public function index()
     {
-        $users  =  $this->user->with('mangemnet')->get() ;
-        $execution_years  = Execution_year::get() ;
-        return  view('admins.users.geaht.index')->with(compact('users' ,'execution_years')) ;
+        $users  =  $this->user->with('mangemnet')->where(['mangement_id'=>Auth::user()->id])->get() ;
+        return  view('gehat.users.index')->with(compact('users')) ;
     }
     public function create()
     {
         $mangements =  Mangement::get() ;
-        return  view('admins.users.geaht.create')->with(compact('mangements')) ;
+        return  view('gehat.users.create')->with(compact('mangements')) ;
     }
     public function store(StoreUserRequest $storeUserRequest): \Illuminate\Http\RedirectResponse
     {

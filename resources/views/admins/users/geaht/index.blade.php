@@ -59,7 +59,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{$user->job_number}}</td>
                                 <td>{{$user->geha}}</td>
-                                <td>{{$user->mangemnet->name}}</td>
+                                <td>-</td>
                                 <td>@if($user->is_manger == 1) <span class="badge bg-success">مدير</span> @else -  @endif </td>
                                 <td>
                                     <div class="btn-group">

@@ -1,4 +1,4 @@
-@extends('admins.layouts.app')
+@extends('gehat.layouts.app')
 
 @push('title','الجهات')
 @push('styles')
@@ -16,29 +16,9 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="col-md-4">
-                        <form method="post" action="{{route('dashboard.change_execution_year')}}">
-                            @csrf
-                                <div class="card-title font-size-14">أختيار سنه التنفيذ </div>
-                                <select name="execuation_year" class="form-control">
-                                    @foreach($execution_years as $ex_year)
-                                        <option value="{{$ex_year->year_name}}" @if($ex_year->selected == 1) selected @endif>{{$ex_year->year_name}}</option>
-                                    @endforeach
-                                </select>
-                            <button type="submit"  class="btn btn-primary mt-4" >تنفيذ </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
                     <div class="card-title"> الجهات</div>
                     <div class="d-flex flex-wrap gap-2 mb-3">
-                        <a href="{{route('dashboard.users.create')}}" class="btn btn-primary waves-effect waves-light">
+                        <a href="{{route('gehat.users.create')}}" class="btn btn-primary waves-effect waves-light">
                             <i class="bx bx-add-to-queue font-size-16 align-middle me-2"></i>أضافه جهه جديده
                         </a>
                     </div>
@@ -48,8 +28,6 @@
                             <th>#</th>
                             <th>الرقم الوظيفى</th>
                             <th>الجهه</th>
-                            <th>الأداره</th>
-                            <th>هل مدير ؟</th>
                             <th>التحكم</th>
                         </tr>
                         </thead>
@@ -59,8 +37,6 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{$user->job_number}}</td>
                                 <td>{{$user->geha}}</td>
-                                <td>{{$user->mangemnet->name}}</td>
-                                <td>@if($user->is_manger == 1) <span class="badge bg-success">مدير</span> @else -  @endif </td>
                                 <td>
                                     <div class="btn-group">
                                         <a href="{{ route('dashboard.users.edit', $user->id) }}" data-category-id="{{ $user->id }}"
@@ -92,5 +68,5 @@
         src="{{asset('/assets/admin/libs/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('/assets/admin/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}"></script>
 
-    @include('admins.users.geaht.scripts.delete')
+    @include('gehat.users.scripts.delete')
 @endpush

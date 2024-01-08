@@ -7,27 +7,32 @@ use App\Http\Requests\Web\Admin\mokashers\StoreMokasherRequest;
 use App\Http\Requests\Web\Admin\mokashers\UpdateMokasherRequest;
 use App\Http\Requests\Web\Admin\users\StoremokasharatInputs;
 use Illuminate\Support\Facades\Auth;
-use App\Models\{Mokasher ,MokasherGehaInput};
+use App\Models\{Mokasher, MokasherGehaInput};
 use App\Models\MokasherInput;
 use App\Models\User;
 use App\Traits\ResponseJson;
 use Dotenv\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator as ValidatorFacade; // Alias the Validator facade
+use Illuminate\Support\Facades\Validator as ValidatorFacade;
+
+// Alias the Validator facade
 use Symfony\Component\HttpFoundation\Response;
 
 class MokasherController extends Controller
 {
-    use ResponseJson ;
+    use ResponseJson;
 
     public function __construct(private readonly Mokasher $mokasherModel)
-    {}
-    public function show($program_id =null ): \Illuminate\View\View
     {
-        $mokashert = $this->mokasherModel->with('addedBy_fun')->where('program_id' , $program_id)->get() ;
-        return view('gehat.moksherat.index', compact('mokashert' ,  'program_id'));
     }
+
+    public function show($program_id = null): \Illuminate\View\View
+    {
+        $mokashert = $this->mokasherModel->with('addedBy_fun')->where('program_id', $program_id)->get();
+        return view('gehat.moksherat.index', compact('mokashert', 'program_id'));
+    }
+
     public function create(): \Illuminate\View\View
     {
         return view('gehat.moksherat.create');
@@ -41,10 +46,10 @@ class MokasherController extends Controller
 
     public function destroy($mokasher_id = null): \Illuminate\Http\RedirectResponse
     {
-        $found_mokaser = Mokasher::find($mokasher_id) ;
-        $program_id = $found_mokaser->program_id ;
+        $found_mokaser = Mokasher::find($mokasher_id);
+        $program_id = $found_mokaser->program_id;
         $found_mokaser->delete();
-        return redirect()->route('gehat.moksherat.show',$program_id )->with('success', ' تم  حذف المؤشر  بنجاح');
+        return redirect()->route('gehat.moksherat.show', $program_id)->with('success', ' تم  حذف المؤشر  بنجاح');
     }
 
     public function edit(Mokasher $mokasher): \Illuminate\Http\JsonResponse
@@ -55,13 +60,14 @@ class MokasherController extends Controller
     public function update(UpdateMokasherRequest $UpdateMokasherRequest, Mokasher $mokasher): \Illuminate\Http\RedirectResponse
     {
         $mokasher->update($UpdateMokasherRequest->validated());
-        return redirect()->route('gehat.moksherat.show',$mokasher->program_id)->with('success', ' تم  تعديل  المؤشر بنجاح');
+        return redirect()->route('gehat.moksherat.show', $mokasher->program_id)->with('success', ' تم  تعديل  المؤشر بنجاح');
     }
+
     public function mokaseerinput($mokasher_id)
     {
-        $users = User::get() ;
-        $mokasher = Mokasher::with('mokasher_inputs')->where('id'  ,$mokasher_id)->first();
-        return view('gehat.moksherat.create_mokaseerinput' , compact('users' ,'mokasher_id' , 'mokasher'));
+        $users = User::get();
+        $mokasher = Mokasher::with('mokasher_inputs')->where('id', $mokasher_id)->first();
+        return view('gehat.moksherat.create_mokaseerinput', compact('users', 'mokasher_id', 'mokasher'));
     }
 
     public function store_mokaseerinput(StoremokasharatInputs $StoremokasharatInputs)
@@ -71,6 +77,7 @@ class MokasherController extends Controller
         // Redirect back or return a response
         return redirect()->back()->with('success', 'تم أضافه بيانات المؤشر بنجاح');
     }
+
     public function redirect_mokasher(Request $request, $id)
     {
         $validate = ValidatorFacade::make($request->all(), [
@@ -84,11 +91,12 @@ class MokasherController extends Controller
         }
 
         MokasherGehaInput::updateOrCreate(
-            ['mokasher_id' => $request->mokasher_id , 'target' => $request->target],['geha_id' => $request->geha_id]
+            ['mokasher_id' => $request->mokasher_id, 'target' => $request->target], ['geha_id' => $request->geha_id]
         );
 
         return redirect()->back()->with('success', 'تم توجيه المؤشر  للجهه بنجاح ');
     }
+
     public function sub_geha_moksherat()
     {
         $mokashert = Mokasher::whereHas('mokasher_geha_inputs', function ($query) {
@@ -98,11 +106,13 @@ class MokasherController extends Controller
         }])->get();
         return view('sub_geha.moksherat.index', compact('mokashert'));
     }
+
     public function sub_geha_mokaseerinput($id)
     {
-        $mokasher  = Mokasher::with('mokasher_geha_inputs')->where('id' , $id)->first() ;
-        return view('sub_geha.moksherat.mokasher_data.create' , compact('mokasher'));
+        $mokasher = Mokasher::with('mokasher_geha_inputs')->where('id', $id)->first();
+        return view('sub_geha.moksherat.mokasher_data.create', compact('mokasher'));
     }
+
     public function store_sub_geha_mokasher_input(Request $request, $id)
     {
         $input = MokasherGehaInput::updateOrCreate(
@@ -156,38 +166,42 @@ class MokasherController extends Controller
         return redirect()->back()->with('success', 'لقد تم أدخال  بيانات المؤشر بنجاح ');
     }
 
+    public function  mokasherData($id)
+    {
+      $mokaser_data  =  Mokasher::with('mokasher_geha_inputs' , 'mokasher_inputs')->where('id' , $id)->first() ;
+      return view('gehat.moksherat.show' , compact('mokaser_data')) ;
+    }
+    public function delete_file(Request $request)
+    {
+        $id = $request->id;
+        // Assuming $mokasher is your model instance with the files column
+        $mokasher = MokasherGehaInput::where('mokasher_id', $request->mokasher_id)->first();
 
-public function delete_file(Request $request)
-{
-    $id = $request->id ;
-    // Assuming $mokasher is your model instance with the files column
-    $mokasher = MokasherGehaInput::where('mokasher_id' , $request->mokasher_id)->first();
+        if (!$mokasher) {
+            return redirect()->back()->with('error', 'تعذر العثور على الملف');
+        }
 
-    if (!$mokasher) {
+        // Retrieve the file paths from the database
+        $files = json_decode($mokasher->files, true);
+
+        // Check if the file with the specified key exists
+        if (array_key_exists($id, $files)) {
+            // Retrieve the file path
+            $filePath = $files[$id];
+
+            // Delete the file from storage
+            Storage::delete($filePath);
+
+            // Remove the file path from the array
+            unset($files[$id]);
+
+            // Update the database with the modified file paths array
+            $mokasher->files = json_encode($files);
+            $mokasher->save();
+
+            return redirect()->back()->with('success', 'تم حذف الملف بنجاح');
+        }
+
         return redirect()->back()->with('error', 'تعذر العثور على الملف');
     }
-
-    // Retrieve the file paths from the database
-    $files = json_decode($mokasher->files, true);
-
-    // Check if the file with the specified key exists
-    if (array_key_exists($id, $files)) {
-        // Retrieve the file path
-        $filePath = $files[$id];
-
-        // Delete the file from storage
-        Storage::delete($filePath);
-
-        // Remove the file path from the array
-        unset($files[$id]);
-
-        // Update the database with the modified file paths array
-        $mokasher->files = json_encode($files);
-        $mokasher->save();
-
-        return redirect()->back()->with('success', 'تم حذف الملف بنجاح');
-    }
-
-    return redirect()->back()->with('error', 'تعذر العثور على الملف');
-}
 }
