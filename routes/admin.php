@@ -15,7 +15,8 @@ use App\Http\Controllers\Web\Admin\{CourseController,
     MokasherController ,
     UsersController ,
     MangementController ,
-    KhetaController
+    KhetaController ,
+    RatingMembersController
 };
 
 use App\Http\Controllers\Web\Admin\Setting\{CourseSettingController};
@@ -49,6 +50,9 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
 
     /** Kehat Routes */
     Route::resource('kheta', KhetaController::class);
+
+    /** Rating Members */
+    Route::resource('ratingMembers', RatingMembersController::class);
 
     /** categories routes */
     Route::resource('categories', CategoryController::class);

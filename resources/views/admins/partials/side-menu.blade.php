@@ -10,27 +10,14 @@
                 </li>
                 <li>
                     <a href="{{route('dashboard.kheta.index')}}">
-                        <i class="bx bx-user-circle"></i>
+                        <i class="bx bx-layout"></i>
                         <span key="t-maps">  الخطط الأستيراتيجيه</span>
                     </a>
                 </li>
-
-
                 <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="bx bx-user"></i>
-                        <span key="t-crypto">أداره المستخدمين</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('dashboard.users.index')}}" key="t-wallet">الجهات</a></li>
-                        <li><a href="{{route('dashboard.users.admins')}}" key="t-buy">مديري النظام</a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="{{route('dashboard.mangements.index')}}">
+                    <a href="{{route('dashboard.users.admins')}}">
                         <i class="bx bx-briefcase"></i>
-                        <span key="t-maps">الأدارات</span>
+                        <span key="t-maps">مديري النظام</span>
                     </a>
                 </li>
             </ul>
