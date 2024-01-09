@@ -8,6 +8,7 @@ use App\Http\Requests\Web\Admin\Goals\UpdateGoolRequest;
 use App\Models\Goal;
 use App\Traits\ResponseJson;
 use Illuminate\Http\Request;
+use App\Models\objective ;
 use Symfony\Component\HttpFoundation\Response;
 
 class GoalController extends Controller
@@ -17,8 +18,9 @@ class GoalController extends Controller
     {}
     public  function  show($objective_id =null)
     {
+        $objective = Objective::find($objective_id);
         $goals = $this->goalModel->withCount('programs')->where('objective_id' , $objective_id )->get();
-        return view('admins.goals.index', compact('goals' , 'objective_id' ));
+        return view('admins.goals.index', compact('goals' , 'objective_id' , 'objective'));
     }
     public function create(): \Illuminate\View\View
     {

@@ -11,6 +11,7 @@
                     <div class="mb-2">
                         <label for="name" class="col-form-label">أسم الغايه</label>
                         <input type="text" name="objective" placeholder="أسم الغايه" class="form-control" id="objective" required>
+                        <input type="hidden" name="kheta_id" value="{{$kheta_id}}">
                     </div>
                     <div class="mb-2 text-center">
                         <div class="spinner-border text-primary m-1 d-none" role="status"><span class="sr-only"></span>

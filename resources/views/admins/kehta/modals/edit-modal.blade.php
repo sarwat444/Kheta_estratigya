@@ -3,16 +3,15 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content" id="modal-reload">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">تعديل الغايه </h5>
+                <h5 class="modal-title" id="exampleModalLabel">تعديل  بيانات  الخطه</h5>
             </div>
             <div class="modal-body">
                 <form action="" method="POST" id="form-edit-category">
                     @method('PUT')
                     @csrf
                     <div class="form-group">
-                        <label for="objective">أسم الغايه</label>
-                        <input type="text" name="objective" class="form-control" id="objective" placeholder="أسم الغايه " required>
-                        <input type="hidden" name="kheta_id" value="{{$kheta_id}}">
+                        <label for="name">أسم الخطه </label>
+                        <input type="text" name="name" class="form-control" id="name" placeholder="أسم الخطه " required>
                     </div>
                     <div class="form-group text-center mt-2">
                         <button id="modal-blockui" type="submit" class="btn btn-primary">حفظ</button>

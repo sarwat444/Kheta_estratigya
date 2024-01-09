@@ -9,9 +9,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('dashboard.objectives.index')}}">
+                    <a href="{{route('dashboard.kheta.index')}}">
                         <i class="bx bx-user-circle"></i>
-                        <span key="t-maps">الغايات</span>
+                        <span key="t-maps">  الخطط الأستيراتيجيه</span>
                     </a>
                 </li>
 

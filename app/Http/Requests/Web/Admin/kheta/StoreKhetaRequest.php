@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Web\Admin\Objectives;
+namespace App\Http\Requests\Web\admin\kheta;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreObjectiveRequest extends FormRequest
+class StoreKhetaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class StoreObjectiveRequest extends FormRequest
     public function rules()
     {
         return [
-            'objective' => ['required', 'string', 'min:3', 'max:900'],
-            'kheta_id' =>['required']
+            'name' => ['required' , 'min:3','max:400'],
+            'years' => ['sometimes']
         ];
     }
 }

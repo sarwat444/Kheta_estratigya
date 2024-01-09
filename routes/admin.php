@@ -14,7 +14,8 @@ use App\Http\Controllers\Web\Admin\{CourseController,
     ProgramController ,
     MokasherController ,
     UsersController ,
-    MangementController
+    MangementController ,
+    KhetaController
 };
 
 use App\Http\Controllers\Web\Admin\Setting\{CourseSettingController};
@@ -45,6 +46,9 @@ Route::controller(NewPasswordController::class)->prefix('admins')->middleware('g
 Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as' => 'dashboard.'], function () {
 
     Route::get('/', [DashboardController::class, 'index'])->name('index');
+
+    /** Kehat Routes */
+    Route::resource('kheta', KhetaController::class);
 
     /** categories routes */
     Route::resource('categories', CategoryController::class);

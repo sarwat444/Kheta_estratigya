@@ -23,7 +23,9 @@ class UpdateObjectiveRequest extends FormRequest
     public function rules()
     {
         return [
-            'objective' => ['required', 'string', 'min:3', 'max:255', 'unique:objectives,objective'],
+
+            'objective' => ['required', 'string', 'min:3', 'max:255'],
+            'kheta_id' =>['required']
         ];
     }
 }

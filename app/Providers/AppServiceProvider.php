@@ -21,11 +21,11 @@ class AppServiceProvider extends ServiceProvider
         Course::observe(CourseObserver::class);
         Model::preventLazyLoading();
         Model::unguard();
-
+/*
         // Retrieve the selected year from the database
         $selectedYear = Execution_year::where('selected', 1)->value('year_name');
         // Bind the selected year to the service container as a global variable
         config(['app.selected_year' => $selectedYear ]);
-
+*/
     }
 }

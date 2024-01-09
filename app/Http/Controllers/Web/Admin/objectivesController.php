@@ -7,6 +7,7 @@ use App\Http\Requests\Web\Admin\Category\UpdateCategoryRequest;
 use App\Http\Requests\Web\Admin\Objectives\StoreObjectiveRequest;
 use App\Http\Requests\Web\Admin\Objectives\UpdateObjectiveRequest;
 use App\Models\Objective;
+use App\Models\Kheta ;
 use App\Traits\ResponseJson;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,10 +18,12 @@ class objectivesController extends Controller
 
     public function __construct(private readonly Objective $objectiveModel)
     {}
-    public function index(): \Illuminate\View\View
+    public function show($kheta_id): \Illuminate\View\View
     {
-        $objectives = $this->objectiveModel->withCount('goals')->get() ;
-        return view('admins.objectives.index', compact('objectives'));
+        $kheta = Kheta::find($kheta_id) ;
+        $objectives = $this->objectiveModel->withCount('goals')->where('kheta_id' , $kheta_id )->get() ;
+
+        return view('admins.objectives.index', compact('objectives' , 'kheta_id' ,'kheta'));
     }
     public function create(): \Illuminate\View\View
     {
@@ -36,7 +39,7 @@ class objectivesController extends Controller
     public function destroy(Objective $objective): \Illuminate\Http\RedirectResponse
     {
         $objective->delete();
-        return redirect()->route('dashboard.objectives.index')->with('success', ' تم  حذف الغايه  بنجاح');
+        return redirect()->route('dashboard.objectives.show' , $objective->kheta_id)->with('success', ' تم  حذف الغايه  بنجاح');
     }
 
     public function edit(Objective $objective): \Illuminate\Http\JsonResponse
@@ -46,6 +49,6 @@ class objectivesController extends Controller
     public function update(UpdateObjectiveRequest $updateObjectiveRequest, Objective $objective): \Illuminate\Http\RedirectResponse
     {
         $objective->update($updateObjectiveRequest->validated());
-        return redirect()->route('dashboard.objectives.index')->with('success', ' تم  تعديل  الغايه بنجاح');
+        return redirect()->route('dashboard.objectives.show' , $objective->kheta_id  )->with('success', ' تم  تعديل  الغايه بنجاح');
     }
 }

@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Kheta extends Model
 {
     use HasFactory;
+
+    public function objectives()
+    {
+       return $this->hasMany(Objective::class) ;
+    }
+
 }

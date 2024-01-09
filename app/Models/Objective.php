@@ -12,4 +12,14 @@ class Objective extends Model
     {
         return $this->hasMany(Goal::class , 'objective_id' ,  'id') ;
     }
+
+    /**
+     * Get the kehta that owns the Objective
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function kheta(): BelongsTo
+    {
+        return $this->belongsTo(kheta::class, 'kheta_id', 'id');
+    }
 }

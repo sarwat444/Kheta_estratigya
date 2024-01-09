@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Admin\programs\StoreProgramRequest;
 use App\Http\Requests\Web\Admin\programs\UpdateProgramRequest;
 use App\Models\Program;
+use App\Models\Goal ;
 use App\Traits\ResponseJson;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,8 +20,10 @@ class ProgramController extends Controller
 
     public function show($goal_id =null ): \Illuminate\View\View
     {
+
+        $goal  = Goal::find($goal_id) ;
         $programs = $this->programModel->withCount('moksherat')->where('goal_id' , $goal_id)->get() ;
-        return view('admins.programs.index', compact('programs' ,  'goal_id' ));
+        return view('admins.programs.index', compact('programs' ,  'goal_id' ,'goal' ));
     }
     public function create(): \Illuminate\View\View
     {

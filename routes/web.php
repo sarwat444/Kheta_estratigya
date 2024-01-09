@@ -20,6 +20,7 @@ Route::post('/login', [HomeController::class, 'authenticate'])->name('authentica
 
 Route::group(['as' => 'gehat.', 'middleware' => ['auth' , 'checkIsManger']  ], function () {
 
+
     Route::get('/gehat', [HomeController::class, 'index'])->name('index');
 
     /** Objectives  routes */
@@ -42,8 +43,8 @@ Route::group(['as' => 'gehat.', 'middleware' => ['auth' , 'checkIsManger']  ], f
 
     Route::get('mokasherData/{id}' , [MokasherController::class , 'mokasherData'])->name('mokasherData') ;
 
-
     Route::post('/gehat_logout' , [HomeController::class ,  'logout'])->name('Gehtlogout');
+
 
 });
 

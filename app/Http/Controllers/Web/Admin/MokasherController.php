@@ -21,8 +21,9 @@ class MokasherController extends Controller
     {}
     public function show($program_id =null ): \Illuminate\View\View
     {
+        $program = Program::find($program_id) ;
         $mokashert = $this->mokasherModel->where('program_id' , $program_id)->get() ;
-        return view('admins.moksherat.index', compact('mokashert' ,  'program_id'));
+        return view('admins.moksherat.index', compact('mokashert' ,  'program_id' , 'program'));
     }
 
     public function create(): \Illuminate\View\View
@@ -57,12 +58,14 @@ class MokasherController extends Controller
     public function mokaseerinput ($mokasher_id)
     {
         $users = User::get() ;
-        return view('admins.moksherat.create_mokaseerinput' , compact('users' ,'mokasher_id'));
+        $mokasher = Mokasher::find($mokasher_id) ;
+        return view('admins.moksherat.create_mokaseerinput' , compact('mokasher' ,'users' ,'mokasher_id'));
     }
 
     public function store_mokaseerinput(StoremokasharatInputs $StoremokasharatInputs)
     {
         // Create a new instance of MokasherInput and save to the database
+
         MokasherInput::create($StoremokasharatInputs->validated());
         // Redirect back or return a response
         return redirect()->back()->with('success', 'تم أضافه بيانات المؤشر بنجاح');
