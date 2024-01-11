@@ -54,6 +54,8 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
     /** Rating Members */
     Route::resource('ratingMembers', RatingMembersController::class);
 
+    route::get('CreateratingMembers/{id}' ,[RatingMembersController::class , 'CreateratingMembers'])->name('CreateratingMembers') ;
+
     /** categories routes */
     Route::resource('categories', CategoryController::class);
 

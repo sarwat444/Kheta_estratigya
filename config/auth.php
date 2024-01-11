@@ -43,7 +43,11 @@ return [
         'admin' => [
             'driver' => 'session',
             'provider' => 'admins',
-        ] ,
+        ],
+        'ratingMember' => [
+            'driver' => 'session',
+            'provider' => 'rating_members',
+        ],
         'api' => [
             'driver' => 'passport',
             'provider' => 'users',
@@ -76,6 +80,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
+        'rating_members' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\RatingMember::class,
+        ],
+
 
         // 'users' => [
         //     'driver' => 'database',
@@ -107,6 +116,12 @@ return [
         ],
         'admins' => [
             'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'rating_members' => [
+            'provider' => 'rating_members',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

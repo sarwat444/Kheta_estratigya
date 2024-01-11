@@ -13,7 +13,7 @@ class UpdateRatingMembersRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class UpdateRatingMembersRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'username' =>['required'] ,
+            'job_number' => ['required'],
+            'password' => ['sometimes'],
+            'gehat' =>  ['required'],
         ];
     }
 }

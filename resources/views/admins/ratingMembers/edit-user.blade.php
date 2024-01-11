@@ -1,5 +1,5 @@
 @extends('admins.layouts.app')
-@push('title','تعديل بيانات الجهه')
+@push('title','تعديل بيانات لجنه التقييم')
 
 @push('styles')
     <link href="{{asset('/assets/admin/libs/select2/css/select2.min.css')}}" rel="stylesheet"
@@ -15,22 +15,22 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <form id="update-user-from" action="{{route('dashboard.users.update',$user->id)}}" method="POST" enctype="multipart/form-data">
+                    <form id="update-user-from" action="{{route('dashboard.ratingMembers.update',$member->id)}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="job_number" class="form-label"> الرقم  الوظيفى  </label>
-                                    <input type="text" name="job_number" value="{{$user->job_number}}" placeholder="الرقم الوظيفى" class="form-control" id="job_number" required>
+                                    <label for="username" class="form-label">الأسم  </label>
+                                    <input type="text" name="username" value="{{$member->username}}" placeholder="الرقم الوظيفى" class="form-control" id="job_number" required>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="geha" class="form-label">الجهه</label>
-                                    <input type="text" name="geha" value="{{$user->geha}}" placeholder="الجهه" class="form-control" id="geha" required>
+                                    <label for="job_number" class="form-label"> الرقم  الوظيفى  </label>
+                                    <input type="text" name="job_number" value="{{$member->job_number}}" placeholder="الرقم الوظيفى" class="form-control" id="job_number" required>
                                 </div>
                             </div>
                         </div>
@@ -46,22 +46,17 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-4">
-                                    <label for="role_name" class="form-label">الأداره </label>
-                                    <select name="mangement_id" id="mangement_id" class="form-control select2" required>
-                                        <option disabled selected>تحديد الأداره</option>
-                                        @foreach($mangements as $mangement)
-                                            <option value="{{ $mangement->id }}" @if($mangement->id == $user->mangemnet->id) selected @endif> {{$mangement->name}}</option>
+                                    <label for="role_name" class="form-label">الجهات </label>
+
+                                    @php
+                                        $gehat = json_decode($member->gehat);
+                                        $users = \App\Models\User::whereIn('id', $gehat)->get();
+                                    @endphp
+                                    <select name="gehat[]" id="gehat" class="form-control select2" required multiple>
+                                        @foreach($all_gehat as $geha)
+                                            <option value="{{ $geha->id }}" @if($users->contains('id', $geha->id)) selected @endif> {{$geha->geha}}</option>
                                         @endforeach
                                     </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-4">
-                                    <label for="is_manger">هل مدير ؟ </label>
-                                    <input type="checkbox" @if($user->is_manger == 1) checked @endif   name="is_manger" id="is_manger" />
                                 </div>
                             </div>
                         </div>

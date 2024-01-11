@@ -13,7 +13,7 @@ class StoreRatingMembersRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class StoreRatingMembersRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'username' =>['required'] ,
+            'job_number' => ['required'],
+            'password' => ['required'],
+            'geha_id' =>  ['required'],
         ];
     }
 }

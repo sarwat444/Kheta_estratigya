@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class RatingMember extends Model
 {
     use HasFactory;
+    public function kheta()
+    {
+        return $this->belongsTo(Kheta::class ) ;
+    }
 }

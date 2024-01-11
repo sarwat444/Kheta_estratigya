@@ -15,9 +15,20 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title mb-4">أضافه جهه جديده </h4>
-                    <form id="store-user-from"  action="{{route('dashboard.users.store')}}" method="POST" enctype="multipart/form-data">
+                    <h4 class="card-title mb-4">أضافه لجنه التقييم</h4>
+                    <form id="store-user-from"  action="{{route('dashboard.ratingMembers.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="geha" class="form-label">الأسم</label>
+                                    <input type="text" name="username" placeholder="الأسم" class="form-control" id="geha" required>
+                                    <input type="hidden" name="kheta_id" value="{{$kehta->id}}">
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -26,14 +37,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="geha" class="form-label">الجهه</label>
-                                    <input type="text" name="geha" placeholder="الجهه" class="form-control" id="geha" required>
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -46,31 +50,21 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-4">
-                                    <label for="mangement_id" class="form-label">الأداره </label>
-                                    <select name="mangement_id" id="mangement_id" class="form-control select2" required>
-                                        <option disabled selected>تحديد الأداره</option>
-                                        @foreach($mangements as $mangement)
-                                            <option value="{{$mangement->id}}">{{$mangement->name}}</option>
+                                    <label for="geha_id" class="form-label">الجهه </label>
+                                    <select name="geha_id[]" id="geha_id" class="form-control select2"  multiple required>
+                                        @foreach($gehat as $geha)
+                                            <option value="{{$geha->id}}">{{$geha->geha}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-4">
-                                    <label for="is_manger" data-on-label="تعم" data-off-label="لا">هل مدير ؟ </label>
-                                    <input type="checkbox" value="1" name="is_manger" id="is_manger" switch="none"/>
-                                </div>
-                            </div>
-                        </div>
-
                             <div class="mb-2 text-center">
                                 <div class="spinner-border text-primary m-1 d-none" role="status"><span
                                         class="sr-only"></span></div>
                             </div>
                             <div>
-                               <button type="submit" id="submit-button" class="btn btn-primary w-md btn-lg">حفظ الجهه </button>
+                               <button type="submit" id="submit-button" class="btn btn-primary w-md ">حفظ اللجنه </button>
                             </div>
                     </form>
                 </div>

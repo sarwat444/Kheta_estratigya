@@ -13,5 +13,9 @@ class Kheta extends Model
     {
        return $this->hasMany(Objective::class) ;
     }
+    public function ratingMembers()
+    {
+        return $this->hasMany(RatingMember::class) ;
+    }
 
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('job_number')->nullable();
             $table->string('password');
             $table->string('gehat')->nullable();
+            $table->foreignId('kheta_id')->constrained('khetas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

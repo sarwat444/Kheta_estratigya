@@ -3,44 +3,59 @@
 namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Web\admin\RatingMembers\StoreRatingMembersRequest;
+use App\Http\Requests\Web\admin\RatingMembers\UpdateRatingMembersRequest;
+use App\Models\Kheta;
 use App\Models\RatingMember;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Traits\ResponseJson;
+use App\Models\Mangement ;
+use Illuminate\Support\Facades\Hash ;
 class RatingMembersController extends Controller
 {
     use  ResponseJson ;
     public  function __construct(private RatingMember $user)
     {}
     /** Gehat  Functions */
-    public function index()
+    public function show( $kheta_id = null )
     {
-        $ratingMembers  =  $this->user->get() ;
-        return  view('admins.ratingMembers.index')->with(compact('ratingMembers')) ;
+        $kheta = Kheta::find($kheta_id) ;
+        $ratingMembers  =  $this->user->where('kheta_id',$kheta_id)->get() ;
+        return  view('admins.ratingMembers.index')->with(compact('ratingMembers' , 'kheta')) ;
     }
-    public function create()
+
+    public  function CreateratingMembers($kheta_id)
     {
-        $mangements =  Mangement::get() ;
-        return  view('admins.users.geaht.create')->with(compact('mangements')) ;
+        $kehta = Kheta::find($kheta_id) ;
+        $gehat =  User::where('is_manger' , 0)->get() ;
+        return  view('admins.ratingMembers.create')->with(compact('gehat' ,'kehta')) ;
     }
-    public function store(StoreUserRequest $storeUserRequest): \Illuminate\Http\RedirectResponse
+    public function store(StoreRatingMembersRequest $storeRatingMembersRequest): \Illuminate\Http\RedirectResponse
     {
-        $this->user->create($storeUserRequest->safe()->except(['_token']));
-        return  redirect()->back()->with('success' , 'تم أضافه الجهه بنجاح') ;
+        $ratingMember  = new RatingMember() ;
+        $ratingMember->username  = $storeRatingMembersRequest->username;
+        $ratingMember->job_number  = $storeRatingMembersRequest->job_number;
+        $ratingMember->password =  Hash::make($storeRatingMembersRequest->password);
+        $ratingMember->kheta_id =   $storeRatingMembersRequest->kheta_id;
+        $ratingMember->gehat =  json_encode($storeRatingMembersRequest->geha_id);
+
+
+        $ratingMember->save();
+        return redirect()->back()->with('success', 'تم أضافة لجنة التقييم بنجاح');
     }
     public function  edit($id = null ):\Illuminate\View\View
     {
-        $user  = User::with('mangemnet')->find($id) ;
-        $mangements = Mangement::get() ;
-        return view('admins.users.geaht.edit-user')->with(compact('user' ,'mangements')) ;
+        $all_gehat  =  User::get() ;
+        $member  = RatingMember::find($id) ;
+        return view('admins.ratingMembers.edit-user')->with(compact('all_gehat' ,'member')) ;
     }
-    public function update(UpdateUserRequest $userRequest , $id):\Illuminate\Http\RedirectResponse
+    public function update(UpdateRatingMembersRequest $updateRatingMembersRequest , $id):\Illuminate\Http\RedirectResponse
     {
-        $user_data  =  User::find($id) ;
-        $old_password = $user_data['password'] ;
-        $is_manger = $userRequest->is_manger ;
-
-        $new_user_request  =  $userRequest->safe()->except(['_token']) ;
-        if($user_data)
+        $member  =  RatingMember::find($id) ;
+        $old_password = $member['password'] ;
+        $new_user_request  =  $updateRatingMembersRequest->safe()->except(['_token']) ;
+        if($member)
         {
             if(!empty($new_user_request['password']))
             {
@@ -50,16 +65,12 @@ class RatingMembersController extends Controller
                 $new_user_request['password'] =  $old_password ;
             }
 
-            if(!empty($new_user_request['is_manger']) && $new_user_request['is_manger'] =='on' )
+            if(!empty($new_user_request['gehat']))
             {
-                $new_user_request['is_manger'] = 1 ;
-            }else
-            {
-                $new_user_request['is_manger']  = 0 ;
+                $new_user_request['gehat'] = json_encode($new_user_request['gehat']) ;
             }
 
-
-            $user_data->update($new_user_request) ;
+            $member->update($new_user_request) ;
             return  redirect()->back()->with('success' ,  'تم تعديل  بيانات الجهه بنجاح') ;
         }
         else
