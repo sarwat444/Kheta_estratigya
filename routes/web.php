@@ -59,7 +59,4 @@ Route::group(['as' => 'sub_geha.'  ,'middleware' => 'auth' , 'checkIsManger'], f
 
 });
 
-
-
-
 Route::get('language/{lang}',SetLanguageController::class)->name('language')->whereIn('lang', ['de', 'en']);

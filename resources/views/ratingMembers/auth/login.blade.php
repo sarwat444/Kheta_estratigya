@@ -19,7 +19,7 @@
                         <div class="row">
                             <div class="col-7">
                                 <h3 class="text-center font-size-17 mt-5">الخطه الأستراتيجيه لجامعه بنها</h3>
-                                <p class="text-primary text-center">تسجيل الدخول</p>
+                                <p class="text-primary text-center"> تسجيل  الدخول - لجنه تقييم </p>
                             </div>
                             <div class="col-5 align-self-end">
                                 <img src="{{asset('assets/admin/images/profile-img.png')}}" alt="" class="img-fluid">
@@ -41,7 +41,7 @@
                         </div>
                         <div class="p-2" >
 
-                            <form class="form-horizontal" action="{{route('authenticate')}}" method="POST">
+                            <form class="form-horizontal" action="{{route('ratingLogin')}}" method="POST">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="job_number" class="form-label">الرقم الوظيفى</label>
