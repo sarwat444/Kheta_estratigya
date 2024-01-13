@@ -47,10 +47,10 @@
 <!-- Begin page -->
 <div id="layout-wrapper">
 
-    @include('gehat.partials.header')
+    @include('ratingMembers.partials.header')
 
     <!-- ========== Left Sidebar Start ========== -->
-    @include('gehat.partials.side-menu')
+    @include('ratingMembers.partials.side-menu')
     <!-- Left Sidebar End -->
 
 
@@ -67,7 +67,7 @@
         </div>
         <!-- End Page-content -->
 
-        @include('gehat.partials.footer')
+        @include('ratingMembers.partials.footer')
     </div>
     <!-- end main content-->
 
@@ -86,11 +86,11 @@
 {{-- this file under comment control language files --}}
 <script src="{{asset('/assets/admin/js/app.js')}}"></script>
 <script  src="{{asset('/assets/admin/js/flasher.min.js')}}"></script>
-@include('gehat.partials.scripts.flash-messages')
-@include('gehat.partials.scripts.remove-is-invalid-class-inputs')
-@include('gehat.partials.scripts.automatic-validation-flash')
-@include('gehat.partials.scripts.constants-localization')
-@include('gehat.partials.scripts.search')
+@include('ratingMembers.partials.scripts.flash-messages')
+@include('ratingMembers.partials.scripts.remove-is-invalid-class-inputs')
+@include('ratingMembers.partials.scripts.automatic-validation-flash')
+@include('ratingMembers.partials.scripts.constants-localization')
+@include('ratingMembers.partials.scripts.search')
 @stack('scripts')
 </body>
 </html>

@@ -18,7 +18,7 @@ class Objective extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function kheta(): BelongsTo
+    public function kheta()
     {
         return $this->belongsTo(kheta::class, 'kheta_id', 'id');
     }

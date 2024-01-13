@@ -17,4 +17,8 @@ class Program extends Model
     {
         return $this->belongsTo(User::class , 'addedBy' , 'id') ;
     }
+    public  function goal()
+    {
+       return  $this->belongsTo(Goal::class) ;
+    }
 }

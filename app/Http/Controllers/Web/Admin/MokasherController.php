@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Admin\mokashers\StoreMokasherRequest;
 use App\Http\Requests\Web\Admin\mokashers\UpdateMokasherRequest;
 use App\Http\Requests\Web\Admin\users\StoremokasharatInputs;
+use App\Models\Execution_year;
 use App\Models\Mokasher;
 use App\Models\MokasherInput;
 use App\Models\Program;
@@ -55,20 +56,33 @@ class MokasherController extends Controller
         $mokasher->update($UpdateMokasherRequest->validated());
         return redirect()->route('dashboard.moksherat.show',$mokasher->program_id)->with('success', ' تم  تعديل  المؤشر بنجاح');
     }
-    public function mokaseerinput ($mokasher_id)
+    public function mokaseerinput($mokasher_id)
     {
-        $users = User::get() ;
-        $mokasher = Mokasher::find($mokasher_id) ;
-        return view('admins.moksherat.create_mokaseerinput' , compact('mokasher' ,'users' ,'mokasher_id'));
+        $users = User::where('is_manger' , 1)->get() ;
+        $mokasher = Mokasher::with('mokasher_inputs', 'mokasher_geha_inputs' , 'program' , 'program.goal.Objective.kheta')->find($mokasher_id) ;
+        $kheta_id = $mokasher->program->goal->Objective->kheta->id ;
+        $excuction_years = Execution_year::where('kheta_id' ,$kheta_id)->get() ;
+        return view('admins.moksherat.create_mokaseerinput' , compact('mokasher' ,'users' ,'mokasher_id' , 'excuction_years'));
     }
-
     public function store_mokaseerinput(StoremokasharatInputs $StoremokasharatInputs)
     {
-        // Create a new instance of MokasherInput and save to the database
 
-        MokasherInput::create($StoremokasharatInputs->validated());
+        $mokasher_data = MokasherInput::updateOrCreate(
+            ['mokasher_id' => $StoremokasharatInputs->mokasher_id],
+            [
+                'users' => json_encode($StoremokasharatInputs->users),
+                'equation' => $StoremokasharatInputs->equation,
+                'type' => $StoremokasharatInputs->type,
+            ]
+        );
+
+        if(!empty($StoremokasharatInputs->ids)) {
+            foreach ($StoremokasharatInputs->ids as $Key => $id) {
+                Execution_year::where('id', $id)->update(['value'=> $StoremokasharatInputs->years[$Key]]);
+            }
+        }
         // Redirect back or return a response
-        return redirect()->back()->with('success', 'تم أضافه بيانات المؤشر بنجاح');
+        return redirect()->back()->with('success', 'تم أضافة بيانات المؤشر بنجاح');
     }
 
 }

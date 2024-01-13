@@ -14,10 +14,15 @@ class Mokasher extends Model
     }
     public function mokasher_inputs()
     {
-        return $this->hasMany(MokasherInput::class , 'mokasher_id' , 'id') ;
+        return $this->hasOne(MokasherInput::class , 'mokasher_id' , 'id') ;
     }
     public function mokasher_geha_inputs()
     {
         return $this->hasOne(MokasherGehaInput::class , 'mokasher_id' , 'id') ;
+    }
+    public function program()
+    {
+        return $this->belongsTo(Program::class , 'program_id' , 'id') ;
+
     }
 }

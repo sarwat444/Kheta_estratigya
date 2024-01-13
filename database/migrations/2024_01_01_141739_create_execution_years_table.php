@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('execution_years', function (Blueprint $table) {
             $table->id();
             $table->string('year_name')->nullable() ;
+            $table->string('value')->default(0) ;
             $table->foreignId('kheta_id')->constrained('khetas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->tinyInteger('selected')->default(0) ;
             $table->timestamps();

@@ -15,6 +15,6 @@ class Goal extends Model
     }
     public  function objective()
     {
-        $this->belongsTo(Objective::class , 'objective_id' , 'id') ;
+        return $this->belongsTo(Objective::class , 'objective_id' , 'id') ;
     }
 }

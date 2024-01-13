@@ -24,14 +24,11 @@ class StoremokasharatInputs extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required|string', // Adjust the validation rules as needed
-            'year_one' => 'required|integer',
-            'year_two' => 'required|integer',
-            'year_three' => 'required|integer',
-            'year_four' => 'required|integer',
-            'year_five' => 'required|integer',
-            'target' => 'required|numeric',
-            'mokasher_id' =>'required'
+            'type' => 'required', // Adjust the validation rules as needed
+            'users' => 'required' ,
+            'mokasher_id' =>'required',
+            'ids' =>'required' ,
+            'equation' => 'required'
         ];
     }
 }

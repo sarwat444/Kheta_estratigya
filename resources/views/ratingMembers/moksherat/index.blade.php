@@ -1,4 +1,4 @@
-@extends('sub_geha.layouts.app')
+@extends('ratingMembers.layouts.app')
 
 @push('title','المؤشرات')
 
@@ -48,7 +48,7 @@
                                 <td style="text-align: right">{{ $mokasher->name }} </td>
                                 <td style="text-align: right">{{ $mokasher->type }} </td>
                                 <td>  @if( $mokasher->addedBy == 0 ) الأداره@else {{ $mokasher->addedBy_fun->geha }} @endif  </td>
-                                <td><a  class="btn btn-success btn btn-sm" href="{{ route('sub_geha.sub_geha_mokaseerinput', $mokasher->id) }}"> مدخلات  المؤشر </a></td>
+                                <td><a  class="btn btn-primary btn btn-sm" href="{{ route('rating.ratinginput', $mokasher->id) }}"> عرض المؤشر </a></td>
                             </tr>
                         @empty
                             <tr>

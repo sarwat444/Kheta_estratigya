@@ -81,7 +81,7 @@
                     <img class="rounded-circle header-profile-user"
                          src="{{asset('/assets/admin/images/users/avatar-1.jpg')}}"
                          alt="Header Avatar">
-                    <span class="d-none d-xl-inline-block ms-1" key="t-henry">{{auth()->user()->name}}</span>
+                    <span class="d-none d-xl-inline-block ms-1" key="t-henry">{{\Illuminate\Support\Facades\Auth::guard('ratingMember')->user()->name}}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">

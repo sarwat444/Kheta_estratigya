@@ -1,5 +1,4 @@
-@extends('admins.layouts.app')
-
+@extends('ratingMembers.layouts.app')
 @push('title','الجهات')
 @push('styles')
     <link href="{{asset('/assets/admin/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet"
@@ -32,7 +31,8 @@
                                 <td>{{$user->geha}}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <a class="btn btn-primary" href="{{ route('rating.mokshrat.view', $user->id) }}" data-category-id="{{ $user->id }}"><i class="bx bxs-eye"></i> عرض المؤشرات</a>
+                                        <a class="btn btn-primary" href="{{ route('rating.rating_mokshart',$user->id)}}" data-category-id="{{ $user->id }}"><i class="bx bxs-eye"></i> عرض المؤشرات</a>
+
                                     </div>
                                 </td>
                             </tr>

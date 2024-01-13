@@ -1,4 +1,4 @@
-@extends('gehat.layouts.app')
+@extends('ratingMembers.layouts.app')
 @push('title','أضافه مدخلات المؤشر ')
 @push('styles')
     <link href="{{asset('/assets/admin/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
@@ -25,20 +25,6 @@
                                         <input type="text" readonly value="{{$selected_year_value}}" class="form-control" >
                                         <input  type="hidden" name="target" value="{{$selected_year_value}}">
                                 </div>
-                        </div>
-                        <div class="row mb-5">
-                            <input type="hidden" name="mokasher_id" value="{{$mokasher_id}}">
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label class="form-label">الجهه المختصه</label>
-                                    <select class="select2 form-control select2" name="geha_id" data-placeholder="أختر الجهه المختصه" style="text-align: right">
-                                        <option>أختر الجهه  المختصه</option>
-                                        @foreach($users as $user)
-                                            <option value="{{$user->id}}"> {{$user->geha}} </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
                         </div>
 
                          <div class="mb-2 text-center">
