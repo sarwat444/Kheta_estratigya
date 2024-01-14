@@ -66,7 +66,6 @@ class MokasherController extends Controller
     }
     public function store_mokaseerinput(StoremokasharatInputs $StoremokasharatInputs)
     {
-
         $mokasher_data = MokasherInput::updateOrCreate(
             ['mokasher_id' => $StoremokasharatInputs->mokasher_id],
             [

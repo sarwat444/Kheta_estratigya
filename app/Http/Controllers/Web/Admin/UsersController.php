@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Admin\users\StoreAdminRequest;
 use App\Http\Requests\Web\Admin\users\UpdateStaffRequest;
 use App\Models\Execution_year;
+use App\Models\Kheta;
 use App\Models\Mangement;
 use App\Models\User;
 use App\Models\Admin;
@@ -24,17 +25,19 @@ class UsersController extends Controller
     use  ResponseJson ;
     public  function __construct(private  User $user)
     {}
-    /** Gehat  Functions */
-    public function index()
+    public  function show($kheta_id)
     {
         $users  =  $this->user->with('mangemnet')->get() ;
+        $kheta = Kheta::find($kheta_id) ;
         $execution_years  = Execution_year::get() ;
-        return  view('admins.users.geaht.index')->with(compact('users' ,'execution_years')) ;
+        return  view('admins.users.geaht.index')->with(compact('users' ,'execution_years' , 'kheta')) ;
+
     }
-    public function create()
+    /** Gehat  Functions */
+    public function createuser($kehta_id)
     {
-          $mangements =  Mangement::get() ;
-          return  view('admins.users.geaht.create')->with(compact('mangements')) ;
+           $mangements =  Mangement::get();
+           return  view('admins.users.geaht.create')->with(compact('mangements', 'kehta_id')) ;
     }
     public function store(StoreUserRequest $storeUserRequest): \Illuminate\Http\RedirectResponse
     {

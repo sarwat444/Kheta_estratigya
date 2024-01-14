@@ -28,7 +28,8 @@ class StoreUserRequest extends FormRequest
              'password' => ['required'] ,
              'geha' => ['required']  ,
              'mangement_id' =>['required'] ,
-             'is_manger' => ['sometimes']
+             'is_manger' => ['sometimes'] ,
+             'kehta_id' => ['required']
         ];
     }
 }

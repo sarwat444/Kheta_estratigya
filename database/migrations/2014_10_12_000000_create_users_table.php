@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->tinyInteger('is_manger')->default(0) ;
             $table->integer('mangement_id')->default(0);
+            $table->foreignId('kehta_id')->constrained('khetas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->rememberToken();
             $table->timestamps();
         });

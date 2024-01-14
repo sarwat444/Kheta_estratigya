@@ -74,6 +74,7 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
     /** Mangements */
 
     Route::resource('mangements',MangementController::class);
+    Route::get('createmangement/{id}' ,  [MangementController::class ,  '']);
 
     /** Mokshrat  routes */
 
@@ -146,5 +147,6 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
         Route::get('/courses', [CourseSettingController::class, 'index'])->name('index');
         Route::put('/courses/{course}/course-top', [CourseSettingController::class, 'updateTopCourse'])->name('top');
     });
+    Route::get('/createuser/{id}' ,  [UsersController::class ,  'createuser'])->name('createuser') ;
 
 });

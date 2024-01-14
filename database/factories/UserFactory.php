@@ -16,7 +16,7 @@ class UserFactory extends Factory
             'geha' =>  'كليه الطب  جامعه ينها',
              'password' => Hash::make('password') ,
              'is_manger' => 0 ,
-             'mangement_id' => 1 ,
+             'kehta_id' => 1 ,
             'remember_token' => Str::random(10),
         ];
     }

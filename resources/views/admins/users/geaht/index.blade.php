@@ -38,7 +38,7 @@
                 <div class="card-body">
                     <div class="card-title"> الجهات</div>
                     <div class="d-flex flex-wrap gap-2 mb-3">
-                        <a href="{{route('dashboard.users.create')}}" class="btn btn-primary waves-effect waves-light">
+                        <a href="{{route('dashboard.createuser',$kheta->id )}}" class="btn btn-primary waves-effect waves-light">
                             <i class="bx bx-add-to-queue font-size-16 align-middle me-2"></i>أضافه جهه جديده
                         </a>
                     </div>

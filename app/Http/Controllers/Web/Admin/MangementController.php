@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Admin\mangement\StoreMangementRequest;
 use App\Http\Requests\Web\Admin\mangement\UpdateMangementRequest;
+use App\Models\Kheta;
 use App\Models\Mangement;
 use App\Traits\ResponseJson;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,6 +27,12 @@ class MangementController extends Controller
     public function create(): \Illuminate\View\View
     {
         return view('admins.mangement.create');
+    }
+
+    public function createmangement($kheta_id)
+    {
+        $kheta = Kheta::find($kheta_id) ;
+        return view('admins.mangement.create' , compact('kheta'));
     }
 
     public function   store(StoreMangementRequest $StoreMangementRequest): \Illuminate\Http\JsonResponse
@@ -50,5 +57,6 @@ class MangementController extends Controller
         $mangement->update($UpdateMangementRequest->validated());
         return redirect()->route('dashboard.mangements.index')->with('success', 'Category updated successfully');
     }
+
 
 }

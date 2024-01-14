@@ -23,6 +23,7 @@
                                 <div class="mb-3">
                                     <label for="job_number" class="form-label"> الرقم  الوظيفى  </label>
                                     <input type="text" name="job_number" placeholder="الرقم الوظيفى" class="form-control" id="job_number" required>
+                                    <input type="hidden" name="kehta_id" value="{{$kehta_id}}" >
                                 </div>
                             </div>
                         </div>
