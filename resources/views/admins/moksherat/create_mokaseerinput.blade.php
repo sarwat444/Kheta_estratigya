@@ -1,9 +1,10 @@
 @extends('admins.layouts.app')
 @push('title','أضافه مدخلات المؤشر ')
 @push('styles')
-    <link href="{{asset('/assets/admin/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
 @endpush
 @section('content')
+
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -75,8 +76,8 @@
                                 <div class="col-md-2">
                                     <div class="mb-4">
                                         <label for="ex{{$key}}" class="form-label">{{ $ex_year->year_name }}  </label>
-                                       <input type="hidden" name="ids[]" value="{{$ex_year->id}}">
-                                        <input type="number" min="0" name="years[]" placeholder="{{$ex_year->year_name}}" value="@if(!empty($ex_year->value)){{$ex_year->value}}@endif"  class="form-control" id="ex{{$key}}">
+                                        <input type="hidden" name="ids[]" value="{{$ex_year->id}}">
+                                        <input type="number" min="0" name="years[]" placeholder="المستهدف" value="@if(!empty($ex_year->MokasherExcutionYears)){{$ex_year->MokasherExcutionYears->value}}@endif"  class="form-control" id="ex{{$key}}">
                                     </div>
                                 </div>
                                 @empty
@@ -97,10 +98,10 @@
     </div>
 @endsection
 @push('scripts')
-    <script src="{{asset('/assets/admin/libs/select2/js/select2.min.js')}}"></script>
-    <script src="{{asset('/assets/admin/js/pages/form-advanced.init.js')}}"></script>
-    <script src="{{asset('/assets/admin/libs/jquery.repeater/jquery.repeater.min.js')}}"></script>
-    <script src="{{asset('/assets/admin/js/pages/form-repeater.int.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/js/select2.min.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/form-advanced.init.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/jquery.repeater/jquery.repeater.min.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/form-repeater.int.js')}}"></script>
     <script>
         // jQuery script for automatic calculation
         $(document).ready(function () {

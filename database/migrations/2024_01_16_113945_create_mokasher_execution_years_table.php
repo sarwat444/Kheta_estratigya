@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('mangements', function (Blueprint $table) {
+        Schema::create('mokasher_execution_years', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('top_mangement')->default(0  );
-            $table->foreignId('kheta_id')->constrained('khetas')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('mokasher_id')->constrained('mokashers')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('year_id')->constrained('execution_years')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('value')->nullable() ;
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mangements');
+        Schema::dropIfExists('mokasher_execution_years');
     }
 };

@@ -2,124 +2,408 @@
 @push('title','أضافه مدخلات المؤشر ')
 @push('styles')
     <link href="{{asset('/assets/admin/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
+    <style>
+        #part_2,
+        #part_3,
+        #part_4 {
+            display: none;
+        }
+    </style>
 @endpush
 @section('content')
-    <div class="row">
-        <div class="col-md-6">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-3"> أختر الربع المطلوب  </h4>
+                    <div class="col-md-12">
+                        <div class="form-group mb-2">
+                            <select class="form-control" name="parts" id="parts">
+                                <option value="1">الربع الأول</option>
+                                <option value="2">الربع الثانى</option>
+                                <option value="3">الربع الثالث</option>
+                                <option value="4">الربع الرابع</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
             <div class="card">
                 <div class="card-body" style="text-align: right">
-                    <h4 class="card-title mb-3"> أضافه مدخلات المؤشر </h4>
-                    <form id="store-mokasher-input" class="repeater"
-                          action="{{route('sub_geha.store_sub_geha_mokasher_input' , $mokasher->id)}}" method="POST"
-                          enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" name="mokasher_id" value="{{$mokasher->id}}">
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <label>المستهدف</label>
-                                <input type="text" readonly class="form-control mb-4" name="target"
-                                       value="@if(!empty($mokasher->mokasher_geha_inputs)) {{intval($mokasher->mokasher_geha_inputs->target)}} @endif">
-                                <input type="hidden" name="geha_id"
-                                       value="{{\Illuminate\Support\Facades\Auth::user()->id}}" class="form-control">
-                                <div class="row">
-                                    <label>المنجز </label>
-                                    <div class="col-md-3">
-                                        <input type="text" name="part_1" placeholder="الربع الأول"
-                                               class="form-control" pattern="[0-9]*"
-                                               value="@if(!empty($mokasher->mokasher_geha_inputs)){{ $mokasher->mokasher_geha_inputs->part_1 }}@endif">
+                    <h4 class="card-title mb-3"> المستهدف السنوى  </h4>
+                    <div class="form-group mb-2">
+                        <input class="form-control" type="text" value="{{$mokasher->mokasher_geha_inputs->target}}"
+                               readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body" style="text-align: right">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div id="part_1">
+                                        <h3 class="font-size-17 mb-3">الربع الأول </h3>
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <form style=" background-color: #eeeeee4d; padding: 16px;"
+                                                      id="store-mokasher-input"
+                                                      class="repeater"
+                                                      action="{{route('sub_geha.store2_sub_geha_mokasher_input' , $mokasher->id)}}"
+                                                      method="POST"
+                                                      enctype="multipart/form-data">
+                                                    @csrf
+
+                                                    <input type="hidden" name="part" value="part_1">
+                                                    <input type="hidden" name="year_id" value="{{$mokasher->mokasher_geha_inputs->year_id}}">
+                                                    <input type="hidden" name="mokasher_id" value="{{$mokasher->id}}">
+                                                    <input type="hidden" name="geha_id" value="{{\Illuminate\Support\Facades\Auth::user()->id}}">
+
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-12">
+                                                            <label> رفع الأدله والشواهد - يمكن رفع اكثر من دليل </label>
+                                                            <input type="file" class="form-control" name="files1[]" multiple>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-12">
+                                                            <label for="vivacity">اضافه نشاط </label>
+                                                            <textarea class="form-control" name="vivacity1" id="vivacity" placeholder=" اضافه جميع الأنشطه  خلال  الفتره  " rows="5">@if(!empty($mokasher->mokasher_geha_inputs->vivacity1)){{ $mokasher->mokasher_geha_inputs->vivacity1 }}@endif</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="impediments"> المعوقات </label>
+                                                            <textarea class="form-control" name="impediments1" id="impediments" rows="5" placeholder="المعوقات">@if(!empty($mokasher->mokasher_geha_inputs->impediments1)){{ $mokasher->mokasher_geha_inputs->impediments1 }}@endif</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2 text-center">
+                                                        <div class="spinner-border text-primary m-1 d-none" role="status"><span
+                                                                class="sr-only"></span></div>
+                                                    </div>
+                                                    <button type="submit" id="submit-button"
+                                                            class="btn btn-primary w-md btn-lg">حفظ
+                                                        المدخلات
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h4> الأدله والشواهد الربع الأول </h4>
+                                                        @if(!empty($mokasher->mokasher_geha_inputs->evidence1))
+                                                            @php
+                                                                $files  = json_decode($mokasher->mokasher_geha_inputs->evidence1) ;
+                                                            @endphp
+                                                            <table class="table table-bordered table-responsive table-striped">
+                                                                <thead>
+                                                                <th>تحميل الملفات</th>
+                                                                <th>التحكم</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                @foreach($files as $key => $file)
+                                                                    <tr>
+                                                                        <td><a href="{{ asset($file) }}">ملف # {{ $key + 1 }} <i
+                                                                                    class="fa fa-file"></i></a></td>
+                                                                        <td>
+                                                                            <form
+                                                                                action="{{ route('sub_geha.delete.file', ['id' => $key , 'mokasher_id' => $mokasher->id]) }}"
+                                                                                method="post">
+                                                                                @csrf
+                                                                                @method('delete')
+                                                                                <input type="hidden" name="id" value="{{$key}}">
+                                                                                <button type="button" class="btn btn-danger btn-sm delete_btn_file">
+                                                                                    حذف
+                                                                                </button>
+                                                                            </form>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        @else
+                                                            <p class="text-danger"> * لا يوجد اى أدله او شواهد </p>
+                                                        @endif
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                    <div class="col-md-3">
-                                        <input type="text" name="part_2" placeholder="الربع الثانى"
-                                               class="form-control" pattern="[0-9]*"
-                                               value="@if(!empty($mokasher->mokasher_geha_inputs)){{ $mokasher->mokasher_geha_inputs->part_2 }}@endif">
+                                    <div id="part_2">
+                                        <h3 class="font-size-17 mb-3">الربع الثانى </h3>
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <form style=" background-color: #eeeeee4d; padding: 16px;"
+                                                      id="store-mokasher-input"
+                                                      class="repeater"
+                                                      action="{{route('sub_geha.store2_sub_geha_mokasher_input' , $mokasher->id)}}"
+                                                      method="POST"
+                                                      enctype="multipart/form-data">
+                                                    @csrf
+
+                                                    <input type="hidden" name="year_id" value="{{$mokasher->mokasher_geha_inputs->year_id}}">
+                                                    <input type="hidden" name="mokasher_id" value="{{$mokasher->id}}">
+                                                    <input type="hidden" name="geha_id" value="{{\Illuminate\Support\Facades\Auth::user()->id}}">
+                                                    <input type="hidden" name="part" value="part_2">
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-12">
+                                                            <label> رفع الأدله والشواهد - يمكن رفع اكثر من دليل </label>
+                                                            <input type="file" class="form-control" name="files2[]" multiple>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-12">
+                                                            <label for="vivacity">اضافه نشاط </label>
+                                                            <textarea class="form-control" name="vivacity2" id="vivacity" rows="5" placeholder="اضافه جميع الأنشطه  خلال  الفتره ">@if(!empty($mokasher->mokasher_geha_inputs->vivacity2)){{ $mokasher->mokasher_geha_inputs->vivacity2 }}@endif</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="impediments2"> المعوقات </label>
+                                                            <textarea class="form-control" name="impediments2" id="impediments2" rows="5" placeholder="المعوقات">@if(!empty($mokasher->mokasher_geha_inputs->impediments2)){{ $mokasher->mokasher_geha_inputs->impediments2 }}@endif</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2 text-center">
+                                                        <div class="spinner-border text-primary m-1 d-none" role="status"><span
+                                                                class="sr-only"></span></div>
+                                                    </div>
+                                                    <button type="submit" id="submit-button"
+                                                            class="btn btn-primary w-md btn-lg">حفظ
+                                                        المدخلات
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h4> الأدله والشواهد الربع الأول </h4>
+                                                        @if(!empty($mokasher->mokasher_geha_inputs->evidence2))
+                                                            @php
+                                                                $files  = json_decode($mokasher->mokasher_geha_inputs->evidence2) ;
+                                                            @endphp
+                                                            <table class="table table-bordered table-responsive table-striped">
+                                                                <thead>
+                                                                <th>تحميل الملفات</th>
+                                                                <th>التحكم</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                @foreach($files as $key => $file)
+                                                                    <tr>
+                                                                        <td><a href="{{ asset($file) }}">ملف # {{ $key + 1 }} <i
+                                                                                    class="fa fa-file"></i></a></td>
+                                                                        <td>
+                                                                            <form
+                                                                                action="{{ route('sub_geha.delete.file', ['id' => $key , 'mokasher_id' => $mokasher->id]) }}"
+                                                                                method="post">
+                                                                                @csrf
+                                                                                @method('delete')
+                                                                                <input type="hidden" name="id" value="{{$key}}">
+                                                                                <button type="button" class="btn btn-danger btn-sm delete_btn_file">
+                                                                                    حذف
+                                                                                </button>
+                                                                            </form>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        @else
+                                                            <p class="text-danger"> * لا يوجد اى أدله او شواهد </p>
+                                                        @endif
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <input type="text" name="part_3" placeholder="الربع الثالث"
-                                               class="form-control" pattern="[0-9]*"
-                                               value="@if(!empty($mokasher->mokasher_geha_inputs)){{ $mokasher->mokasher_geha_inputs->part_3 }}@endif">
+                                    <div id="part_3">
+                                        <h3 class="font-size-17 mb-3">الربع الثالث </h3>
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <form style=" background-color: #eeeeee4d; padding: 16px;"
+                                                      id="store-mokasher-input"
+                                                      class="repeater"
+                                                      action="{{route('sub_geha.store2_sub_geha_mokasher_input' , $mokasher->id)}}"
+                                                      method="POST"
+                                                      enctype="multipart/form-data">
+                                                    @csrf
+                                                        <input type="hidden" name="year_id" value="{{$mokasher->mokasher_geha_inputs->year_id}}">
+                                                        <input type="hidden" name="mokasher_id" value="{{$mokasher->id}}">
+                                                        <input type="hidden" name="geha_id" value="{{\Illuminate\Support\Facades\Auth::user()->id}}">
+                                                        <input type="hidden" name="part" value="part_3">
+
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-12">
+                                                            <label> رفع الأدله والشواهد - يمكن رفع اكثر من دليل </label>
+                                                            <input type="file" class="form-control" name="files3[]" multiple>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-12">
+                                                            <label for="vivacity3">اضافه نشاط </label>
+                                                            <textarea class="form-control" name="vivacity3" id="vivacity" rows="5" placeholder="اضافه جميع الأنشطه  خلال  الفتره ">@if(!empty($mokasher->mokasher_geha_inputs->vivacity3)){{ $mokasher->mokasher_geha_inputs->vivacity3 }}@endif</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="impediments"> المعوقات </label>
+                                                            <textarea class="form-control" name="impediments3" id="impediments3" rows="5" placeholder="المعوقات">@if(!empty($mokasher->mokasher_geha_inputs->impediments3)){{ $mokasher->mokasher_geha_inputs->impediments3 }}@endif</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2 text-center">
+                                                        <div class="spinner-border text-primary m-1 d-none" role="status"><span
+                                                                class="sr-only"></span></div>
+                                                    </div>
+                                                    <button type="submit" id="submit-button"
+                                                            class="btn btn-primary w-md btn-lg">حفظ
+                                                        المدخلات
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h4> الأدله والشواهد الربع الأول </h4>
+                                                        @if(!empty($mokasher->mokasher_geha_inputs->evidence3))
+                                                            @php
+                                                                $files  = json_decode($mokasher->mokasher_geha_inputs->evidence3) ;
+                                                            @endphp
+                                                            <table class="table table-bordered table-responsive table-striped">
+                                                                <thead>
+                                                                <th>تحميل الملفات</th>
+                                                                <th>التحكم</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                @foreach($files as $key => $file)
+                                                                    <tr>
+                                                                        <td><a href="{{ asset($file) }}">ملف # {{ $key + 1 }} <i
+                                                                                    class="fa fa-file"></i></a></td>
+                                                                        <td>
+                                                                            <form
+                                                                                action="{{ route('sub_geha.delete.file', ['id' => $key , 'mokasher_id' => $mokasher->id]) }}"
+                                                                                method="post">
+                                                                                @csrf
+                                                                                @method('delete')
+                                                                                <input type="hidden" name="id" value="{{$key}}">
+                                                                                <button type="button" class="btn btn-danger btn-sm delete_btn_file">
+                                                                                    حذف
+                                                                                </button>
+                                                                            </form>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        @else
+                                                            <p class="text-danger"> * لا يوجد اى أدله او شواهد </p>
+                                                        @endif
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                    <div class="col-md-3">
-                                        <input type="text" name="part_4" placeholder="الربع الرابع"
-                                               class="form-control" pattern="[0-9]*"
-                                               value="@if(!empty($mokasher->mokasher_geha_inputs)){{ $mokasher->mokasher_geha_inputs->part_4 }}@endif">
+                                    <div id="part_4">
+                                        <h3 class="font-size-17 mb-3">الربع الرابع </h3>
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <form style=" background-color: #eeeeee4d; padding: 16px;"
+                                                      id="store-mokasher-input"
+                                                      class="repeater"
+                                                      action="{{route('sub_geha.store2_sub_geha_mokasher_input' , $mokasher->id)}}"
+                                                      method="POST"
+                                                      enctype="multipart/form-data">
+                                                    @csrf
+                                                    <input type="hidden" name="year_id" value="{{$mokasher->mokasher_geha_inputs->year_id}}">
+                                                    <input type="hidden" name="mokasher_id" value="{{$mokasher->id}}">
+                                                    <input type="hidden" name="geha_id" value="{{\Illuminate\Support\Facades\Auth::user()->id}}">
+                                                    <input type="hidden" name="part" value="part_4">
+
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-12">
+                                                            <label> رفع الأدله والشواهد - يمكن رفع اكثر من دليل </label>
+                                                            <input type="file" class="form-control" name="files4[]" multiple>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-12">
+                                                            <label for="vivacity">اضافه نشاط </label>
+                                                            <textarea class="form-control" name="vivacity4" id="vivacity" rows="5" placeholder="اضافه جميع الأنشطه  خلال  الفتره ">@if(!empty($mokasher->mokasher_geha_inputs->vivacity4)){{ $mokasher->mokasher_geha_inputs->vivacity4 }}@endif</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="impediments"> المعوقات </label>
+                                                            <textarea class="form-control" name="impediments4" id="impediments" rows="5" placeholder="المعوقات">@if(!empty($mokasher->mokasher_geha_inputs->impediments4)){{ $mokasher->mokasher_geha_inputs->impediments4 }}@endif</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-2 text-center">
+                                                        <div class="spinner-border text-primary m-1 d-none" role="status"><span
+                                                                class="sr-only"></span></div>
+                                                    </div>
+                                                    <button type="submit" id="submit-button"
+                                                            class="btn btn-primary w-md btn-lg">حفظ
+                                                        المدخلات
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h4> الأدله والشواهد الربع الأول </h4>
+                                                        @if(!empty($mokasher->mokasher_geha_inputs->evidence4))
+                                                            @php
+                                                                $files  = json_decode($mokasher->mokasher_geha_inputs->evidence4) ;
+                                                            @endphp
+                                                            <table class="table table-bordered table-responsive table-striped">
+                                                                <thead>
+                                                                <th>تحميل الملفات</th>
+                                                                <th>التحكم</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                @foreach($files as $key => $file)
+                                                                    <tr>
+                                                                        <td><a href="{{ asset($file) }}">ملف # {{ $key + 1 }} <i
+                                                                                    class="fa fa-file"></i></a></td>
+                                                                        <td>
+                                                                            <form
+                                                                                action="{{ route('sub_geha.delete.file', ['id' => $key , 'mokasher_id' => $mokasher->id]) }}"
+                                                                                method="post">
+                                                                                @csrf
+                                                                                @method('delete')
+                                                                                <input type="hidden" name="id" value="{{$key}}">
+                                                                                <button type="button" class="btn btn-danger btn-sm delete_btn_file">
+                                                                                    حذف
+                                                                                </button>
+                                                                            </form>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        @else
+                                                            <p class="text-danger"> * لا يوجد اى أدله او شواهد </p>
+                                                        @endif
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <label> رفع الأدله والشواهد - يمكن رفع اكثر من دليل </label>
-                                <input type="file" class="form-control" name="files[]" multiple>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-12">
-                                <label for="vivacity">اضافه نشاط </label>
-                                <textarea class="form-control" name="vivacity" id="vivacity" rows="5"
-                                          placeholder="اضافه جميع الأنشطه  خلال  الفتره ">@if(!empty($mokasher->mokasher_geha_inputs->vivacity))
-                                        {{ $mokasher->mokasher_geha_inputs->vivacity }}
-                                    @endif</textarea>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label for="impediments"> المعوقات </label>
-                                <textarea class="form-control" name="impediments" id="impediments" rows="5"
-                                          placeholder="المعوقات">@if(!empty($mokasher->mokasher_geha_inputs->impediments))
-                                        {{ $mokasher->mokasher_geha_inputs->impediments }}
-                                    @endif</textarea>
-                            </div>
-                        </div>
-                        <div class="mb-2 text-center">
-                            <div class="spinner-border text-primary m-1 d-none" role="status"><span
-                                    class="sr-only"></span></div>
-                        </div>
-                        <button type="submit" id="submit-button" class="btn btn-primary w-md btn-lg">حفظ المدخلات
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="row mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h4> الأدله والشواهد </h4>
-
-                            @if(!empty($mokasher->mokasher_geha_inputs->files))
-                                @php
-                                    $files  = json_decode($mokasher->mokasher_geha_inputs->files) ;
-                                @endphp
-                                <table class="table table-bordered table-responsive table-striped">
-                                    <thead>
-                                    <th>تحميل الملفات</th>
-                                    <th>التحكم</th>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($files as $key => $file)
-                                        <tr>
-                                            <td><a href="{{ asset($file) }}">ملف # {{ $key + 1 }} <i
-                                                        class="fa fa-file"></i></a></td>
-                                            <td>
-                                                <form
-                                                    action="{{ route('sub_geha.delete.file', ['id' => $key , 'mokasher_id' => $mokasher->id]) }}"
-                                                    method="post">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <input type="hidden" name="id" value="{{$key}}">
-                                                    <button type="button" class="btn btn-danger btn-sm delete_btn_file">
-                                                        حذف
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            @else
-                                <p class="text-danger"> * لا يوجد اى أدله او شواهد </p>
-                            @endif
-
                     </div>
                 </div>
             </div>
@@ -167,6 +451,35 @@
                 $('#target').val(total);
             }
         });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#parts').on('change', function () {
+                var part_num = $(this).val();
+                if (part_num == 1) {
+                    $('#part_1').css('display', 'block');
+                    $('#part_2').css('display', 'none');
+                    $('#part_3').css('display', 'none');
+                    $('#part_4').css('display', 'none');
+                } else if (part_num == 2) {
+                    $('#part_1').css('display', 'none');
+                    $('#part_2').css('display', 'block');
+                    $('#part_3').css('display', 'none');
+                    $('#part_4').css('display', 'none');
+                } else if (part_num == 3) {
+                    $('#part_1').css('display', 'none');
+                    $('#part_2').css('display', 'none');
+                    $('#part_3').css('display', 'block');
+                    $('#part_4').css('display', 'none');
+                } else if (part_num == 4) {
+                    $('#part_1').css('display', 'none');
+                    $('#part_2').css('display', 'none');
+                    $('#part_3').css('display', 'none');
+                    $('#part_4').css('display', 'block');
+                }
+            });
+        });
+
     </script>
     @include('admins.courses.scripts.detect-input-change')
     @include('admins.courses.scripts.store')

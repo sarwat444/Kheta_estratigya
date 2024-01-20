@@ -14,6 +14,12 @@
                         <span key="t-maps">  الخطط الأستيراتيجيه</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{route('dashboard.users.admins')}}">
+                        <i class="bx bx-briefcase"></i>
+                        <span key="t-maps">مديري النظام</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

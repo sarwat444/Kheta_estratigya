@@ -7,12 +7,13 @@ use App\Http\Requests\Web\Admin\mokashers\StoreMokasherRequest;
 use App\Http\Requests\Web\Admin\mokashers\UpdateMokasherRequest;
 use App\Http\Requests\Web\Admin\users\StoremokasharatInputs;
 use Illuminate\Support\Facades\Auth;
-use App\Models\{Mokasher, MokasherGehaInput};
+use App\Models\{Execution_year, Mokasher, MokasherExecutionYear, MokasherGehaInput};
 use App\Models\MokasherInput;
 use App\Models\User;
 use App\Traits\ResponseJson;
 use Dotenv\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
@@ -29,10 +30,25 @@ class MokasherController extends Controller
 
     public function show($program_id = null): \Illuminate\View\View
     {
-        $mokashert = $this->mokasherModel->with('addedBy_fun')->where('program_id', $program_id)->get();
+        $selectedYear = Execution_year::whereHas('MokasherExcutionYears', function ($query) {
+            $query->where('value', '!=', '');
+        })->where('selected', 1)->first();
+
+
+        if ($selectedYear) {
+            $selectedYearId = $selectedYear->id;
+            $mokashert = $this->mokasherModel
+                ->whereHas('mokasher_execution_years', function ($query) use ($selectedYearId) {
+                    $query->where('year_id', $selectedYearId);
+                })
+                ->with('addedBy_fun', 'program')
+                ->where('program_id', $program_id)
+                ->get();
+        } else {
+            $mokashert = collect(); // Empty collection if no selected year is found
+        }
         return view('gehat.moksherat.index', compact('mokashert', 'program_id'));
     }
-
     public function create(): \Illuminate\View\View
     {
         return view('gehat.moksherat.create');
@@ -65,9 +81,18 @@ class MokasherController extends Controller
 
     public function mokaseerinput($mokasher_id)
     {
-        $users = User::get();
-        $mokasher = Mokasher::with('mokasher_inputs')->where('id', $mokasher_id)->first();
-        return view('gehat.moksherat.create_mokaseerinput', compact('users', 'mokasher_id', 'mokasher'));
+
+        $users = User::where('geha_id' , Auth::user()->id)->get();
+        $mokasher = Mokasher::with('mokasher_geha_inputs' , 'program.goal.objective.kheta')->with('mokasher_inputs')->where('id', $mokasher_id)->first();
+        $keta_id  = $mokasher->program->goal->objective->kheta->id ;
+
+        $selected_year = Execution_year::whereHas('MokasherExcutionYears')
+            ->where(['kheta_id' => $keta_id, 'selected' => 1])
+            ->first();
+
+        $selected_year_value = MokasherExecutionYear::where(['mokasher_id' => $mokasher_id, 'year_id' => $selected_year->id])
+            ->first();
+        return view('gehat.moksherat.create_mokaseerinput', compact('users', 'mokasher_id', 'mokasher' ,'selected_year_value' ,'selected_year'));
     }
 
     public function store_mokaseerinput(StoremokasharatInputs $StoremokasharatInputs)
@@ -83,7 +108,7 @@ class MokasherController extends Controller
         $validate = ValidatorFacade::make($request->all(), [
             'target' => 'required',
             'mokasher_id' => 'required',
-            'geha_id' => 'required',
+            'sub_geha_id' => 'required',
         ]);
 
         if ($validate->fails()) {
@@ -91,18 +116,29 @@ class MokasherController extends Controller
         }
 
         MokasherGehaInput::updateOrCreate(
-            ['mokasher_id' => $request->mokasher_id, 'target' => $request->target], ['geha_id' => $request->geha_id]
+            [
+               'mokasher_id' => $request->mokasher_id,
+               'year_id' => $request->year_id ,
+                'geha_id' => Auth::user()->id ,
+            ],
+            [
+                'sub_geha_id' => $request->sub_geha_id,
+                'target' => $request->target ,
+                'part_1' => $request->part_1 ,
+                'part_2' => $request->part_2 ,
+                'part_3' => $request->part_3 ,
+                'part_4' => $request->part_4 ,
+            ]
         );
-
         return redirect()->back()->with('success', 'تم توجيه المؤشر  للجهه بنجاح ');
     }
 
     public function sub_geha_moksherat()
     {
         $mokashert = Mokasher::whereHas('mokasher_geha_inputs', function ($query) {
-            $query->where('geha_id', Auth::user()->id);
+            $query->where('sub_geha_id', Auth::user()->id);
         })->with(['mokasher_geha_inputs' => function ($query) {
-            $query->where('geha_id', Auth::user()->id);
+            $query->where('sub_geha_id', Auth::user()->id);
         }])->get();
         return view('sub_geha.moksherat.index', compact('mokashert'));
     }
@@ -115,57 +151,235 @@ class MokasherController extends Controller
 
     public function store_sub_geha_mokasher_input(Request $request, $id)
     {
-        $input = MokasherGehaInput::updateOrCreate(
-            [
-                'geha_id' => $request->input('geha_id'),
-                'mokasher_id' => $request->input('mokasher_id')
-            ],
-            [
-                'vivacity' => $request->input('vivacity'),
-                'target' => $request->input('target'),
-                'part_1' => $request->input('part_1'),
-                'part_2' => $request->input('part_2'),
-                'part_3' => $request->input('part_3'),
-                'part_4' => $request->input('part_4'),
-                'impediments' => $request->input('impediments'),
-            ]
-        );
+        if(!empty($request->part)) {
+            $input = MokasherGehaInput::updateOrCreate(
+                [
+                    'geha_id' => $request->input('geha_id'),
+                    'mokasher_id' => $request->input('mokasher_id')
+                ],
+                [
+                    'vivacity' => $request->input('vivacity'),
+                    'target' => $request->input('target'),
+                    'part_1' => $request->input('part_1'),
+                    'part_2' => $request->input('part_2'),
+                    'part_3' => $request->input('part_3'),
+                    'part_4' => $request->input('part_4'),
+                    'impediments' => $request->input('impediments'),
+                ]
+            );
+            // Retrieve existing file paths
+            $existingFilePaths = $input->files ? json_decode($input->files, true) : [];
+            // Handle file uploads
+            if ($request->hasFile('files')) {
+                $files = $request->file('files');
+                $newFilePaths = [];
 
-        // Retrieve existing file paths
-        $existingFilePaths = $input->files ? json_decode($input->files, true) : [];
+                foreach ($files as $file) {
+                    // Generate a unique filename to avoid overwriting existing files
+                    $fileName = time() . '_' . $file->getClientOriginalName();
 
-        // Handle file uploads
-        if ($request->hasFile('files')) {
-            $files = $request->file('files');
-            $newFilePaths = [];
+                    // Store the file in the specified directory
+                    $filePath = $file->storeAs('public/uploads/files', $fileName);
 
-            foreach ($files as $file) {
-                // Generate a unique filename to avoid overwriting existing files
-                $fileName = time() . '_' . $file->getClientOriginalName();
-
-                // Store the file in the specified directory
-                $filePath = $file->storeAs('public/uploads/files', $fileName);
-
-                if ($filePath) {
-                    $newFilePaths[] = $filePath;
-                } else {
-                    throw new \Exception('File upload failed.');
+                    if ($filePath) {
+                        $newFilePaths[] = $filePath;
+                    } else {
+                        throw new \Exception('File upload failed.');
+                    }
                 }
+
+                // Merge existing file paths with new file paths
+                $mergedFilePaths = array_merge($existingFilePaths, $newFilePaths);
+
+                // Save the updated list of file paths
+                $input->files = json_encode($mergedFilePaths);
             }
+            // Save the model instance
+            $input->save();
 
-            // Merge existing file paths with new file paths
-            $mergedFilePaths = array_merge($existingFilePaths, $newFilePaths);
-
-            // Save the updated list of file paths
-            $input->files = json_encode($mergedFilePaths);
         }
-
-        // Save the model instance
-        $input->save();
-
         return redirect()->back()->with('success', 'لقد تم أدخال  بيانات المؤشر بنجاح ');
     }
 
+    /** Custom Function  To Store  الادله والشواهد والمعواقات  للجهات  */
+    public function store2_sub_geha_mokasher_input(Request $request, $id)
+    {
+        if(!empty($request->part)) {
+            if($request->part == 'part_1'){
+
+                $input = MokasherGehaInput::updateOrCreate(
+                    [
+                        'sub_geha_id' => $request->input('geha_id'),
+                        'mokasher_id' => $request->input('mokasher_id') ,
+                        'year_id' => $request->input('year_id')
+                    ],
+                    [
+                        'vivacity1' => $request->input('vivacity1'),
+                        'impediments1' => $request->input('impediments1'),
+                    ]
+                );
+                // Retrieve existing file paths
+                $existingFilePaths = $input->evidence1 ? json_decode($input->evidence1, true) : [];
+                // Handle file uploads
+                if ($request->hasFile('files1')) {
+                    $files = $request->file('files1');
+                    $newFilePaths = [];
+
+                    foreach ($files as $file) {
+                        // Generate a unique filename to avoid overwriting existing files
+                        $fileName = time() . '_' . $file->getClientOriginalName();
+
+                        // Store the file in the specified directory
+                        $filePath = $file->storeAs('public/uploads/files', $fileName);
+
+                        if ($filePath) {
+                            $newFilePaths[] = $filePath;
+                        } else {
+                            throw new \Exception('File upload failed.');
+                        }
+                    }
+
+                    // Merge existing file paths with new file paths
+                    $mergedFilePaths = array_merge($existingFilePaths, $newFilePaths);
+
+                    // Save the updated list of file paths
+                    $input->evidence1 = json_encode($mergedFilePaths);
+                }
+                // Save the model instance
+                $input->save();
+                return redirect()->back()->with('success', 'لقد تم أدخال  بيانات الربع الأول  بنجاح ');
+            }
+            if($request->part == 'part_2'){
+                $input = MokasherGehaInput::updateOrCreate(
+                    [
+                        'sub_geha_id' => $request->input('geha_id'),
+                        'mokasher_id' => $request->input('mokasher_id') ,
+                        'year_id' => $request->input('year_id')
+                    ],
+                    [
+                        'vivacity2' => $request->input('vivacity2'),
+                        'impediments2' => $request->input('impediments2'),
+                    ]
+                );
+                // Retrieve existing file paths
+                $existingFilePaths = $input->evidence2 ? json_decode($input->evidence2, true) : [];
+
+                // Handle file uploads
+                if ($request->hasFile('files2')) {
+                    $files = $request->file('files2');
+                    $newFilePaths = [];
+
+                    foreach ($files as $file) {
+                        // Generate a unique filename to avoid overwriting existing files
+                        $fileName = time() . '_' . $file->getClientOriginalName();
+
+                        // Store the file in the specified directory
+                        $filePath = $file->storeAs('public/uploads/files', $fileName);
+
+                        if ($filePath) {
+                            $newFilePaths[] = $filePath;
+                        } else {
+                            throw new \Exception('File upload failed.');
+                        }
+                    }
+
+                    // Merge existing file paths with new file paths
+                    $mergedFilePaths = array_merge($existingFilePaths, $newFilePaths);
+
+                    // Save the updated list of file paths
+                    $input->evidence2 = json_encode($mergedFilePaths);
+                }
+                // Save the model instance
+                $input->save();
+
+                return redirect()->back()->with('success', 'لقد تم أدخال  بيانات الربع الثانى  بنجاح ');
+            }
+            if($request->part == 'part_3'){
+                $input = MokasherGehaInput::updateOrCreate(
+                    [
+                        'sub_geha_id' => $request->input('geha_id'),
+                        'mokasher_id' => $request->input('mokasher_id') ,
+                        'year_id' => $request->input('year_id')
+                    ],
+                    [
+                        'vivacity3' => $request->input('vivacity3'),
+                        'impediments3' => $request->input('impediments3'),
+                    ]
+                );
+                // Retrieve existing file paths
+                $existingFilePaths = $input->evidence3 ? json_decode($input->evidence3, true) : [];
+                // Handle file uploads
+                if ($request->hasFile('files3')) {
+                    $files = $request->file('files3');
+                    $newFilePaths = [];
+
+                    foreach ($files as $file) {
+                        // Generate a unique filename to avoid overwriting existing files
+                        $fileName = time() . '_' . $file->getClientOriginalName();
+
+                        // Store the file in the specified directory
+                        $filePath = $file->storeAs('public/uploads/files', $fileName);
+
+                        if ($filePath) {
+                            $newFilePaths[] = $filePath;
+                        } else {
+                            throw new \Exception('File upload failed.');
+                        }
+                    }
+
+                    // Merge existing file paths with new file paths
+                    $mergedFilePaths = array_merge($existingFilePaths, $newFilePaths);
+
+                    // Save the updated list of file paths
+                    $input->evidence3 = json_encode($mergedFilePaths);
+                }
+                // Save the model instance
+                $input->save();
+
+                return redirect()->back()->with('success', 'لقد تم أدخال  بيانات الربع الثالث   بنجاح ');
+            }
+            if($request->part == 'part_4'){
+                $input = MokasherGehaInput::updateOrCreate(
+                    [
+                        'sub_geha_id' => $request->input('geha_id'),
+                        'mokasher_id' => $request->input('mokasher_id') ,
+                        'year_id' => $request->input('year_id')
+                    ],
+                    [
+                        'vivacity4' => $request->input('vivacity4'),
+                        'impediments4' => $request->input('impediments4'),
+                    ]
+                );
+                // Retrieve existing file paths
+                $existingFilePaths = $input->evidence4 ? json_decode($input->evidence4, true) : [];
+                // Handle file uploads
+                if ($request->hasFile('files4')) {
+                    $files = $request->file('files4');
+                    $newFilePaths = [];
+                    foreach ($files as $file) {
+                        // Generate a unique filename to avoid overwriting existing files
+                        $fileName = time() . '_' . $file->getClientOriginalName();
+
+                        // Store the file in the specified directory
+                        $filePath = $file->storeAs('public/uploads/files', $fileName);
+
+                        if ($filePath) {
+                            $newFilePaths[] = $filePath;
+                        } else {
+                            throw new \Exception('File upload failed.');
+                        }
+                    }
+                    // Merge existing file paths with new file paths
+                    $mergedFilePaths = array_merge($existingFilePaths, $newFilePaths);
+                    // Save the updated list of file paths
+                    $input->evidence4 = json_encode($mergedFilePaths);
+                }
+                // Save the model instance
+                $input->save();
+                return redirect()->back()->with('success', 'لقد تم أدخال  بيانات الربع الثالث   بنجاح ');
+            }
+        }
+    }
     public function  mokasherData($id)
     {
       $mokaser_data  =  Mokasher::with('mokasher_geha_inputs' , 'mokasher_inputs')->where('id' , $id)->first() ;

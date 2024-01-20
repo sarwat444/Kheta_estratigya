@@ -89,7 +89,7 @@ class MokasherController extends Controller
     }
     public  function create_mokashrt_geha_data($id =null)
     {
-         $mokasher_data = Mokasher::find($id) ;
+         $mokasher_data = Mokasher::with('mokasher_geha_inputs')->find($id) ;
          return view('gehat.moksherat.create_mokaseerinput', compact('mokasher_data'));
     }
 }

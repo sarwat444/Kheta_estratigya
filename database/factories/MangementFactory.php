@@ -19,6 +19,7 @@ class MangementFactory extends Factory
         return [
             'name' =>  'كليه الحاسبات جامعه ينها',
             'top_mangement' => 0 ,
+            'kheta_id' => 1
         ];
     }
 }

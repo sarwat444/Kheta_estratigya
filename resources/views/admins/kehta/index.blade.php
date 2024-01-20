@@ -2,7 +2,7 @@
 @push('title','الخطط الأستراتيجيه')
 
 @push('styles')
-    <link href="{{asset('/assets/admin/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet"
+    <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet"
           type="text/css"/>
 @endpush
 @section('content')
@@ -63,10 +63,10 @@
     @include('admins.kehta.modals.edit-modal')
 @endsection
 @push('scripts')
-    <script src="{{asset('/assets/admin/libs/sweetalert2/sweetalert2.min.js')}}"></script>
-    <script src="{{asset('/assets/admin/js/pages/sweet-alerts.init.js')}}"></script>
-    <script src="{{asset('/assets/admin/libs/jquery.repeater/jquery.repeater.min.js')}}"></script>
-    <script src="{{asset('/assets/admin/js/pages/form-repeater.int.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/sweetalert2/sweetalert2.min.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/sweet-alerts.init.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/jquery.repeater/jquery.repeater.min.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/form-repeater.int.js')}}"></script>
 
     @include('admins.kehta.scripts.store')
     @include('admins.kehta.scripts.delete')

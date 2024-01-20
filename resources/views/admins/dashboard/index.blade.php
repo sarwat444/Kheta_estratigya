@@ -1,15 +1,6 @@
 @extends('admins.layouts.app')
-
 @push('title', __('admin-dashboard.Dashboard'))
-
-
-
-
-
 @section('content')
-
-
-
     <div class="row">
         <div class="col-xl-6">
                     <div class="d-flex flex-wrap gap-2 mb-3">
@@ -217,8 +208,8 @@
 @endsection
 @push('scripts')
 
-     <script src="{{asset('/assets/admin/libs/apexcharts/apexcharts.min.js')}}"></script>
-     <script src="{{asset('/assets/admin/js/pages/dashboard.init.js')}}"></script>
+     <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/apexcharts/apexcharts.min.js')}}"></script>
+     <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/dashboard.init.js')}}"></script>
     <script>
         options = {
             chart: {height: 200, type: "radialBar", offsetY: -10},

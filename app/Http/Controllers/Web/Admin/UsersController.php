@@ -41,7 +41,14 @@ class UsersController extends Controller
     }
     public function store(StoreUserRequest $storeUserRequest): \Illuminate\Http\RedirectResponse
     {
-        $this->user->create($storeUserRequest->safe()->except(['_token']));
+
+        $user = new User() ;
+        $user->job_number = $storeUserRequest->job_number ;
+        $user->password = Hash::make($storeUserRequest->password) ;
+        $user->geha = $storeUserRequest->geha ;
+        $user->is_manger =  1  ;
+        $user->kehta_id   = $storeUserRequest->kehta_id ;
+        $user->save() ;
         return  redirect()->back()->with('success' , 'تم أضافه الجهه بنجاح') ;
     }
     public function  edit($id = null ):\Illuminate\View\View

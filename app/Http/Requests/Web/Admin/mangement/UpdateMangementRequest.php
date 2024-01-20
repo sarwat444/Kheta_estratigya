@@ -25,7 +25,8 @@ class UpdateMangementRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:3', 'max:900'] ,
-            'top_mangement' => ['sometimes']
+            'top_mangement' => ['sometimes'] ,
+            'kheta_id' =>['sometimes']
         ];
     }
 }

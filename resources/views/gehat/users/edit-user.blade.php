@@ -2,7 +2,7 @@
 @push('title','تعديل بيانات الجهه')
 
 @push('styles')
-    <link href="{{asset('/assets/admin/libs/select2/css/select2.min.css')}}" rel="stylesheet"
+    <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/css/select2.min.css')}}" rel="stylesheet"
           type="text/css"/>
     <style>
         input[switch]{
@@ -43,20 +43,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-4">
-                                    <label for="role_name" class="form-label">الأداره </label>
-                                    <select name="mangement_id" id="mangement_id" class="form-control select2" required>
-                                        <option disabled selected>تحديد الأداره</option>
-                                        @foreach($mangements as $mangement)
-                                            <option value="{{ $mangement->id }}" @if($mangement->id == $user->mangemnet->id) selected @endif> {{$mangement->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
+                        <input type="hidden" name="geha_id" value="{{\Illuminate\Support\Facades\Auth::user()->id}}">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-4">
@@ -79,8 +66,8 @@
 @endsection
 
 @push('scripts')
-    <script src="{{asset('/assets/admin/libs/select2/js/select2.min.js')}}"></script>
-    <script src="{{asset('/assets/admin/js/pages/form-advanced.init.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/js/select2.min.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/form-advanced.init.js')}}"></script>
     @include('admins.courses.scripts.detect-input-change')
     @include('admins.users.scripts.update-user')
 @endpush

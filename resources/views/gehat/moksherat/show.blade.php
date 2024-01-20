@@ -1,7 +1,7 @@
 @extends('gehat.layouts.app')
 @push('title','عرض بيانات المؤشر')
 @push('styles')
-    <link href="{{asset('/assets/admin/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
 @endpush
 @section('content')
     <div class="row">
@@ -66,9 +66,9 @@
 
 
             @push('scripts')
-                <script src="{{asset('/assets/admin/libs/select2/js/select2.min.js')}}"></script>
-                <script src="{{asset('/assets/admin/js/pages/form-advanced.init.js')}}"></script>
-                <script src="{{asset('/assets/admin/libs/jquery.repeater/jquery.repeater.min.js')}}"></script>
-                <script src="{{asset('/assets/admin/js/pages/form-repeater.int.js')}}"></script>
+                <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/js/select2.min.js')}}"></script>
+                <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/form-advanced.init.js')}}"></script>
+                <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/jquery.repeater/jquery.repeater.min.js')}}"></script>
+                <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/form-repeater.int.js')}}"></script>
     @include('admins.courses.scripts.detect-input-change')
     @endpush

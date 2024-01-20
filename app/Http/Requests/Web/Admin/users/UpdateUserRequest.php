@@ -27,8 +27,8 @@ class UpdateUserRequest extends FormRequest
             'job_number'  => ['required']  ,
             'password' => ['sometimes'] ,
             'geha' => ['required']  ,
-            'mangement_id' =>['required'] ,
             'is_manger' => ['sometimes'] ,
+            'geha_id'  => ['sometimes'] ,
             'kehta_id' => ['sometimes']
         ];
     }

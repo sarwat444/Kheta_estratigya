@@ -27,9 +27,9 @@ class StoreUserRequest extends FormRequest
              'job_number'  => ['required'  , 'unique:users']  ,
              'password' => ['required'] ,
              'geha' => ['required']  ,
-             'mangement_id' =>['required'] ,
              'is_manger' => ['sometimes'] ,
-             'kehta_id' => ['required']
+             'geha_id'  => ['required'] ,
+             'kehta_id' => ['sometimes']
         ];
     }
 }

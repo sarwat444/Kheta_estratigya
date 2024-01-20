@@ -8,7 +8,7 @@ use App\Http\Requests\Web\Admin\Goals\UpdateGoolRequest;
 use App\Models\Goal;
 use App\Traits\ResponseJson;
 use Illuminate\Http\Request;
-use App\Models\objective ;
+use App\Models\Objective ;
 use Symfony\Component\HttpFoundation\Response;
 
 class GoalController extends Controller

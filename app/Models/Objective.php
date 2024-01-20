@@ -20,6 +20,6 @@ class Objective extends Model
      */
     public function kheta()
     {
-        return $this->belongsTo(kheta::class, 'kheta_id', 'id');
+        return $this->belongsTo(Kheta::class, 'kheta_id', 'id');
     }
 }

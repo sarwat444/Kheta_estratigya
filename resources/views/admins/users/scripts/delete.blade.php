@@ -1,14 +1,14 @@
 <script>
-    $(document).on('click','.confirm-delete',function (event) {
+    $('.confirm-delete').click(function (event) {
         let form = $(this).closest("form");
         event.preventDefault();
         Swal.fire({
-            title: "هل متاكد من الحذف ؟ ",
+            title: "هل متاكد من الحذف",
             icon: "warning",
             showCancelButton: !0,
             confirmButtonColor: "green",
             cancelButtonColor: "red",
-            confirmButtonText: "حذف",
+            confirmButtonText: "نعم",
             cancelButtonText: "تجاهل",
         }).then((result) => {
             if (result.value) {

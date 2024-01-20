@@ -12,7 +12,7 @@ class GoalController extends Controller
     {}
     public  function  show($objective_id =null)
     {
-        $goals = $this->goalModel->withCount('programs')->where('objective_id' , $objective_id )->get();
+        $goals = $this->goalModel->with('objective')->withCount('programs')->where('objective_id' , $objective_id )->get();
         return view('gehat.goals.index', compact('goals' , 'objective_id' ));
     }
 }

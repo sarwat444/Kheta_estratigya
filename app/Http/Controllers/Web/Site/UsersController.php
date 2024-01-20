@@ -19,7 +19,7 @@ class UsersController extends Controller
     }
     public function index()
     {
-        $users  =  $this->user->with('mangemnet')->where(['mangement_id'=>Auth::user()->id])->get() ;
+        $users  =  $this->user->where(['geha_id'=>Auth::user()->id])->get() ;
         return  view('gehat.users.index')->with(compact('users')) ;
     }
     public function create()

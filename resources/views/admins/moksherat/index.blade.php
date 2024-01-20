@@ -1,14 +1,14 @@
 @extends('admins.layouts.app')
 
-@push('title','المؤشرات'))
+@push('title','المؤشرات')
 
 @push('styles')
-    <link href="{{asset('/assets/admin/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
     <!-- DataTables -->
-    <link href="{{asset('/assets/admin/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('/assets/admin/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Responsive datatable examples -->
-    <link href="{{asset('/assets/admin/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 
 @endpush
 @section('content')
@@ -52,7 +52,17 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td style="text-align: right">{{ $mokasher->name }} </td>
-                                <td style="text-align: right">{{ $mokasher->type }} </td>
+                                <td style="text-align: right">
+                                    @if($mokasher->type == 0 )
+                                        مؤشر وزاره
+                                    @elseif($mokasher->type == 1 )
+                                        مؤشر جامعه
+                                    @elseif($mokasher->type == 2 )
+                                        مؤشر كليه
+                                    @else
+                                        الكل
+                                    @endif
+                                </td>
                                 <td><a  class="btn btn-success btn btn-sm" href="{{ route('dashboard.moksherat.mokaseerinput', $mokasher->id) }}"> مدخلات المؤشر </a></td>
                                 <td>
                                     <div class="btn-group">
@@ -83,16 +93,16 @@
 @endsection
 @push('scripts')
 
-    <script src="{{asset('/assets/admin/libs/sweetalert2/sweetalert2.min.js')}}"></script>
-    <script src="{{asset('/assets/admin/js/pages/sweet-alerts.init.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/sweetalert2/sweetalert2.min.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/sweet-alerts.init.js')}}"></script>
     <!-- Required datatable js -->
-    <script src="{{asset('/assets/admin/libs/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('assets/admin/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'assets/admin/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
     <!-- Responsive examples -->
-    <script src="{{asset('/assets/admin/libs/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('/assets/admin/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}"></script>
     <!-- Datatable init js -->
-    <script src="{{asset('/assets/admin/js/pages/datatables.init.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/datatables.init.js')}}"></script>
 
 
     @include('admins.moksherat.scripts.store')

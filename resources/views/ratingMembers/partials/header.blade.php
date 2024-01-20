@@ -22,7 +22,7 @@
                                     <img src="{{asset('/assets/admin/images/logo-light.png')}}" style="margin-top: 54px " alt="" height="80" >
                                 </span>
                 </a>
-                <h1 class="font-size-14 mt-2" style="color: #fff">الخطه الأستراتيجيه لجامعه بنها</h1>
+                <h1 class="font-size-14 mt-2" style="color: #fff"> نظام أداء جامعه بنها </h1>
             </div>
 
             <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect" id="vertical-menu-btn">

@@ -18,9 +18,9 @@ use App\Http\Controllers\Web\Admin\{CourseController,
     KhetaController ,
     RatingMembersController
 };
-
 use App\Http\Controllers\Web\Admin\Setting\{CourseSettingController};
 use Illuminate\Support\Facades\Route;
+CONST PUBLIC_PATH  = '' ;
 
 /** admin auth routes */
 Route::controller(LoginController::class)->prefix('admins')->group(function () {

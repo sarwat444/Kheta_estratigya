@@ -59,15 +59,16 @@ class KhetaController extends Controller
         return redirect()->route('dashboard.kheta.index')->with('success', ' تم  حذف الخطه  بنجاح');
     }
 
-    public function edit( $kheta_id = null): \Illuminate\Http\JsonResponse
+    public function edit($kheta_id): \Illuminate\Http\JsonResponse
     {
         $kheta = Kheta::find($kheta_id) ;
         return $this->responseJson(['data' => $kheta], Response::HTTP_OK);
     }
 
-    public function update(UpdateKhetaRequest $UpdateKhetaRequest, Kheta $kheta): \Illuminate\Http\RedirectResponse
+    public function update(UpdateKhetaRequest $UpdateKhetaRequest,  $kheta_id): \Illuminate\Http\RedirectResponse
     {
-        $goal->update($UpdateKhetaRequest->validated());
+        $kheta = Kheta::find($kheta_id)  ; 
+        $kheta->update($UpdateKhetaRequest->validated());
         return redirect()->route('dashboard.kheta.index' )->with('success', ' تم  تعديل  الخطه بنجاح  ');
     }
 }

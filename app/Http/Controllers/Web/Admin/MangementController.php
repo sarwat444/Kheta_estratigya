@@ -18,10 +18,11 @@ class MangementController extends Controller
     {
     }
 
-    public function index(): \Illuminate\View\View
+    public function show($kheta_id): \Illuminate\View\View
     {
+        $kheta = Kheta::find($kheta_id) ;
         $mangements = $this->mangementModel->get();
-        return view('admins.mangement.index', compact('mangements'));
+        return view('admins.mangement.index', compact('mangements' , 'kheta'));
     }
 
     public function create(): \Illuminate\View\View
@@ -55,7 +56,7 @@ class MangementController extends Controller
     public function update(UpdateMangementRequest $UpdateMangementRequest, Mangement $mangement): \Illuminate\Http\RedirectResponse
     {
         $mangement->update($UpdateMangementRequest->validated());
-        return redirect()->route('dashboard.mangements.index')->with('success', 'Category updated successfully');
+        return redirect()->route('dashboard.mangements.show' , $mangement->kheta_id)->with('success', 'Category updated successfully');
     }
 
 

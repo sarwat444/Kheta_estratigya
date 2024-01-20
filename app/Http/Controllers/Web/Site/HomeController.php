@@ -25,19 +25,18 @@ class HomeController extends Controller
     }
     public function authenticate(Request $request)
     {
-        $credentials = $request->only('job_number', 'password');
-        if(Auth::attempt($credentials)) {
-                $user = Auth::user();
-                if ($user->is_manger == 1) {
-                    return redirect()->intended(route('gehat.index'));
-                } else {
-                    return redirect()->intended(route('sub_geha.index'));
-                }
-
-        }
-         else {
-            return view('gehat.auth.login')->with('error', 'Invalid credentials');
-        }
+            $credentials = $request->only('job_number', 'password');
+            if(Auth::attempt($credentials)) {
+                    $user = Auth::user();
+                    if ($user->is_manger == 1) {
+                        return redirect()->intended(route('gehat.index'));
+                    } else {
+                        return redirect()->intended(route('sub_geha.index'));
+                    }
+            }
+             else {
+                return view('gehat.auth.login')->with('error', 'Invalid credentials');
+            }
     }
     public  function logout()
     {

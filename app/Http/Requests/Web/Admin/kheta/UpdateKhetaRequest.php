@@ -24,7 +24,7 @@ class UpdateKhetaRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required' , 'min:3|max:400'] ,
+            'name' => ['required' , 'min:3' , 'max:400'] ,
              'years' => ['sometimes']
         ];
     }

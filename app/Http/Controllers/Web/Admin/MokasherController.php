@@ -13,6 +13,7 @@ use App\Models\Program;
 use App\Models\User;
 use App\Traits\ResponseJson;
 use Illuminate\Http\Request;
+use App\Models\MokasherExecutionYear ;
 use Symfony\Component\HttpFoundation\Response;
 class MokasherController extends Controller
 {
@@ -61,11 +62,14 @@ class MokasherController extends Controller
         $users = User::where('is_manger' , 1)->get() ;
         $mokasher = Mokasher::with('mokasher_inputs', 'mokasher_geha_inputs' , 'program' , 'program.goal.Objective.kheta')->find($mokasher_id) ;
         $kheta_id = $mokasher->program->goal->Objective->kheta->id ;
-        $excuction_years = Execution_year::where('kheta_id' ,$kheta_id)->get() ;
+        $excuction_years = Execution_year::with(['MokasherExcutionYears' => function ($query) use ($mokasher_id) {
+            $query->where('mokasher_id', $mokasher_id);
+        }])->where('kheta_id', $kheta_id)->get();
         return view('admins.moksherat.create_mokaseerinput' , compact('mokasher' ,'users' ,'mokasher_id' , 'excuction_years'));
     }
     public function store_mokaseerinput(StoremokasharatInputs $StoremokasharatInputs)
     {
+
         $mokasher_data = MokasherInput::updateOrCreate(
             ['mokasher_id' => $StoremokasharatInputs->mokasher_id],
             [
@@ -77,11 +81,17 @@ class MokasherController extends Controller
 
         if(!empty($StoremokasharatInputs->ids)) {
             foreach ($StoremokasharatInputs->ids as $Key => $id) {
-                Execution_year::where('id', $id)->update(['value'=> $StoremokasharatInputs->years[$Key]]);
+                    MokasherExecutionYear::updateOrCreate([
+                        'mokasher_id' => $StoremokasharatInputs->mokasher_id,
+                        'year_id' => $id ,
+                    ],
+                    [
+                        'value' => $StoremokasharatInputs->years[$Key]
+                    ]
+                );
             }
         }
         // Redirect back or return a response
         return redirect()->back()->with('success', 'تم أضافة بيانات المؤشر بنجاح');
     }
-
 }
