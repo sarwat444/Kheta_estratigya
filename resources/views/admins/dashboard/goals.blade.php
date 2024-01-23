@@ -1,34 +1,47 @@
 @extends('admins.layouts.app')
 @push('title', __('admin-dashboard.Dashboard'))
+<script src="{{asset('assets/admin/libs/apexcharts/apexcharts.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/pages/apexcharts.init.js')}}"></script>
 @section('content')
     <div class="row">
-        <div class="col-xl-6">
-            <div class="d-flex flex-wrap gap-2 mb-3">
-                <button type="button" class="btn btn-success waves-effect waves-light">الكل</button>
-                 @foreach($Execution_years as $year)
-                    <a href="{{route('dashboard.yearDashboard' , $year->id )}}"
-                       class="btn btn-primary waves-effect waves-light">{{$year->year_name}}</a>
-                @endforeach
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        @if(!empty($objectives))
-            @foreach ($objectives  as $objective)
+               @if(!empty($goals))
+                @foreach ($goals  as  $key =>  $goal)
+                    @php
+                        $total = 0 ;
+                        $programs_count  = $goal->programs_count ;
+                        if(!empty($goal->programs))
+                        {
+                            foreach ($goal->programs as $program){
+                                if(!empty($program->moksherat)){
+
+                                    $mokashaert_count[] = $program->moksherat->count();
+
+                                    foreach ($program->moksherat as $mokasher)
+                                    {
+                                        if(!empty($mokasher->mokasher_geha_inputs))
+                                        {
+                                               $total += $mokasher->mokasher_geha_inputs->percentage ;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    @endphp
+
                 <div class="col-sm-3">
                     <div class="card">
                         <div class="card-body">
-                            <a href="{{route('dashboard.goal_statastics', $objective->id )}}">
+                            <a href="{{route('dashboard.program_statastics', $goal->id )}}">
                                 <div class="d-flex align-items-center mb-3">
                                     <div class="avatar-xs me-3">
                                                 <span
                                                     class="avatar-title rounded-circle bg-primary bg-soft text-primary font-size-18"><i
                                                         class="bx bx-copy-alt"></i></span>
                                     </div>
-                                    <h5 class="font-size-14 mb-0">{{ $objective->objective }}</h5>
+                                    <h5 class="font-size-14 mb-0">{{ $goal->goal }}</h5>
                                 </div>
                                 <div class="text-muted mt-2">
-                                    <div id="radialBar-chart{{$objective->id}}"></div>
+                                    <div id="radialBar-chart{{$goal->id}}"></div>
                                 </div>
                             </a>
                         </div>
@@ -81,13 +94,27 @@
                             }
                         },
                         stroke: {dashArray: 4},
-                        series: [@if(!empty($goals_count) && $goals_count > 0 ){{round((($total/$mokashaert_count)/($programs_count))/$goals_count)}} @else 0 @endif],
+                        series: [
+                            @if(!empty($programs_count) && $programs_count > 0 )
+                                    @if(!empty($mokashaert_count[$key]))
+
+                                       {{round(($total/$mokashaert_count[$key])/($programs_count))}}
+                                    @else
+                                      0
+                                    @endif
+                                @else 0
+                            @endif
+                        ],
                         labels: [""]
                     };
-                    (chart = new ApexCharts(document.querySelector("#radialBar-chart{{$uniqueObjective->id}}"), options)).render();
+                    (chart = new ApexCharts(document.querySelector("#radialBar-chart{{$goal->id}}"), options)).render();
                 </script>
             @endforeach
         @endif
     </div>
- @endsection
+@endsection
+@push('scripts')
+
+@endpush
+
 

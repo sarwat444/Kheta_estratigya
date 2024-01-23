@@ -1,11 +1,13 @@
 @extends('admins.layouts.app')
 @push('title', __('admin-dashboard.Dashboard'))
+<script src="{{asset('assets/admin/libs/apexcharts/apexcharts.min.js')}}"></script>
+<script src="{{asset('assets/admin/js/pages/apexcharts.init.js')}}"></script>
 @section('content')
     <div class="row">
         <div class="col-xl-6">
             <div class="d-flex flex-wrap gap-2 mb-3">
                 <button type="button" class="btn btn-success waves-effect waves-light">الكل</button>
-                 @foreach($Execution_years as $year)
+                @foreach($Execution_years as $year)
                     <a href="{{route('dashboard.yearDashboard' , $year->id )}}"
                        class="btn btn-primary waves-effect waves-light">{{$year->year_name}}</a>
                 @endforeach
@@ -14,7 +16,40 @@
     </div>
     <div class="row">
         @if(!empty($objectives))
-            @foreach ($objectives  as $objective)
+            @foreach ($objectives  as $ob_key => $objective)
+                @php
+                     $goals_count = $objective->goals_count;
+                     $total = 0 ;
+                     $ob_mokasher = [];
+                     $programs_count= [] ;
+                @endphp
+                @if(!empty($objective->goals))
+                    @foreach ($objective->goals  as  $key =>  $goal)
+                        @php
+                            $programs_count  = $goal->programs->count() ;
+                            if(!empty($goal->programs))
+                            {
+                                foreach ($goal->programs as $program){
+                                    if(!empty($program->moksherat)){
+
+                                        $ob_mokasher[] = $program->moksherat->count();
+
+                                        foreach ($program->moksherat as $mokasher)
+                                        {
+                                            if(!empty($mokasher->mokasher_geha_inputs))
+                                            {
+                                                   $total += $mokasher->mokasher_geha_inputs->percentage ;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        @endphp
+                    @endforeach
+                @endif
+
+
+
                 <div class="col-sm-3">
                     <div class="card">
                         <div class="card-body">
@@ -81,13 +116,27 @@
                             }
                         },
                         stroke: {dashArray: 4},
-                        series: [@if(!empty($goals_count) && $goals_count > 0 ){{round((($total/$mokashaert_count)/($programs_count))/$goals_count)}} @else 0 @endif],
+                        series: [
+                            @if(!empty($goals_count) && $goals_count > 0 )
+                                @if(!empty($programs_count) && $programs_count > 0 )
+                                @if(!empty($ob_mokasher[$ob_key]) && $ob_mokasher[$ob_key] > 0 )
+                                {{round((($total/$ob_mokasher[$ob_key])/($programs_count))/($goals_count))}}
+                                @else
+                                0
+                            @endif
+                                @else
+                                0
+                            @endif
+                                @else
+                                0
+                            @endif
+                        ],
                         labels: [""]
                     };
-                    (chart = new ApexCharts(document.querySelector("#radialBar-chart{{$uniqueObjective->id}}"), options)).render();
+                    (chart = new ApexCharts(document.querySelector("#radialBar-chart{{$objective->id}}"), options)).render();
                 </script>
             @endforeach
         @endif
     </div>
- @endsection
+@endsection
 

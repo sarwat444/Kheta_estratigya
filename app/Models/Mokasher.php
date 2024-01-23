@@ -26,10 +26,6 @@ class Mokasher extends Model
         return $this->hasMany(MokasherExecutionYear::class , 'mokasher_id' , 'id') ;
 
     }
-
-
-
-
     public function program()
     {
         return $this->belongsTo(Program::class , 'program_id' , 'id') ;

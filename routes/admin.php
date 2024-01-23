@@ -46,7 +46,14 @@ Route::controller(NewPasswordController::class)->prefix('admins')->middleware('g
 /** admin dashboard routes */
 Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as' => 'dashboard.'], function () {
 
+
     Route::get('/', [DashboardController::class, 'index'])->name('index');
+    Route::get('/objectivesDashboard/{kheta_id}' , [DashboardController::class, 'kheta_dashboard'])->name('kheta_dashboard');
+    Route::get('/yearDashboard/{year_id}' , [DashboardController::class, 'yearDashboard'])->name('yearDashboard');
+    Route::get('/goal_statastics/{goal_id}' , [DashboardController::class, 'goal_statastics'])->name('goal_statastics');
+    Route::get('/program_statastics/{program_id}' , [DashboardController::class, 'program_statastics'])->name('program_statastics');
+    Route::get('/mokashrat_statastics/{program_id}' , [DashboardController::class, 'mokashrat_statastics'])->name('mokashrat_statastics');
+
 
     /** Kehat Routes */
     Route::resource('kheta', KhetaController::class);
