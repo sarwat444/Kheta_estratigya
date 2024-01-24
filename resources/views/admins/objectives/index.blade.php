@@ -26,7 +26,7 @@
         </div>
     </div>
     <div class="d-flex mb-4">
-        <a href="{{route('dashboard.kheta_dashboard',$kheta->id)}}" class="btn btn-primary btn-sm" style="margin-left: 5px"> لوحه التحكم </a>
+        <a href="{{route('dashboard.objectivesDashboard',$kheta->id)}}" class="btn btn-primary btn-sm" style="margin-left: 5px"> لوحه التحكم </a>
         <a href="{{route('dashboard.users.show',$kheta->id)}}" class="btn btn-success btn-sm" style="margin-left: 5px"> الجهات </a>
         <a href="{{route('dashboard.ratingMembers.show' ,$kheta->id )}}" class="btn btn-success btn-sm" style="margin-left: 5px">لجان التقييم</a>
     </div>

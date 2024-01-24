@@ -3,17 +3,17 @@
 <script src="{{asset('assets/admin/libs/apexcharts/apexcharts.min.js')}}"></script>
 <script src="{{asset('assets/admin/js/pages/apexcharts.init.js')}}"></script>
 @section('content')
-    <div class="row">
+
+    <div class="row mt-2">
         <div class="col-xl-6">
-            <div class="d-flex flex-wrap gap-2 mb-3">
-                <button type="button" class="btn btn-success waves-effect waves-light">الكل</button>
+            <div class="d-flex flex-wrap gap-2 mb-2">
                 @foreach($Execution_years as $year)
-                    <a href="{{route('dashboard.yearDashboard' , $year->id )}}"
-                       class="btn btn-primary waves-effect waves-light">{{$year->year_name}}</a>
+                    <a data-id="{{$year->id}}" href="{{ route('dashboard.objectivesDashboard', ['year_id' => $year->id , 'kheta_id' => $year->kheta_id]) }}" class="btn @if($year_id == $year->id) btn-success @else btn-primary  @endif   waves-effect waves-light">{{ $year->year_name }}</a>
                 @endforeach
             </div>
         </div>
     </div>
+
     <div class="row">
         @if(!empty($objectives))
             @foreach ($objectives  as $ob_key => $objective)
@@ -47,13 +47,10 @@
                         @endphp
                     @endforeach
                 @endif
-
-
-
                 <div class="col-sm-3">
                     <div class="card">
                         <div class="card-body">
-                            <a href="{{route('dashboard.goal_statastics', $objective->id )}}">
+                            <a  href="{{route('dashboard.goal_statastics',['kheta_id' => $kheta_id ,'objective_id' => $objective->id  ,'year_id' => 2])}}">
                                 <div class="d-flex align-items-center mb-3">
                                     <div class="avatar-xs me-3">
                                                 <span
@@ -139,4 +136,7 @@
         @endif
     </div>
 @endsection
+@push('scripts')
+
+@endpush
 

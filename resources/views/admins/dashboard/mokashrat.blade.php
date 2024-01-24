@@ -4,16 +4,39 @@
 <script src="{{asset('assets/admin/js/pages/apexcharts.init.js')}}"></script>
 @section('content')
     <div class="row">
-        <div class="col-xl-6">
-            <div class="d-flex flex-wrap gap-2 mb-3">
-                <button type="button" class="btn btn-success waves-effect waves-light">الكل</button>
-                @foreach($Execution_years as $year)
-                    <a href="{{route('dashboard.yearDashboard' , $year->id )}}"
-                       class="btn btn-primary waves-effect waves-light">{{$year->year_name}}</a>
-                @endforeach
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18">المؤشرات </h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">المؤشرات</a></li>
+                        <li class="breadcrumb-item active">  البرامج  </li>
+                    </ol>
+                </div>
+
             </div>
         </div>
     </div>
+
+    <div class="row mt-2">
+        <div class="col-xl-6">
+            <div class="d-flex flex-wrap gap-2 mb-2">
+                @foreach($Execution_years as $year)
+                    <a href="{{route('dashboard.mokashrat_statastics' ,['kheta_id'=>$kheta_id , 'program_id'=>$program_id , 'year_id' => $year->id]  )}}" class="btn @if($year_id == $year->id) btn-success @else btn-primary  @endif  waves-effect waves-light">{{$year->year_name}}</a>
+                @endforeach
+            </div>
+            <!--
+            <div class="buttons d-flex mb-2">
+                <button class="btn btn-primary btn-sm" style="margin-left: 5px">الربع الأول</button>
+                <button class="btn btn-primary btn-sm" style="margin-left: 5px">الربع الثانى </button>
+                <button class="btn btn-primary btn-sm" style="margin-left: 5px">الربع الثالث </button>
+                <button class="btn btn-primary btn-sm" style="margin-left: 5px">الربع الرابع </button>
+            </div>
+            -->
+        </div>
+    </div>
+
     <div class="row">
         @if(!empty($mokashers))
             @foreach ($mokashers  as $mokasher)
