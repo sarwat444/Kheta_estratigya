@@ -1,7 +1,7 @@
 @extends('sub_geha.layouts.app')
 @push('title','أضافه مدخلات المؤشر ')
 @push('styles')
-    <link href="{{asset('/assets/admin/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
     <style>
         #part_2,
         #part_3,
@@ -411,10 +411,10 @@
     </div>
 @endsection
 @push('scripts')
-    <script src="{{asset('/assets/admin/libs/select2/js/select2.min.js')}}"></script>
-    <script src="{{asset('/assets/admin/js/pages/form-advanced.init.js')}}"></script>
-    <script src="{{asset('/assets/admin/libs/jquery.repeater/jquery.repeater.min.js')}}"></script>
-    <script src="{{asset('/assets/admin/js/pages/form-repeater.int.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/js/select2.min.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/form-advanced.init.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/jquery.repeater/jquery.repeater.min.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/form-repeater.int.js')}}"></script>
     <script>
         $(document).ready(function () {
             $('.delete_btn_file').on('click', function () {

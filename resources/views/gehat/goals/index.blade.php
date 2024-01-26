@@ -10,6 +10,7 @@
     <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 @endpush
 @section('content')
+    @if(!empty($goals) && count($goals) > 0 )
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -25,6 +26,7 @@
             </div>
         </div>
     </div>
+    @endif
     <div class="row">
         <div class="col-12">
             <div class="card">

@@ -3,15 +3,9 @@
         <div id="sidebar-menu">
             <ul class="metismenu list-unstyled" id="side-menu" style="margin-top:45px">
                 <li>
-                    <a href="{{route('dashboard.index')}}">
-                        <i class="bx bx-home"></i>
-                        <span key="t-maps">لوحه التحكم </span>
-                    </a>
-                </li>
-                <li>
                     <a href="{{route('dashboard.kheta.index')}}">
                         <i class="bx bx-layout"></i>
-                        <span key="t-maps">  الخطط الأستيراتيجيه</span>
+                        <span key="t-maps">  الخطط </span>
                     </a>
                 </li>
                 <li>

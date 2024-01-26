@@ -1,6 +1,6 @@
 @extends('admins.layouts.app')
 
-@push('title',__('admin-dashboard.sections'))
+@push('title','مديري النظام')
 @push('styles')
     <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet"
           type="text/css"/>
@@ -70,5 +70,4 @@
     <script
         src="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}"></script>
     @include('admins.users.geaht.scripts.delete')
-    @include('admins.users.geaht.scripts.edit')
 @endpush

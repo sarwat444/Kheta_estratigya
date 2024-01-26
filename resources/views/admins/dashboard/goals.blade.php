@@ -1,7 +1,7 @@
 @extends('admins.layouts.app')
 @push('title', __('admin-dashboard.Dashboard'))
-<script src="{{asset('assets/admin/libs/apexcharts/apexcharts.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/pages/apexcharts.init.js')}}"></script>
+<script src="{{asset(PUBLIC_PATH.'assets/admin/libs/apexcharts/apexcharts.min.js')}}"></script>
+<script src="{{asset(PUBLIC_PATH.'assets/admin/js/pages/apexcharts.init.js')}}"></script>
 @section('content')
     <div class="row mt-2">
         <div class="col-xl-6">

@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\Web\Auth\Admin\{ForgetPasswordController, LoginController, NewPasswordController};
-use App\Http\Controllers\Web\Admin\{CourseController,
+use App\Http\Controllers\Web\Admin\{
+    CourseController,
     CourseSectionController,
     LessonController,
     SectionController,
@@ -18,9 +19,10 @@ use App\Http\Controllers\Web\Admin\{CourseController,
     KhetaController ,
     RatingMembersController
 };
+
 use App\Http\Controllers\Web\Admin\Setting\{CourseSettingController};
 use Illuminate\Support\Facades\Route;
-CONST PUBLIC_PATH  = '' ;
+CONST PUBLIC_PATH  = 'public/' ;
 
 /** admin auth routes */
 Route::controller(LoginController::class)->prefix('admins')->group(function () {
@@ -47,11 +49,11 @@ Route::controller(NewPasswordController::class)->prefix('admins')->middleware('g
 Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as' => 'dashboard.'], function () {
 
     Route::get('/yearDashboard/{year_id}' , [DashboardController::class, 'yearDashboard'])->name('yearDashboard');
-    Route::get('/', [DashboardController::class, 'index'])->name('index');
+    Route::get('/', [KhetaController::class , 'index'])->name('index');
     Route::get('/objectivesDashboard/{kheta_id}/{year_id?}' , [DashboardController::class, 'kheta_dashboard'])->name('objectivesDashboard');
     Route::get('/goal_statastics/{kheta_id}/{objective_id}/{year_id?}' , [DashboardController::class, 'goal_statastics'])->name('goal_statastics');
     Route::get('/program_statastics/{kheta_id}/{goal_id}/{year_id?}' , [DashboardController::class, 'program_statastics'])->name('program_statastics');
-    Route::get('/mokashrat_statastics/{kheta_id}/{program_id}/{year_id?}' , [DashboardController::class, 'mokashrat_statastics'])->name('mokashrat_statastics');
+    Route::get('/mokashrat_statastics/{kheta_id}/{program_id}/{year_id?}/{part?}' , [DashboardController::class, 'mokashrat_statastics'])->name('mokashrat_statastics');
 
     /** Filter With Year */
     Route::get('/mokasherat_year/{year_id}' , [DashboardController::class, 'mokasherat_year'])->name('mokasherat_year');

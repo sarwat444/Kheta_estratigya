@@ -1,7 +1,7 @@
 @extends('admins.layouts.app')
 @push('title', __('admin-dashboard.Dashboard'))
-<script src="{{asset('assets/admin/libs/apexcharts/apexcharts.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/pages/apexcharts.init.js')}}"></script>
+<script src="{{asset(PUBLIC_PATH.'assets/admin/libs/apexcharts/apexcharts.min.js')}}"></script>
+<script src="{{asset(PUBLIC_PATH.'assets/admin/js/pages/apexcharts.init.js')}}"></script>
 @section('content')
 
     <div class="row mt-2">
@@ -50,7 +50,7 @@
                 <div class="col-sm-3">
                     <div class="card">
                         <div class="card-body">
-                            <a  href="{{route('dashboard.goal_statastics',['kheta_id' => $kheta_id ,'objective_id' => $objective->id  ,'year_id' => 2])}}">
+                            <a  href="{{route('dashboard.goal_statastics',['kheta_id' => $kheta_id ,'objective_id' => $objective->id  ,'year_id' => $year_id])}}">
                                 <div class="d-flex align-items-center mb-3">
                                     <div class="avatar-xs me-3">
                                                 <span

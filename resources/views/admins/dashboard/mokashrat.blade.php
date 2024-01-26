@@ -1,7 +1,7 @@
 @extends('admins.layouts.app')
 @push('title', __('admin-dashboard.Dashboard'))
-<script src="{{asset('assets/admin/libs/apexcharts/apexcharts.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/pages/apexcharts.init.js')}}"></script>
+<script src="{{asset(PUBLIC_PATH.'assets/admin/libs/apexcharts/apexcharts.min.js')}}"></script>
+<script src="{{asset(PUBLIC_PATH.'assets/admin/js/pages/apexcharts.init.js')}}"></script>
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -21,19 +21,19 @@
 
     <div class="row mt-2">
         <div class="col-xl-6">
-            <div class="d-flex flex-wrap gap-2 mb-2">
+            <div class="d-flex flex-wrap gap-2 mb-3">
                 @foreach($Execution_years as $year)
                     <a href="{{route('dashboard.mokashrat_statastics' ,['kheta_id'=>$kheta_id , 'program_id'=>$program_id , 'year_id' => $year->id]  )}}" class="btn @if($year_id == $year->id) btn-success @else btn-primary  @endif  waves-effect waves-light">{{$year->year_name}}</a>
                 @endforeach
             </div>
-            <!--
+
             <div class="buttons d-flex mb-2">
-                <button class="btn btn-primary btn-sm" style="margin-left: 5px">الربع الأول</button>
-                <button class="btn btn-primary btn-sm" style="margin-left: 5px">الربع الثانى </button>
-                <button class="btn btn-primary btn-sm" style="margin-left: 5px">الربع الثالث </button>
-                <button class="btn btn-primary btn-sm" style="margin-left: 5px">الربع الرابع </button>
+                <a href="{{route('dashboard.mokashrat_statastics' ,['kheta_id'=>$kheta_id , 'program_id'=>$program_id , 'year_id' => $year_id , 'part' => 1])}}"  class="btn @if(!empty($part))@if($part == 1 ) btn-success @else btn-primary  @endif @else btn-primary  @endif btn-sm" style="margin-left: 5px">الربع الأول</a>
+                <a  href="{{route('dashboard.mokashrat_statastics' ,['kheta_id'=>$kheta_id , 'program_id'=>$program_id , 'year_id' => $year_id, 'part' => 2])}}"  class="btn @if(!empty($part))@if($part == 2 ) btn-success @else btn-primary  @endif @else btn-primary  @endif btn-sm" style="margin-left: 5px">الربع الثانى </a>
+                <a href="{{route('dashboard.mokashrat_statastics' ,['kheta_id'=>$kheta_id , 'program_id'=>$program_id , 'year_id' => $year_id , 'part' => 3])}}"  class="btn @if(!empty($part))@if($part == 3 ) btn-success @else btn-primary  @endif @else btn-primary  @endif btn-sm" style="margin-left: 5px">الربع الثالث </a>
+                <a  href="{{route('dashboard.mokashrat_statastics' ,['kheta_id'=>$kheta_id , 'program_id'=>$program_id , 'year_id' =>$year_id , 'part' => 4])}}"  class="btn @if(!empty($part))@if($part == 4 ) btn-success @else btn-primary  @endif @else btn-primary  @endif btn-sm" style="margin-left: 5px">الربع الرابع </a>
             </div>
-            -->
+
         </div>
     </div>
 
