@@ -21,6 +21,8 @@ Route::group(['as' => 'gehat.', 'middleware' => ['auth','checkIsManger']], funct
 
     Route::get('/gehat', [HomeController::class, 'index'])->name('index');
 
+    Route::post('update_mokasher_parts' ,  [MokasherController::class , 'update_mokasher_parts'])->name('update_mokasher_parts') ;
+
     /** Objectives  routes */
     Route::resource('objectives', ObjectiveController::class);
 
@@ -40,6 +42,8 @@ Route::group(['as' => 'gehat.', 'middleware' => ['auth','checkIsManger']], funct
     Route::post('redirect_mokasher/{id}' , [MokasherController::class , 'redirect_mokasher'])->name('redirect_mokasher') ;
 
     Route::get('mokasherData/{id}' , [MokasherController::class , 'mokasherData'])->name('mokasherData') ;
+
+
 
     Route::post('/gehat_logout' , [HomeController::class ,  'logout'])->name('Gehtlogout');
 

@@ -30,7 +30,7 @@
                                             @foreach($users as $user)
                                                 <option value="{{$user->id}}"
                                                  @if(!empty($mokasher->mokasher_geha_inputs))
-                                                     @if($mokasher->mokasher_geha_inputs->geha_id == $user->id ) selected @endif
+                                                     @if($mokasher->mokasher_geha_inputs->sub_geha_id == $user->id ) selected @endif
                                                  @endif
                                                 > {{$user->geha}} </option>
                                             @endforeach
@@ -38,42 +38,6 @@
                                     </div>
                             </div>
                         </div>
-                        <div class="row mb-2">
-
-                        </div>
-                         <label class="text-primary">المنجز  خلال الفتره</label>
-                         @if(!empty($mokasher->mokasher_geha_inputs))
-                         <div class="row mb-3">
-                             <div class="col-md-2">
-                                 <input type="text" name="part_1" class="form-control" value="{{$mokasher->mokasher_geha_inputs->part_1}}" placeholder="الربع الأول">
-                             </div>
-                             <div class="col-md-2">
-                                 <input type="text" name="part_2" class="form-control" value="{{$mokasher->mokasher_geha_inputs->part_2}}" placeholder="الربع الأول">
-                             </div>
-                             <div class="col-md-2">
-                                 <input type="text" name="part_3" class="form-control" value="{{$mokasher->mokasher_geha_inputs->part_3}}" placeholder="الربع الأول">
-                             </div>
-                             <div class="col-md-2">
-                                 <input type="text" name="part_4" class="form-control" value="{{$mokasher->mokasher_geha_inputs->part_4}}" placeholder="الربع الأول">
-                             </div>
-                         </div>
-                         @else
-                             <div class="row mb-3">
-                                 <div class="col-md-2">
-                                     <input type="text" name="part_1" class="form-control" placeholder="الربع الأول">
-                                 </div>
-                                 <div class="col-md-2">
-                                     <input type="text" name="part_2" class="form-control"  placeholder="الربع الأول">
-                                 </div>
-                                 <div class="col-md-2">
-                                     <input type="text" name="part_3" class="form-control" placeholder="الربع الأول">
-                                 </div>
-                                 <div class="col-md-2">
-                                     <input type="text" name="part_4" class="form-control" placeholder="الربع الأول">
-                                 </div>
-                             </div>
-                         @endif
-
                          <div class="mb-2 text-center">
                              <div class="spinner-border text-primary m-1 d-none" role="status"><span class="sr-only"></span></div>
                          </div>

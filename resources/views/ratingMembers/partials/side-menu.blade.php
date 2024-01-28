@@ -3,7 +3,7 @@
         <div id="sidebar-menu">
             <ul class="metismenu list-unstyled" id="side-menu" style="margin-top:45px">
                 <li>
-                    <a href="{{route('rating.rating_mokshart.view')}}">
+                    <a href="{{route('rating.rating_gehat')}}">
                         <i class="bx bx-user-circle"></i>
                         <span key="t-maps"> الجهات </span>
                     </a>

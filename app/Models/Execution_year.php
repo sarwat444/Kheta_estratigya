@@ -11,6 +11,6 @@ class Execution_year extends Model
 
     public function MokasherExcutionYears()
     {
-        return $this->hasMany(MokasherExecutionYear::class , 'year_id' ,'id') ;
+        return $this->hasOne(MokasherExecutionYear::class , 'year_id' ,'id') ;
     }
 }

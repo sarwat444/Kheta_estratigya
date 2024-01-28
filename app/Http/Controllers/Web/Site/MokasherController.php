@@ -41,7 +41,7 @@ class MokasherController extends Controller
                 ->whereHas('mokasher_execution_years', function ($query) use ($selectedYearId) {
                     $query->where('year_id', $selectedYearId);
                 })
-                ->with('addedBy_fun', 'program')
+                ->with('mokasher_geha_inputs' ,'addedBy_fun', 'program')
                 ->where('program_id', $program_id)
                 ->get();
         } else {
@@ -105,8 +105,8 @@ class MokasherController extends Controller
 
     public function redirect_mokasher(Request $request, $id)
     {
+
         $validate = ValidatorFacade::make($request->all(), [
-            'target' => 'required',
             'mokasher_id' => 'required',
             'sub_geha_id' => 'required',
         ]);
@@ -114,20 +114,14 @@ class MokasherController extends Controller
         if ($validate->fails()) {
             return redirect()->back()->with('error', 'يوجد خطا  ما  ');
         }
-
         MokasherGehaInput::updateOrCreate(
             [
-               'mokasher_id' => $request->mokasher_id,
-               'year_id' => $request->year_id ,
-                'geha_id' => Auth::user()->id ,
+                'mokasher_id' => $request->mokasher_id,
+                'geha_id' => Auth::user()->id
             ],
             [
-                'sub_geha_id' => $request->sub_geha_id,
-                'target' => $request->target ,
-                'part_1' => $request->part_1 ,
-                'part_2' => $request->part_2 ,
-                'part_3' => $request->part_3 ,
-                'part_4' => $request->part_4 ,
+                'sub_geha_id' => $request->sub_geha_id ,
+                'year_id' => $request->year_id
             ]
         );
         return redirect()->back()->with('success', 'تم توجيه المؤشر  للجهه بنجاح ');
@@ -417,5 +411,23 @@ class MokasherController extends Controller
         }
 
         return redirect()->back()->with('error', 'تعذر العثور على الملف');
+    }
+    public  function update_mokasher_parts(Request $request)
+    {
+        if($request->part == 1 ) {
+            MokasherGehaInput::where('id', $request->mokasher_geha_id)->update(['part_1' => $request->part_1]) ;
+        }else if($request->part == 2)
+        {
+            MokasherGehaInput::where('id', $request->mokasher_geha_id)->update(['part_2'=> $request->part_2]) ;
+        }
+        else if($request->part == 3)
+        {
+            MokasherGehaInput::where('id', $request->mokasher_geha_id)->update(['part_3'=> $request->part_3]) ;
+        }
+        else if($request->part == 4)
+        {
+            MokasherGehaInput::where('id', $request->mokasher_geha_id)->update(['part_4'=> $request->part_4]) ;
+        }
+        return redirect()->back()->with('success' ,  'تم  تعديل  بيانات  المؤشر بنجاح ') ;
     }
 }

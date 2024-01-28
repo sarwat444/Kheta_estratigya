@@ -46,11 +46,15 @@ class RatingMembersController extends Controller
     }
     public function rating_mokshart($user_id)
     {
+        $mokasher_geha_input = MokasherGehaInput::where('geha_id', $user_id)->get();
+        $mokashert = [];
 
-        $mokashert = Mokasher::whereHas('mokasher_geha_inputs', function ($query) use ($user_id) {
-            $query->where('geha_id',$user_id );
-        })->get();
-        return  view('ratingMembers.moksherat.index' ,compact('mokashert'));
+        if (!$mokasher_geha_input->isEmpty()) {
+            $mokasher_ids = $mokasher_geha_input->pluck('mokasher_id')->toArray();
+            $mokashert = Mokasher::with('addedBy_fun')->whereIn('id', $mokasher_ids)->get();
+        }
+
+        return view('ratingMembers.moksherat.index', compact('mokashert'));
     }
 
     public function ratinginput ($mokasher_geha_id)

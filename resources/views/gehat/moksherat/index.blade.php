@@ -60,10 +60,27 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td style="text-align: right">{{ $mokasher->name }} </td>
-                                <td style="text-align: right">{{ $mokasher->type }} </td>
+                                <td style="text-align: right">
+                                    @if($mokasher->type  == 0 )
+                                        وزاره
+                                    @elseif($mokasher->type  ==  1)
+                                        كليه
+                                    @elseif($mokasher->type  ==  2)
+                                        جامعه
+                                    @elseif($mokasher->type  ==  3)
+                                        الكل
+                                    @else
+                                    @endif
+                                </td>
                                 <td>  @if( $mokasher->addedBy == 0 ) الأداره@else {{ $mokasher->addedBy_fun->geha }} @endif  </td>
-                                <td><a  class="btn btn-success btn btn-sm" href="{{ route('gehat.mokaseerinput', $mokasher->id) }}"> توجيه المؤشر </a></td>
-                                <td><a  class="btn btn-primary  btn btn-sm" href="{{ route('gehat.mokasherData', $mokasher->id) }}"> عرض المؤشر </a></td>
+                                <td><a  class="btn btn-primary  btn-sm" href="{{ route('gehat.mokaseerinput', $mokasher->id) }}"> توجيه المؤشر </a></td>
+                                <td>
+                                    @if(!empty($mokasher->mokasher_geha_inputs))
+                                         <a  class="btn btn-primary  btn btn-sm" href="{{ route('gehat.mokasherData', $mokasher->id) }}"> عرض المؤشر </a>
+                                    @else
+                                        <span class="text-danger"> توجيه المؤشر أولا</span>
+                                    @endif
+                                </td>
 
                                 <td>
                                     @if($mokasher->addedBy == \Illuminate\Support\Facades\Auth::user()->id )

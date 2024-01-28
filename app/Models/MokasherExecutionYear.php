@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class MokasherExecutionYear extends Model
 {
     use HasFactory;
+    public  function Excution_year()
+    {
+        return $this->belongsTo(Execution_year::class , 'year_id' , 'id') ;
+    }
 }
