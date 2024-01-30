@@ -83,15 +83,19 @@ class MokasherController extends Controller
     {
 
         $users = User::where('geha_id' , Auth::user()->id)->get();
-        $mokasher = Mokasher::with('mokasher_geha_inputs' , 'program.goal.objective.kheta')->with('mokasher_inputs')->where('id', $mokasher_id)->first();
-        $keta_id  = $mokasher->program->goal->objective->kheta->id ;
-
+        $mokasher_kehta = Mokasher::with('program.goal.objective.kheta')->where('id', $mokasher_id)->first();
+        $stored_kheta_id =  $mokasher_kehta->program->goal->objective->kheta->id ;  //الحصول   على id  الخطه
         $selected_year = Execution_year::whereHas('MokasherExcutionYears')
-            ->where(['kheta_id' => $keta_id, 'selected' => 1])
+            ->where(['kheta_id' => $stored_kheta_id, 'selected' => 1])
             ->first();
-
         $selected_year_value = MokasherExecutionYear::where(['mokasher_id' => $mokasher_id, 'year_id' => $selected_year->id])
             ->first();
+        $mokasher = Mokasher::with(['mokasher_geha_inputs' => function($query) use($selected_year_value){
+             $query->where('year_id' , $selected_year_value->year_id);
+        }])->with('program.goal.objective.kheta' ,'mokasher_inputs')->where('id', $mokasher_id)->first();
+
+
+
         return view('gehat.moksherat.create_mokaseerinput', compact('users', 'mokasher_id', 'mokasher' ,'selected_year_value' ,'selected_year'));
     }
 
@@ -105,8 +109,8 @@ class MokasherController extends Controller
 
     public function redirect_mokasher(Request $request, $id)
     {
-
         $validate = ValidatorFacade::make($request->all(), [
+            'target' => 'required',
             'mokasher_id' => 'required',
             'sub_geha_id' => 'required',
         ]);
@@ -114,20 +118,26 @@ class MokasherController extends Controller
         if ($validate->fails()) {
             return redirect()->back()->with('error', 'يوجد خطا  ما  ');
         }
+
         MokasherGehaInput::updateOrCreate(
             [
                 'mokasher_id' => $request->mokasher_id,
+                'year_id' => $request->year_id,
                 'geha_id' => Auth::user()->id
             ],
             [
-                'sub_geha_id' => $request->sub_geha_id ,
-                'year_id' => $request->year_id
+                'sub_geha_id' => $request->sub_geha_id,
+                'target' => $request->target,
+                'part_1' => $request->part_1,
+                'part_2' => $request->part_2,
+                'part_3' => $request->part_3,
+                'part_4' => $request->part_4,
             ]
         );
         return redirect()->back()->with('success', 'تم توجيه المؤشر  للجهه بنجاح ');
     }
 
-    public function sub_geha_moksherat()
+        public function sub_geha_moksherat()
     {
         $mokashert = Mokasher::whereHas('mokasher_geha_inputs', function ($query) {
             $query->where('sub_geha_id', Auth::user()->id);

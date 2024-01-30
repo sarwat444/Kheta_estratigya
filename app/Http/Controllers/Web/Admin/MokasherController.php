@@ -71,9 +71,11 @@ class MokasherController extends Controller
         $users = User::where('is_manger' , 1)->get() ;
         $mokasher = Mokasher::with('mokasher_inputs', 'mokasher_geha_inputs' , 'program' , 'program.goal.Objective.kheta')->find($mokasher_id) ;
         $kheta_id = $mokasher->program->goal->Objective->kheta->id ;
+
         $excuction_years = Execution_year::with(['MokasherExcutionYears' => function ($query) use ($mokasher_id) {
             $query->where('mokasher_id', $mokasher_id);
         }])->where('kheta_id', $kheta_id)->get();
+
         return view('admins.moksherat.create_mokaseerinput' , compact('mokasher' ,'users' ,'mokasher_id' , 'excuction_years'));
 
     }
