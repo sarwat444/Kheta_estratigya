@@ -9,7 +9,6 @@
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{asset(PUBLIC_PATH.'assets/admin/images/favicon.ico')}}">
-
     <!-- Bootstrap Css -->
     <link href="{{asset(PUBLIC_PATH.'assets/admin/css/bootstrap.min.css')}}" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
@@ -20,12 +19,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset(PUBLIC_PATH.'assets/admin/libs/owl.carousel/assets/owl.carousel.min.css')}}">
+    <link rel="stylesheet" href="{{asset(PUBLIC_PATH.'assets/admin/libs/owl.carousel/assets/owl.theme.default.min.css')}}">
     <link href="{{asset(PUBLIC_PATH.'/assets/admin/css/app-rtl.min.css')}}" rel="stylesheet" type="text/css" />
     <style>
         body
         {
             direction: rtl;
             font-family: 'Noto Kufi Arabic', sans-serif;
+            background-image: linear-gradient( #0c3f77f2, #0f4e93c7), url(http://127.0.0.1:8000/assets/site/images/background.jpg);
+            background-size: cover;
+            background-position: center;
+
         }
         html
         {
@@ -53,6 +58,8 @@
 <script src="{{asset(PUBLIC_PATH.'assets/admin/libs/metismenu/metisMenu.min.js')}}"></script>
 <script src="{{asset(PUBLIC_PATH.'assets/admin/libs/simplebar/simplebar.min.js')}}"></script>
 <script src="{{asset(PUBLIC_PATH.'assets/admin/libs/node-waves/waves.min.js')}}"></script>
+<script src="{{asset(PUBLIC_PATH.'assets/admin/libs/owl.carousel/owl.carousel.min.js')}}"></script>
+<script src="{{asset(PUBLIC_PATH.'assets/admin/js/pages/auth-2-carousel.init.js')}}"></script>
 <!-- App js -->
 <script src="{{asset(PUBLIC_PATH.'assets/admin/js/app.js')}}"></script>
 </body>

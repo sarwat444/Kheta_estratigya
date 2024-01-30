@@ -37,7 +37,6 @@
                             }
                         }
                     @endphp
-
                 <div class="col-sm-3">
                     <div class="card">
                         <div class="card-body">
@@ -58,64 +57,42 @@
                     </div>
                 </div>
                 <script>
-                    options = {
-                        chart: {height: 200, type: "radialBar", offsetY: -10},
-                        plotOptions: {
-                            radialBar: {
-                                startAngle: -135,
-                                endAngle: 135,
-                                dataLabels: {
-                                    name: {fontSize: "13px", color: void 0, offsetY: 60},
-                                    value: {
-                                        offsetY: 22, fontSize: "16px", color: function ({value, seriesIndex}) {
-                                            console.log('value:', value);
-                                            console.log('seriesIndex:', seriesIndex);
-                                            if (seriesIndex === 0) {
-                                                if (value <= 30) {
-                                                    console.log('Color: Red');
-                                                    return "#ff0000"; // Red color
-                                                } else if (value > 50) {
-                                                    console.log('Color: Blue');
-                                                    return "#007bff"; // Blue color
-                                                } else {
-                                                    console.log('Color: Green');
-                                                    return "#00ff00"; // Green color
-                                                }
-                                            }
-                                            console.log('Color: Default');
-                                            return ""; // Default color
-                                        },
-                                        formatter: function (e) {
-                                            return e + "%";
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        fill: {
-                            type: "gradient",
-                            gradient: {
-                                shade: "dark",
-                                shadeIntensity: 0.15,
-                                inverseColors: false,
-                                opacityFrom: 1,
-                                opacityTo: 1,
-                                stops: [0, 50, 65, 91]
-                            }
-                        },
-                        stroke: {dashArray: 4},
+                    var options = {
                         series: [
                             @if(!empty($programs_count) && $programs_count > 0 )
-                                    @if(!empty($mokashaert_count[$key]))
-
-                                       {{round(($total/$mokashaert_count[$key])/($programs_count))}}
-                                    @else
-                                      0
-                                    @endif
+                                @if(!empty($mokashaert_count[$key]))
+                                {{round(($total/$mokashaert_count[$key])/($programs_count))}}
+                                @else
+                                0
+                            @endif
                                 @else 0
                             @endif
                         ],
-                        labels: [""]
+                        chart: {
+                            height: 200,
+                            type: 'radialBar',
+                        },
+                        plotOptions: {
+                            radialBar: {
+                                hollow: {
+                                    size: '70%',
+                                }
+                            },
+                        },
+                        labels: ['قيمه الهدف  '],
+                        colors:[
+                            @if(!empty($programs_count) && $programs_count > 0 )
+                                @if(!empty($mokashaert_count[$key]))
+                                    @if(round(($total/$mokashaert_count[$key])/($programs_count)) < 50 )
+                                    '#f00'
+                                     @elseif(round(($total/$mokashaert_count[$key])/($programs_count))  >=  50 && round(($total/$mokashaert_count[$key])/($programs_count)) < 100 )
+                                    '#f8de26'
+                                     @elseif(round(($total/$mokashaert_count[$key])/($programs_count)) ==  100)
+                                    '#00ff00'
+                                   @endif
+                                 @endif
+                            @endif
+                        ]
                     };
                     (chart = new ApexCharts(document.querySelector("#radialBar-chart{{$goal->id}}"), options)).render();
                 </script>

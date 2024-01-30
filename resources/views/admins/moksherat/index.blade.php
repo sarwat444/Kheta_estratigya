@@ -3,12 +3,20 @@
 @push('title','المؤشرات')
 
 @push('styles')
+    <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
+
     <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
     <!-- DataTables -->
     <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Responsive datatable examples -->
     <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+
+    <style>
+        .select2-container--bootstrap4.select2-dropdown--below {
+            z-index: 1051; /* Adjust the z-index as needed */
+        }
+    </style>
 
 @endpush
 @section('content')
@@ -53,14 +61,21 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td style="text-align: right">{{ $mokasher->name }} </td>
                                 <td style="text-align: right">
-                                    @if($mokasher->type == 0 )
-                                        مؤشر وزاره
-                                    @elseif($mokasher->type == 1 )
-                                        مؤشر جامعه
-                                    @elseif($mokasher->type == 2 )
-                                        مؤشر كليه
-                                    @else
-                                        الكل
+                                   @if(!empty($mokasher->type))
+                                       @php
+                                       $types = json_decode($mokasher->type) ;
+                                       @endphp
+                                       @foreach ($types as $type)
+                                              @if($type == 0)
+                                                <span class="badge badge-soft-primary font-size-13"> وزاره </span>
+                                               @elseif($type == 1)
+                                                <span class="badge badge-soft-primary font-size-13"> جامعه </span>
+                                                @elseif($type == 2)
+                                                <span class="badge badge-soft-primary font-size-13"> كليه </span>
+                                                @elseif($type == 3)
+                                                <span class="badge badge-soft-primary font-size-13"> الكل </span>
+                                              @endif
+                                        @endforeach
                                     @endif
                                 </td>
                                 <td><a  class="btn btn-success btn btn-sm" href="{{ route('dashboard.moksherat.mokaseerinput', $mokasher->id) }}"> مدخلات المؤشر </a></td>
@@ -104,6 +119,15 @@
     <!-- Datatable init js -->
     <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/datatables.init.js')}}"></script>
 
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/js/select2.min.js')}}"></script>
+    <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/form-advanced.init.js')}}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                dropdownParent: $('#create-new-category') // Adjust selector based on your modal's ID
+            });
+        });
+    </script>
 
     @include('admins.moksherat.scripts.store')
     @include('admins.moksherat.scripts.delete')

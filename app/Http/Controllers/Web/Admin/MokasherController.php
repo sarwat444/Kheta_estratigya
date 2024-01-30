@@ -35,8 +35,14 @@ class MokasherController extends Controller
 
     public function store(StoreMokasherRequest $StoreMokasherRequest): \Illuminate\Http\JsonResponse
     {
-        $this->mokasherModel->create($StoreMokasherRequest->validated());
-        return $this->responseJson(['type' => 'success', 'message' => ' تم أضافه المؤشر بنجاح'], Response::HTTP_CREATED);
+
+        $mokasher = new Mokasher() ;
+        $mokasher->name = $StoreMokasherRequest->name ;
+        $mokasher->type = json_encode($StoreMokasherRequest->type);
+        $mokasher->program_id = $StoreMokasherRequest->program_id ;
+        $mokasher->save() ;
+        // Return a JSON response indicating success
+        return $this->responseJson(['type' => 'success', 'message' => 'تم أضافه المؤشر بنجاح'], Response::HTTP_CREATED);
     }
 
     public function destroy($mokasher_id = null): \Illuminate\Http\RedirectResponse
