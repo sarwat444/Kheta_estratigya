@@ -51,6 +51,7 @@
                                 <div class="card-body">
                                     <div id="part_1">
                                         <h3 class="font-size-17 mb-3">الربع الأول </h3>
+                                        <p>المطلو ب تنفيذه : <span class="badge badge-soft-primary font-size-17"> {{$mokasher->mokasher_geha_inputs->part_1}} </span></p>
                                         <div class="row">
                                             <div class="col-md-7">
                                                 <form style=" background-color: #eeeeee4d; padding: 16px;"
@@ -69,7 +70,7 @@
                                                     <div class="row mb-3">
                                                         <div class="col-md-12">
                                                             <label> رفع الأدله والشواهد - يمكن رفع اكثر من دليل </label>
-                                                            <input type="file" class="form-control" name="files1[]" multiple>
+                                                            <input type="file" accept="application/pdf" class="form-control" name="file1">
                                                         </div>
                                                     </div>
                                                     <div class="row mb-3">
@@ -104,14 +105,15 @@
                                                             @endphp
                                                             <table class="table table-bordered table-responsive table-striped">
                                                                 <thead>
+                                                                <th>#</th>
                                                                 <th>تحميل الملفات</th>
                                                                 <th>التحكم</th>
                                                                 </thead>
                                                                 <tbody>
                                                                 @foreach($files as $key => $file)
                                                                     <tr>
-                                                                        <td><a href="{{ asset($file) }}">ملف # {{ $key + 1 }} <i
-                                                                                    class="fa fa-file"></i></a></td>
+                                                                        <td>{{$loop->iteration}}</td>
+                                                                        <td><a href="{{ asset(PUBLIC_PATH.'uploads/'.$file) }}"> {{$file}} <i class="fa fa-file"></i></a></td>
                                                                         <td>
                                                                             <form
                                                                                 action="{{ route('sub_geha.delete.file', ['id' => $key , 'mokasher_id' => $mokasher->id]) }}"
@@ -140,6 +142,7 @@
                                     </div>
                                     <div id="part_2">
                                         <h3 class="font-size-17 mb-3">الربع الثانى </h3>
+                                        <p>المطلو ب تنفيذه : <span class="badge badge-soft-primary font-size-17"> {{$mokasher->mokasher_geha_inputs->part_2}} </span></p>
                                         <div class="row">
                                             <div class="col-md-7">
                                                 <form style=" background-color: #eeeeee4d; padding: 16px;"
@@ -157,7 +160,7 @@
                                                     <div class="row mb-3">
                                                         <div class="col-md-12">
                                                             <label> رفع الأدله والشواهد - يمكن رفع اكثر من دليل </label>
-                                                            <input type="file" class="form-control" name="files2[]" multiple>
+                                                            <input type="file" class="form-control" accept="application/pdf" name="files2" multiple>
                                                         </div>
                                                     </div>
                                                     <div class="row mb-3">
@@ -198,8 +201,7 @@
                                                                 <tbody>
                                                                 @foreach($files as $key => $file)
                                                                     <tr>
-                                                                        <td><a href="{{ asset($file) }}">ملف # {{ $key + 1 }} <i
-                                                                                    class="fa fa-file"></i></a></td>
+                                                                        <td><a href="{{ asset(PUBLIC_PATH.'uploads/'.$file) }}"> {{$file}} <i class="fa fa-file"></i></a></td>
                                                                         <td>
                                                                             <form
                                                                                 action="{{ route('sub_geha.delete.file', ['id' => $key , 'mokasher_id' => $mokasher->id]) }}"
@@ -227,6 +229,7 @@
                                     </div>
                                     <div id="part_3">
                                         <h3 class="font-size-17 mb-3">الربع الثالث </h3>
+                                        <p>المطلو ب تنفيذه : <span class="badge badge-soft-primary font-size-17"> {{$mokasher->mokasher_geha_inputs->part_3}} </span></p>
                                         <div class="row">
                                             <div class="col-md-7">
                                                 <form style=" background-color: #eeeeee4d; padding: 16px;"
@@ -244,7 +247,7 @@
                                                     <div class="row mb-3">
                                                         <div class="col-md-12">
                                                             <label> رفع الأدله والشواهد - يمكن رفع اكثر من دليل </label>
-                                                            <input type="file" class="form-control" name="files3[]" multiple>
+                                                            <input type="file" class="form-control" accept="application/pdf" name="files3" multiple>
                                                         </div>
                                                     </div>
                                                     <div class="row mb-3">
@@ -285,8 +288,7 @@
                                                                 <tbody>
                                                                 @foreach($files as $key => $file)
                                                                     <tr>
-                                                                        <td><a href="{{ asset($file) }}">ملف # {{ $key + 1 }} <i
-                                                                                    class="fa fa-file"></i></a></td>
+                                                                       <td><a href="{{ asset(PUBLIC_PATH.'uploads/'.$file) }}"> {{$file}} <i class="fa fa-file"></i></a></td>
                                                                         <td>
                                                                             <form
                                                                                 action="{{ route('sub_geha.delete.file', ['id' => $key , 'mokasher_id' => $mokasher->id]) }}"
@@ -315,6 +317,7 @@
                                     </div>
                                     <div id="part_4">
                                         <h3 class="font-size-17 mb-3">الربع الرابع </h3>
+                                        <p>المطلو ب تنفيذه : <span class="badge badge-soft-primary font-size-17"> {{$mokasher->mokasher_geha_inputs->part_4}} </span></p>
                                         <div class="row">
                                             <div class="col-md-7">
                                                 <form style=" background-color: #eeeeee4d; padding: 16px;"
@@ -332,7 +335,7 @@
                                                     <div class="row mb-3">
                                                         <div class="col-md-12">
                                                             <label> رفع الأدله والشواهد - يمكن رفع اكثر من دليل </label>
-                                                            <input type="file" class="form-control" name="files4[]" multiple>
+                                                            <input type="file" accept="application/pdf" class="form-control" name="files4" multiple>
                                                         </div>
                                                     </div>
                                                     <div class="row mb-3">
@@ -373,8 +376,7 @@
                                                                 <tbody>
                                                                 @foreach($files as $key => $file)
                                                                     <tr>
-                                                                        <td><a href="{{ asset($file) }}">ملف # {{ $key + 1 }} <i
-                                                                                    class="fa fa-file"></i></a></td>
+                                                                        <td><a href="{{ asset(PUBLIC_PATH.'uploads/'.$file) }}"> {{$file}} <i class="fa fa-file"></i></a></td>
                                                                         <td>
                                                                             <form
                                                                                 action="{{ route('sub_geha.delete.file', ['id' => $key , 'mokasher_id' => $mokasher->id]) }}"

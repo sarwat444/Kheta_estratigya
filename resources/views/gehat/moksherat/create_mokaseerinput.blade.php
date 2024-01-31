@@ -92,29 +92,33 @@
     <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/jquery.repeater/jquery.repeater.min.js')}}"></script>
     <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/form-repeater.int.js')}}"></script>
     <script>
-        // jQuery script for automatic calculation
-        $(document).ready(function () {
-            // Select all input fields for the years
-            var yearFields = $('[name^="year_"]');
-
-            // Bind an input event to each year field
-            yearFields.on('input', function () {
-                calculateTotal();
-            });
-
-            // Function to calculate and update the total field
+        $(document).ready(function() {
+            // Function to calculate total input value
             function calculateTotal() {
                 var total = 0;
-
-                // Sum the values of all year fields
-                yearFields.each(function () {
-                    var value = parseInt($(this).val()) || 0;
-                    total += value;
+                // Loop through each input field
+                $('input[name^="part_"]').each(function() {
+                    // Parse input value as float and add to total
+                    total += parseFloat($(this).val()) || 0;
                 });
-
-                // Update the total field with the calculated sum
-                $('#target').val(total);
+                return total;
             }
+            // Function to check if total exceeds target
+            function checkTotal() {
+                var total = calculateTotal();
+                var target = parseFloat($('input[name="target"]').val()) || 0;
+                if (total > target) {
+                    // If total exceeds or equals target, show error message
+                    alert("لابد مجموع الاربع لايتعدى المستهدف ");
+                    return false; // Prevent form submission
+                }
+                return true; // Allow form submission
+            }
+
+            // Optionally, you can check total on form submission
+            $('form').submit(function() {
+                return checkTotal(); // Check total before form submission
+            });
         });
     </script>
     @include('admins.courses.scripts.detect-input-change')

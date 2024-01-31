@@ -1,7 +1,6 @@
 @extends('admins.layouts.app')
 
 @push('title','البرامج'))
-
 @push('styles')
     <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet"
           type="text/css"/>

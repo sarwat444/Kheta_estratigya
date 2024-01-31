@@ -38,6 +38,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{$admin->email}}</td>
                                 <td>
+                                    @if(auth()->user()->id != $admin->id)
                                     <div class="btn-group">
                                         <a href="{{ route('dashboard.admins.edit', $admin->id) }}" data-category-id="{{ $admin->id }}"
                                            class="text-muted font-size-20"><i class="bx bxs-edit"></i></a>
@@ -47,6 +48,9 @@
                                                     class="bx bx-trash"></i></a>
                                         </form>
                                     </div>
+                                        @else
+                                        <span class="badge badge-soft-danger">عير مسموح </span>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

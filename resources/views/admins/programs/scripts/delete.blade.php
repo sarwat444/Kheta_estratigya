@@ -8,7 +8,7 @@
             showCancelButton: !0,
             confirmButtonColor: "green",
             cancelButtonColor: "red",
-            confirmButtonText: "حذف",
+            confirmButtonText: "نعم",
             cancelButtonText: "تجاهل",
         }).then((result) => {
             if (result.value) {

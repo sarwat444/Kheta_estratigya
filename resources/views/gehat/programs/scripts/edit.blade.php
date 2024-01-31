@@ -1,14 +1,14 @@
 <script>
     $(document).on('click', '.edit', function () {
         let categoryId = $(this).data('category-id');
-        let route = "{{route('dashboard.programs.edit',':id')}}";
+        let route = "{{route('gehat.programs.edit',':id')}}";
         route = route.replace(':id', categoryId);
         $.ajax({
             url: route,
             method: 'GET',
             success: function (response) {
                 if (response.data) {
-                    let route = "{{route('dashboard.programs.update',':id')}}";
+                    let route = "{{route('gehat.programs.update',':id')}}";
                     route = route.replace(':id', response.data.id);
                     $('#form-edit-category').attr('action', route);
                     let modalEditCategory = $('#editCategoryModal');

@@ -82,7 +82,7 @@
                                 <td>
                                     <div class="btn-group">
 
-                                        <a href="{{ route('dashboard.moksherat.edit', $mokasher->id) }}" class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
+                                        <a  href="javascript:void(0);" data-category-id="{{ $mokasher->id }}" class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
                                         <form action="{{ route('dashboard.moksherat.destroy', $mokasher->id) }}"
                                               method="POST">@csrf @method('delete')
                                             <a class="text-muted font-size-20 confirm-delete"><i

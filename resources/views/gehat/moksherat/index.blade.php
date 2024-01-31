@@ -57,52 +57,61 @@
                         <tbody>
 
                         @forelse($mokashert  as $mokasher)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td style="text-align: right">{{ $mokasher->name }} </td>
-                                <td style="text-align: right">
-                                    @if(!empty($mokasher->type))
-                                        @php
-                                            $types = json_decode($mokasher->type) ;
-                                        @endphp
-                                        @foreach ($types as $type)
-                                            @if($type == 0)
-                                                <span class="badge badge-soft-primary font-size-13"> وزاره </span>
-                                            @elseif($type == 1)
-                                                <span class="badge badge-soft-primary font-size-13"> جامعه </span>
-                                            @elseif($type == 2)
-                                                <span class="badge badge-soft-primary font-size-13"> كليه </span>
-                                            @elseif($type == 3)
-                                                <span class="badge badge-soft-primary font-size-13"> الكل </span>
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                </td>
-                                <td>  @if( $mokasher->addedBy == 0 ) الأداره@else {{ $mokasher->addedBy_fun->geha }} @endif  </td>
-                                <td><a  class="btn btn-primary  btn-sm" href="{{ route('gehat.mokaseerinput', $mokasher->id) }}"> توجيه المؤشر </a></td>
-                                <td>
-                                    @if(!empty($mokasher->mokasher_geha_inputs))
-                                         <a  class="btn btn-primary  btn btn-sm" href="{{ route('gehat.mokasherData', $mokasher->id) }}"> عرض المؤشر </a>
-                                    @else
-                                        <span class="text-danger"> توجيه المؤشر أولا</span>
-                                    @endif
-                                </td>
 
-                                <td>
-                                    @if($mokasher->addedBy == \Illuminate\Support\Facades\Auth::user()->id )
-                                        <div class="btn-group">
-                                            <a href="{{ route('dashboard.moksherat.edit', $mokasher->id) }}" class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
-                                            <form action="{{ route('dashboard.moksherat.destroy', $mokasher->id) }}"
-                                                  method="POST">@csrf @method('delete')
-                                                <a class="text-muted font-size-20 confirm-delete"><i
-                                                        class="bx bx-trash"></i></a>
-                                            </form>
-                                        </div>
-                                      @else
-                                        <span class="badge badge-soft-danger">غير مصرح بالتعديل بالحذف </span>
+                            @if(!empty($mokasher->mokasher_inputs))
+                                @php
+                                   $users =  json_decode($mokasher->mokasher_inputs->users)
+                                @endphp
+                                    @if(in_array(\Illuminate\Support\Facades\Auth::user()->id , $users))
+                                        <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td style="text-align: right">{{ $mokasher->name }} </td>
+                                        <td style="text-align: right">
+                                            @if(!empty($mokasher->type))
+                                                @php
+                                                    $types = json_decode($mokasher->type) ;
+                                                @endphp
+                                                @foreach ($types as $type)
+                                                    @if($type == 0)
+                                                        <span class="badge badge-soft-primary font-size-13"> وزاره </span>
+                                                    @elseif($type == 1)
+                                                        <span class="badge badge-soft-primary font-size-13"> جامعه </span>
+                                                    @elseif($type == 2)
+                                                        <span class="badge badge-soft-primary font-size-13"> كليه </span>
+                                                    @elseif($type == 3)
+                                                        <span class="badge badge-soft-primary font-size-13"> الكل </span>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </td>
+                                        <td>  @if( $mokasher->addedBy == 0 ) الأداره@else {{ $mokasher->addedBy_fun->geha }} @endif  </td>
+                                        <td><a  class="btn btn-primary  btn-sm" href="{{ route('gehat.mokaseerinput', $mokasher->id) }}"> توجيه المؤشر </a></td>
+                                        <td>
+                                            @if(!empty($mokasher->mokasher_geha_inputs))
+                                                 <a  class="btn btn-primary  btn btn-sm" href="{{ route('gehat.mokasherData', $mokasher->id) }}"> عرض المؤشر </a>
+                                            @else
+                                                <span class="text-danger"> توجيه المؤشر أولا</span>
+                                            @endif
+                                        </td>
+
+                                        <td>
+                                            @if($mokasher->addedBy == \Illuminate\Support\Facades\Auth::user()->id )
+                                                <div class="btn-group">
+                                                    <a href="{{ route('dashboard.moksherat.edit', $mokasher->id) }}" class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
+                                                    <form action="{{ route('dashboard.moksherat.destroy', $mokasher->id) }}"
+                                                          method="POST">@csrf @method('delete')
+                                                        <a class="text-muted font-size-20 confirm-delete"><i
+                                                                class="bx bx-trash"></i></a>
+                                                    </form>
+                                                </div>
+                                              @else
+                                                <span class="badge badge-soft-danger">غير مصرح بالتعديل بالحذف </span>
+                                            @endif
+                                        </td>
+                                    </tr>
                                     @endif
-                                </td>
-                            </tr>
+
+                            @endif
                         @empty
                             <tr>
                                 <td colspan="4" class="text-center">لا يوجد مؤشرات موجهه </td>

@@ -15,8 +15,11 @@ use App\Http\Controllers\Web\Site\{
 use Illuminate\Support\Facades\Route;
 
 /** site routes */
+
 Route::get('/', [HomeController::class, 'login'])->name('login')->middleware('CheckCredentials');
+
 Route::post('/login', [HomeController::class, 'authenticate'])->name('authenticate');
+
 Route::group(['as' => 'gehat.', 'middleware' => ['auth','checkIsManger']], function () {
 
     Route::get('/gehat', [HomeController::class, 'index'])->name('index');
@@ -43,11 +46,7 @@ Route::group(['as' => 'gehat.', 'middleware' => ['auth','checkIsManger']], funct
 
     Route::get('mokasherData/{id}' , [MokasherController::class , 'mokasherData'])->name('mokasherData') ;
 
-
-
     Route::post('/gehat_logout' , [HomeController::class ,  'logout'])->name('Gehtlogout');
-
-
 });
 
 Route::group(['as' => 'sub_geha.'  ,'middleware' => ['auth' ,'CheckSubGehaManger']], function () {

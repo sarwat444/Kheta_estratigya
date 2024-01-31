@@ -24,12 +24,8 @@ class UpdateStaffRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => ['required' , 'string' , 'min:4' ,  'max:100']   ,
-            'last_name' => ['required' ,'string' ,  'min:4' ,  'max:100']    ,
-            'email'  => ['required'  , 'unique:users']  ,
-            'password' => ['required'] ,
-            'role_name' => ['required']  ,
-            'user_status' =>['required']
+            'email'  => ['required']  ,
+            'password' => ['sometimes'] ,
         ];
     }
 }

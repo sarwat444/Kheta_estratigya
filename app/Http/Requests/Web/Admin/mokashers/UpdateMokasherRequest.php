@@ -13,13 +13,14 @@ class UpdateMokasherRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
     public function rules()
     {
         return [
+            'id'=>['required'],
             'name' => ['required', 'string', 'min:3', 'max:255'],
-            'type' => ['required'],
+            'type' => ['sometimes'],
             'program_id' => ['sometimes'] ,
             'addedBy' => ['sometimes']
         ];

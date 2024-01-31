@@ -40,7 +40,7 @@ class UsersController extends Controller
     {
         $user  = User::with('mangemnet')->find($id) ;
         $mangements = Mangement::get() ;
-        return view('admins.users.geaht.edit-user')->with(compact('user' ,'mangements')) ;
+        return view('gehat.users.edit-user')->with(compact('user' ,'mangements')) ;
     }
     public function update(UpdateUserRequest $userRequest , $id):\Illuminate\Http\RedirectResponse
     {

@@ -38,15 +38,19 @@
                                 <td>{{$user->job_number}}</td>
                                 <td>{{$user->geha}}</td>
                                 <td>
-                                    <div class="btn-group">
-                                        <a href="{{ route('dashboard.users.edit', $user->id) }}" data-category-id="{{ $user->id }}"
-                                           class="text-muted font-size-20"><i class="bx bxs-edit"></i></a>
-                                        <form action="{{ route('dashboard.programs.destroy', $user->id) }}"
-                                              method="POST">@csrf @method('delete')
-                                            <a class="text-muted font-size-20 confirm-delete"><i
-                                                    class="bx bx-trash"></i></a>
-                                        </form>
-                                    </div>
+                                    @if(\Illuminate\Support\Facades\Auth::user()->id != $user->id )
+                                        <div class="btn-group">
+                                            <a href="{{ route('gehat.users.edit', $user->id) }}" data-category-id="{{ $user->id }}"
+                                               class="text-muted font-size-20"><i class="bx bxs-edit"></i></a>
+                                            <form action="{{ route('gehat.programs.destroy', $user->id) }}"
+                                                  method="POST">@csrf @method('delete')
+                                                <a class="text-muted font-size-20 confirm-delete"><i
+                                                        class="bx bx-trash"></i></a>
+                                            </form>
+                                        </div>
+                                        @else
+                                        <span class="badge badge-soft-danger">لا يمكن التعديل</span>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

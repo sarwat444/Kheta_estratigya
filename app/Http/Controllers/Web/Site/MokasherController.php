@@ -31,7 +31,7 @@ class MokasherController extends Controller
     public function show($program_id = null): \Illuminate\View\View
     {
         $selectedYear = Execution_year::whereHas('MokasherExcutionYears', function ($query) {
-            $query->where('value', '!=', '');
+            $query->where('value', '!=', '0');
         })->where('selected', 1)->first();
 
 
@@ -39,9 +39,8 @@ class MokasherController extends Controller
             $selectedYearId = $selectedYear->id;
             $mokashert = $this->mokasherModel
                 ->whereHas('mokasher_execution_years', function ($query) use ($selectedYearId) {
-                    $query->where('year_id', $selectedYearId);
-                })
-                ->with('mokasher_geha_inputs' ,'addedBy_fun', 'program')
+                    $query->where('year_id', $selectedYearId)->where('value', '!=', '0');
+                })->with('mokasher_inputs' ,'mokasher_geha_inputs' ,'addedBy_fun', 'program')
                 ->where('program_id', $program_id)
                 ->get();
         } else {
@@ -93,8 +92,6 @@ class MokasherController extends Controller
         $mokasher = Mokasher::with(['mokasher_geha_inputs' => function($query) use($selected_year_value){
              $query->where('year_id' , $selected_year_value->year_id);
         }])->with('program.goal.objective.kheta' ,'mokasher_inputs')->where('id', $mokasher_id)->first();
-
-
 
         return view('gehat.moksherat.create_mokaseerinput', compact('users', 'mokasher_id', 'mokasher' ,'selected_year_value' ,'selected_year'));
     }
@@ -155,7 +152,8 @@ class MokasherController extends Controller
 
     public function store_sub_geha_mokasher_input(Request $request, $id)
     {
-        if(!empty($request->part)) {
+
+        if (!empty($request->part)) {
             $input = MokasherGehaInput::updateOrCreate(
                 [
                     'geha_id' => $request->input('geha_id'),
@@ -171,37 +169,22 @@ class MokasherController extends Controller
                     'impediments' => $request->input('impediments'),
                 ]
             );
-            // Retrieve existing file paths
-            $existingFilePaths = $input->files ? json_decode($input->files, true) : [];
-            // Handle file uploads
-            if ($request->hasFile('files')) {
-                $files = $request->file('files');
-                $newFilePaths = [];
 
-                foreach ($files as $file) {
-                    // Generate a unique filename to avoid overwriting existing files
-                    $fileName = time() . '_' . $file->getClientOriginalName();
+            // Handle file upload
+            if ($request->hasFile('file')) {
+                $file = $request->file('file1');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('uploads'), $fileName);
 
-                    // Store the file in the specified directory
-                    $filePath = $file->storeAs('public/uploads/files', $fileName);
-
-                    if ($filePath) {
-                        $newFilePaths[] = $filePath;
-                    } else {
-                        throw new \Exception('File upload failed.');
-                    }
-                }
-
-                // Merge existing file paths with new file paths
-                $mergedFilePaths = array_merge($existingFilePaths, $newFilePaths);
-
-                // Save the updated list of file paths
-                $input->files = json_encode($mergedFilePaths);
+                // Merge new file with stored files
+                $existingFilePaths = $input->files ? json_decode($input->files, true) : [];
+                $existingFilePaths[] = $fileName;
+                $input->files = json_encode($existingFilePaths);
             }
-            // Save the model instance
-            $input->save();
 
+            $input->save();
         }
+
         return redirect()->back()->with('success', 'لقد تم أدخال  بيانات المؤشر بنجاح ');
     }
 
@@ -210,7 +193,6 @@ class MokasherController extends Controller
     {
         if(!empty($request->part)) {
             if($request->part == 'part_1'){
-
                 $input = MokasherGehaInput::updateOrCreate(
                     [
                         'sub_geha_id' => $request->input('geha_id'),
@@ -223,34 +205,18 @@ class MokasherController extends Controller
                     ]
                 );
                 // Retrieve existing file paths
-                $existingFilePaths = $input->evidence1 ? json_decode($input->evidence1, true) : [];
-                // Handle file uploads
-                if ($request->hasFile('files1')) {
-                    $files = $request->file('files1');
-                    $newFilePaths = [];
+                if ($request->hasFile('file1')) {
+                    $file = $request->file('file1');
+                    $fileName = time() . '_' . $file->getClientOriginalName();
+                    $file->move(public_path('uploads'), $fileName);
 
-                    foreach ($files as $file) {
-                        // Generate a unique filename to avoid overwriting existing files
-                        $fileName = time() . '_' . $file->getClientOriginalName();
-
-                        // Store the file in the specified directory
-                        $filePath = $file->storeAs('public/uploads/files', $fileName);
-
-                        if ($filePath) {
-                            $newFilePaths[] = $filePath;
-                        } else {
-                            throw new \Exception('File upload failed.');
-                        }
-                    }
-
-                    // Merge existing file paths with new file paths
-                    $mergedFilePaths = array_merge($existingFilePaths, $newFilePaths);
-
-                    // Save the updated list of file paths
-                    $input->evidence1 = json_encode($mergedFilePaths);
+                    // Merge new file with stored files
+                    $existingFilePaths = $input->evidence1 ? json_decode($input->evidence1, true) : [];
+                    $existingFilePaths[] = $fileName;
+                    $input->evidence1 = json_encode($existingFilePaths);
                 }
-                // Save the model instance
                 $input->save();
+
                 return redirect()->back()->with('success', 'لقد تم أدخال  بيانات الربع الأول  بنجاح ');
             }
             if($request->part == 'part_2'){
@@ -266,34 +232,16 @@ class MokasherController extends Controller
                     ]
                 );
                 // Retrieve existing file paths
-                $existingFilePaths = $input->evidence2 ? json_decode($input->evidence2, true) : [];
-
-                // Handle file uploads
                 if ($request->hasFile('files2')) {
-                    $files = $request->file('files2');
-                    $newFilePaths = [];
+                    $file = $request->file('files2');
+                    $fileName = time() . '_' . $file->getClientOriginalName();
+                    $file->move(public_path('uploads'), $fileName);
 
-                    foreach ($files as $file) {
-                        // Generate a unique filename to avoid overwriting existing files
-                        $fileName = time() . '_' . $file->getClientOriginalName();
-
-                        // Store the file in the specified directory
-                        $filePath = $file->storeAs('public/uploads/files', $fileName);
-
-                        if ($filePath) {
-                            $newFilePaths[] = $filePath;
-                        } else {
-                            throw new \Exception('File upload failed.');
-                        }
-                    }
-
-                    // Merge existing file paths with new file paths
-                    $mergedFilePaths = array_merge($existingFilePaths, $newFilePaths);
-
-                    // Save the updated list of file paths
-                    $input->evidence2 = json_encode($mergedFilePaths);
+                    // Merge new file with stored files
+                    $existingFilePaths = $input->evidence2 ? json_decode($input->evidence2, true) : [];
+                    $existingFilePaths[] = $fileName;
+                    $input->evidence2 = json_encode($existingFilePaths);
                 }
-                // Save the model instance
                 $input->save();
 
                 return redirect()->back()->with('success', 'لقد تم أدخال  بيانات الربع الثانى  بنجاح ');
@@ -314,30 +262,15 @@ class MokasherController extends Controller
                 $existingFilePaths = $input->evidence3 ? json_decode($input->evidence3, true) : [];
                 // Handle file uploads
                 if ($request->hasFile('files3')) {
-                    $files = $request->file('files3');
-                    $newFilePaths = [];
+                    $file = $request->file('files3');
+                    $fileName = time() . '_' . $file->getClientOriginalName();
+                    $file->move(public_path('uploads'), $fileName);
 
-                    foreach ($files as $file) {
-                        // Generate a unique filename to avoid overwriting existing files
-                        $fileName = time() . '_' . $file->getClientOriginalName();
-
-                        // Store the file in the specified directory
-                        $filePath = $file->storeAs('public/uploads/files', $fileName);
-
-                        if ($filePath) {
-                            $newFilePaths[] = $filePath;
-                        } else {
-                            throw new \Exception('File upload failed.');
-                        }
-                    }
-
-                    // Merge existing file paths with new file paths
-                    $mergedFilePaths = array_merge($existingFilePaths, $newFilePaths);
-
-                    // Save the updated list of file paths
-                    $input->evidence3 = json_encode($mergedFilePaths);
+                    // Merge new file with stored files
+                    $existingFilePaths = $input->evidence3 ? json_decode($input->evidence3, true) : [];
+                    $existingFilePaths[] = $fileName;
+                    $input->evidence3 = json_encode($existingFilePaths);
                 }
-                // Save the model instance
                 $input->save();
 
                 return redirect()->back()->with('success', 'لقد تم أدخال  بيانات الربع الثالث   بنجاح ');
@@ -358,28 +291,17 @@ class MokasherController extends Controller
                 $existingFilePaths = $input->evidence4 ? json_decode($input->evidence4, true) : [];
                 // Handle file uploads
                 if ($request->hasFile('files4')) {
-                    $files = $request->file('files4');
-                    $newFilePaths = [];
-                    foreach ($files as $file) {
-                        // Generate a unique filename to avoid overwriting existing files
-                        $fileName = time() . '_' . $file->getClientOriginalName();
+                    $file = $request->file('files4');
+                    $fileName = time() . '_' . $file->getClientOriginalName();
+                    $file->move(public_path('uploads'), $fileName);
 
-                        // Store the file in the specified directory
-                        $filePath = $file->storeAs('public/uploads/files', $fileName);
-
-                        if ($filePath) {
-                            $newFilePaths[] = $filePath;
-                        } else {
-                            throw new \Exception('File upload failed.');
-                        }
-                    }
-                    // Merge existing file paths with new file paths
-                    $mergedFilePaths = array_merge($existingFilePaths, $newFilePaths);
-                    // Save the updated list of file paths
-                    $input->evidence4 = json_encode($mergedFilePaths);
+                    // Merge new file with stored files
+                    $existingFilePaths = $input->evidence4 ? json_decode($input->evidence4, true) : [];
+                    $existingFilePaths[] = $fileName;
+                    $input->evidence4 = json_encode($existingFilePaths);
                 }
-                // Save the model instance
                 $input->save();
+
                 return redirect()->back()->with('success', 'لقد تم أدخال  بيانات الربع الثالث   بنجاح ');
             }
         }

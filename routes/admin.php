@@ -22,7 +22,7 @@ use App\Http\Controllers\Web\Admin\{
 
 use App\Http\Controllers\Web\Admin\Setting\{CourseSettingController};
 use Illuminate\Support\Facades\Route;
-CONST PUBLIC_PATH  = '' ;
+CONST PUBLIC_PATH  = 'public/' ;
 
 /** admin auth routes */
 Route::controller(LoginController::class)->prefix('admins')->group(function () {
@@ -97,7 +97,8 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
     /** Admins Routes */
 
     Route::get('admins', [UsersController::class, 'admins'])->name('users.admins');
-    Route::get('editadmin', [UsersController::class, 'editadmin'])->name('admins.edit');
+     Route::get('editadmin/{id}', [UsersController::class, 'editadmin'])->name('admins.edit');
+      Route::PUT('updateadmin/{id}', [UsersController::class, 'updateadmin'])->name('admins.updateadmin');
      Route::get('createadmin', [UsersController::class, 'createadmin'])->name('admins.create');
     Route::get('destory_admin', [UsersController::class, 'destory_admin'])->name('admins.destroy');
     Route::post('storeadmin', [UsersController::class, 'storeadmin'])->name('admins.storeAdmin');

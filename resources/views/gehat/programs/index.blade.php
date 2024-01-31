@@ -12,6 +12,7 @@
     <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 @endpush
 @section('content')
+    @if(!empty($programs) && count($programs) > 0)
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -27,6 +28,7 @@
             </div>
         </div>
     </div>
+    @endif
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -60,7 +62,7 @@
                                     <div class="btn-group">
                                         <a href="javascript:void(0);" data-category-id="{{ $program->id }}"
                                            class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
-                                        <form action="{{ route('dashboard.programs.destroy', $program->id) }}"
+                                        <form action="{{ route('gehat.programs.destroy', $program->id) }}"
                                               method="POST">@csrf @method('delete')
                                             <a class="text-muted font-size-20 confirm-delete"><i
                                                     class="bx bx-trash"></i></a>

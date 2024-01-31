@@ -12,4 +12,8 @@ class MokasherGehaInput extends Model
     {
         return $this->belongsTo(Mokasher::class , 'mokasher_id' , 'id') ;
     }
+    public function ex_year()
+    {
+        $this->belongsTo(Execution_year::class , 'year_id' , 'id');
+    }
 }

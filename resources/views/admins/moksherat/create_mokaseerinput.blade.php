@@ -77,7 +77,7 @@
                                     <div class="mb-4">
                                         <label for="ex{{$key}}" class="form-label">{{ $ex_year->year_name }}  </label>
                                         <input type="hidden" name="ids[]" value="{{$ex_year->id}}">
-                                        <input type="number" min="0" name="years[]" placeholder="المستهدف" value="@if(!empty($ex_year->MokasherExcutionYears)){{$ex_year->MokasherExcutionYears->value}}@endif"  class="form-control" id="ex{{$key}}">
+                                        <input type="number" min="0" name="years[]" placeholder="المستهدف" value="{{ !empty($ex_year->MokasherExcutionYears) ? $ex_year->MokasherExcutionYears->value : 0 }}" class="form-control" id="ex{{ $key }}"  >
                                     </div>
                                 </div>
                                 @empty

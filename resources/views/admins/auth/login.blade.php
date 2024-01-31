@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6 col-xl-6 text-center">
-                <img class="mb-3" src="{{asset('assets/site/images/main-logo.png')}}">
+                <img class="mb-3" src="{{asset(PUBLIC_PATH.'assets/site/images/main-logo.png')}}">
                 <div class="card overflow-hidden">
                     <div class="bg-primary bg-soft">
                         <div class="row">

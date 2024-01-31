@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <form id="update-user-from" action="{{route('dashboard.admins.editadmin',$admin->id)}}"
+                    <form id="update-user-from" action="{{route('dashboard.admins.updateadmin',$admin->id)}}"
                           method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -18,7 +18,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="email" class="form-label">   الأيميل  </label>
-                                    <input type="text" name="email" placeholder="الأيميل" class="form-control" id="email" required>
+                                    <input type="text" name="email" placeholder="الأيميل" class="form-control" id="email" value="{{$admin->email}}" required>
                                 </div>
                             </div>
                         </div>
@@ -26,7 +26,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="url" class="form-label"> الرقم السري جديد</label>
-                                    <input type="text" name="password" placeholder="الرقم السري" class="form-control"  id="url" required>
+                                    <input type="text" name="password" placeholder="الرقم السري" class="form-control"  id="url">
                                 </div>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                             <div class="spinner-border text-primary m-1 d-none" role="status"><span
                                     class="sr-only"></span></div>
                         </div>
-                        <button type="submit" id="submit-button" class="btn btn-success w-md">{{__('admin-dashboard.update')}}</button>
+                        <button type="submit" id="submit-button" class="btn btn-success w-md">تعديل</button>
                     </form>
                 </div>
             </div>

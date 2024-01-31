@@ -136,29 +136,30 @@ class UsersController extends Controller
     }
 
 
-    public function  updatestaff(UpdateStaffRequest $staffRequest , $id)
+    public function updateadmin(UpdateStaffRequest $staffRequest, $id)
     {
-        $staff_data  =  Admin::find($id) ;
-        $old_password = $staff_data['password'] ;
-        $new_staff_request  =  $staffRequest->safe()->except(['role_name' , '_token']) ;
+        // Retrieve validated data from the request
+        $validatedData = $staffRequest->validated();
 
-        if($staff_data)
-        {
-            if(!empty($new_staff_request['password']))
-            {
-                $new_staff_request['password'] = Hash::make($new_staff_request['password']) ;
-            }else
-            {
-                $new_staff_request['password'] =  $old_password ;
+        // Find the admin by ID
+        $admin = Admin::find($id);
+
+        // Check if admin exists
+        if ($admin) {
+            // Hash the new password if provided
+            if (!empty($validatedData['password'])) {
+                $validatedData['password'] = Hash::make($validatedData['password']);
+            } else {
+                // Keep the old password if not provided
+                unset($validatedData['password']); // Remove password field from the update data
             }
-            $staff_data->update($new_staff_request) ;
-            DB::table('model_has_roles')->where('model_id',$id)->delete();
-            $staffRequest->assignRole($staffRequest['role_name']);
-            return  redirect()->back()->with('success' ,  'User Updated Successfuly') ;
-        }
-        else
-        {
-            return  redirect()->back()->with('error' ,  'User Not Found') ;
+
+            // Update the admin with the validated data
+            $admin->update($validatedData);
+
+            return redirect()->back()->with('success', 'تم تعديل  مدير النظام بنجاح ');
+        } else {
+            return redirect()->back()->with('error', 'User Not Found');
         }
     }
 

@@ -9,7 +9,7 @@
             confirmButtonColor: "green",
             cancelButtonColor: "red",
             confirmButtonText: "نعم",
-            cancelButtonText: "لا",
+            cancelButtonText: "تجاهل",
         }).then((result) => {
             if (result.value) {
                 form.submit();

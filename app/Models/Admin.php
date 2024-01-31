@@ -9,4 +9,5 @@ use Illuminate\Database\Eloquent\Model;
 class Admin extends Authenticatable
 {
     use HasFactory;
+    protected $table = 'admins'; // Adjust table name if necessary
 }

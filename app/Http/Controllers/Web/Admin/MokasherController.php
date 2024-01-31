@@ -53,15 +53,17 @@ class MokasherController extends Controller
         return redirect()->route('dashboard.moksherat.show',$program_id )->with('success', ' تم  حذف المؤشر  بنجاح');
     }
 
-    public function edit(Mokasher $mokasher): \Illuminate\Http\JsonResponse
+    public function edit($id = null): \Illuminate\Http\JsonResponse
     {
+        $mokasher = Mokasher::find($id) ;
         return $this->responseJson(['data' => $mokasher], Response::HTTP_OK);
     }
 
-    public function update(UpdateMokasherRequest $UpdateMokasherRequest, Mokasher $mokasher): \Illuminate\Http\RedirectResponse
+    public function update(UpdateMokasherRequest $UpdateMokasherRequest): \Illuminate\Http\RedirectResponse
     {
+        $mokasher = Mokasher::find($UpdateMokasherRequest->id)  ;
         $mokasher->update($UpdateMokasherRequest->validated());
-        return redirect()->route('dashboard.moksherat.show',$mokasher->program_id)->with('success', ' تم  تعديل  المؤشر بنجاح');
+        return redirect()->route('dashboard.moksherat.show',$UpdateMokasherRequest->program_id)->with('success', ' تم  تعديل  المؤشر بنجاح');
     }
     public function mokaseerinput($mokasher_id)
     {

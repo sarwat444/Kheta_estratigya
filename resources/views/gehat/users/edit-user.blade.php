@@ -15,7 +15,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <form id="update-user-from" action="{{route('dashboard.users.update',$user->id)}}" method="POST" enctype="multipart/form-data">
+                    <form id="update-user-from" action="{{route('gehat.users.update',$user->id)}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="row">
@@ -44,15 +44,8 @@
                             </div>
                         </div>
                         <input type="hidden" name="geha_id" value="{{\Illuminate\Support\Facades\Auth::user()->id}}">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-4">
-                                    <label for="is_manger">هل مدير ؟ </label>
-                                    <input type="checkbox" @if($user->is_manger == 1) checked @endif   name="is_manger" id="is_manger" />
-                                </div>
-                            </div>
-                        </div>
 
+                        <input type="hidden"   name="is_manger" value="0" id="is_manger" />
                         <div class="mb-2 text-center">
                             <div class="spinner-border text-primary m-1 d-none" role="status"><span
                                     class="sr-only"></span></div>
