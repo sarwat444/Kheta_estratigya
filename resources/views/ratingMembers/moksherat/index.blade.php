@@ -46,7 +46,22 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td style="text-align: right">{{ $mokasher->name }} </td>
-                                <td style="text-align: right">{{ $mokasher->type }} </td>
+                                <td style="text-align: right">    @if(!empty($mokasher->type))
+                                        @php
+                                            $types = json_decode($mokasher->type) ;
+                                        @endphp
+                                        @foreach ($types as $type)
+                                            @if($type == 0)
+                                                <span class="badge badge-soft-primary font-size-13"> وزاره </span>
+                                            @elseif($type == 1)
+                                                <span class="badge badge-soft-primary font-size-13"> جامعه </span>
+                                            @elseif($type == 2)
+                                                <span class="badge badge-soft-primary font-size-13"> كليه </span>
+                                            @elseif($type == 3)
+                                                <span class="badge badge-soft-primary font-size-13"> الكل </span>
+                                            @endif
+                                        @endforeach
+                                    @endif</td>
                                 <td>  @if( $mokasher->addedBy == 0 ) الأداره@else {{ $mokasher->addedBy_fun->geha }} @endif  </td>
 
                                 <td>
