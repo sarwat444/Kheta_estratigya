@@ -27,8 +27,7 @@
                     <div class="card-title">الربع الأول</div>
                     <div class="form-group mb-2">
                         <label>المنجز</label>
-                        <input type="text" class="form-control" value="{{$mokaser_data->part_1}}"
-                               readonly>
+                        <input type="text" class="form-control" value="{{$mokaser_data->part_1}}" readonly>
                     </div>
 
                     <div class="form-group mb-2">
@@ -54,7 +53,7 @@
                                 @foreach( $files as  $file)
                                     <tr>
                                         <td>{{$loop->iteration }}</td>
-                                        <td><a href="{{asset($file)}}"><i class="fa fa-file"></i> {{$file}} </a></td>
+                                        <td><a href="{{asset(PUBLIC_PATH.'uploads/'.$file)}}"><i class="fa fa-file"></i> {{$file}} </a></td>
                                     </tr>
                                 @endforeach
                             @else
@@ -64,13 +63,18 @@
                             </tbody>
                         </table>
                     </div>
+
+
+
                     <div class="form-group mb-2">
                         <form method="post" action="{{route('rating.storeRating')}}">
                             @csrf
                             <input required type="text" name="rate_part_1" class="form-control"
                                    placeholder="تقييم الربع الأول" value="{{$mokaser_data->rate_part_1}}">
                             <input type="hidden" value="1" name="part">
-                            <input type="hidden" value="{{$mokaser_data->id}}" name="mokasher_geha_id">
+                            <input type="hidden" value="{{$mokaser_data->id}}" name="mokasher_geha_id" id="rating_value_part_1">
+                            <label class="mt-2 mb-1">ملاحظات</label>
+                            <textarea class="form-control" rows="4" name="note_part_1">{{$mokaser_data->note_part_1}}</textarea>
                             <div class="mb-2 text-center">
                                 <div class="spinner-border text-primary m-1 d-none" role="status"><span
                                         class="sr-only"></span></div>
@@ -116,7 +120,7 @@
                                 @foreach( $files as  $file)
                                     <tr>
                                         <td>{{$loop->iteration }}</td>
-                                        <td><a href="{{asset($file)}}"><i class="fa fa-file"></i> {{$file}} </a></td>
+                                        <td><a href="{{asset(PUBLIC_PATH.'uploads/'.$file)}}"><i class="fa fa-file"></i> {{$file}} </a></td>
                                     </tr>
                                 @endforeach
                             @else
@@ -132,6 +136,8 @@
                             <input type="hidden" value="2" name="part">
                             <input type="hidden" value="{{$mokaser_data->id}}" name="mokasher_geha_id">
                             <input required type="text" name="rate_part_2" class="form-control" value="{{$mokaser_data->rate_part_2}}" placeholder="تقييم الربع الثانى " >
+                            <label class="mt-2 mb-1">ملاحظات</label>
+                            <textarea class="form-control" rows="4" name="note_part_2">{{$mokaser_data->note_part_2}}</textarea>
                             <div class="mb-2 text-center" >
                                 <div class="spinner-border text-primary m-1 d-none" role="status"><span
                                         class="sr-only"></span></div>
@@ -177,7 +183,7 @@
                                 @foreach( $files as  $file)
                                     <tr>
                                         <td>{{$loop->iteration }}</td>
-                                        <td><a href="{{asset($file)}}"><i class="fa fa-file"></i> {{$file}} </a></td>
+                                        <td><a href="{{asset(PUBLIC_PATH.'uploads/'.$file)}}"><i class="fa fa-file"></i> {{$file}} </a></td>
                                     </tr>
                                 @endforeach
                             @else
@@ -192,8 +198,11 @@
                             @csrf
                             <input type="hidden" value="3" name="part">
                             <input type="hidden" value="{{$mokaser_data->id}}" name="mokasher_geha_id">
+
                             <input required type="text" name="rate_part_3" class="form-control"
                                    placeholder="تقييم الربع الثالث " value="{{$mokaser_data->rate_part_3}}">
+                            <label class="mt-2 mb-1">ملاحظات</label>
+                            <textarea class="form-control" rows="4" name="note_part_3">{{$mokaser_data->note_part_3}}</textarea>
                             <div class="mb-2 text-center">
                                 <div class="spinner-border text-primary m-1 d-none" role="status"><span
                                         class="sr-only"></span></div>
@@ -239,7 +248,7 @@
                                 @foreach( $files as  $file)
                                     <tr>
                                         <td>{{$loop->iteration }}</td>
-                                        <td><a href="{{asset($file)}}"><i class="fa fa-file"></i> {{$file}} </a></td>
+                                        <td><a href="{{asset(PUBLIC_PATH.'uploads/'.$file)}}"><i class="fa fa-file"></i> {{$file}} </a></td>
                                     </tr>
                                 @endforeach
                             @else
@@ -256,6 +265,8 @@
                             <input type="hidden" value="{{$mokaser_data->id}}" name="mokasher_geha_id">
                             <input required type="text" name="rate_part_4" class="form-control" value="{{$mokaser_data->rate_part_4}}"
                                    placeholder="تقييم الربع الرابع ">
+                            <label class="mt-2 mb-1">ملاحظات</label>
+                            <textarea class="form-control" rows="4" name="note_part_4">{{$mokaser_data->note_part_4}}</textarea>
                             <div class="mb-2 text-center">
                                 <div class="spinner-border text-primary m-1 d-none" role="status"><span
                                         class="sr-only"></span></div>

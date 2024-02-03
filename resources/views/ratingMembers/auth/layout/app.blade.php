@@ -19,24 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500&display=swap" rel="stylesheet">
-    <style>
-        body
-        {
-            direction: rtl;
-            font-family: 'Noto Kufi Arabic', sans-serif;
-        }
-        html
-        {
-            font-family: 'Noto Kufi Arabic', sans-serif;
-        }
-        .main-content
-        {
-            margin-left: 0 !important;
-        }
-        th{
-            font-size: 13px !important;
-        }
-    </style>
+
     @stack('styles')
 </head>
 

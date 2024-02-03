@@ -47,7 +47,6 @@
                             <div class="col-md-6">
                                 <div class="mb-4">
                                     <label for="role_name" class="form-label">الجهات </label>
-
                                     @php
                                         $gehat = json_decode($member->gehat);
                                         $users = \App\Models\User::whereIn('id', $gehat)->get();

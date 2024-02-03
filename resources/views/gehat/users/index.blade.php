@@ -42,7 +42,7 @@
                                         <div class="btn-group">
                                             <a href="{{ route('gehat.users.edit', $user->id) }}" data-category-id="{{ $user->id }}"
                                                class="text-muted font-size-20"><i class="bx bxs-edit"></i></a>
-                                            <form action="{{ route('gehat.programs.destroy', $user->id) }}"
+                                            <form action="{{ route('gehat.users.destroy', $user->id) }}"
                                                   method="POST">@csrf @method('delete')
                                                 <a class="text-muted font-size-20 confirm-delete"><i
                                                         class="bx bx-trash"></i></a>

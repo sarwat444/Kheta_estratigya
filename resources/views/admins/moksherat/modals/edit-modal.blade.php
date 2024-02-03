@@ -15,6 +15,12 @@
                         <input type="hidden" id="program_id" name="program_id">
                         <input type="hidden" id="id" name="id">
                     </div>
+
+                    <div class="form-group">
+                        <label for="types">Types</label>
+                        <select id="types" class="form-control" name="types[]" multiple="multiple" style="width: 100%"></select>
+                    </div>
+
                     <div class="form-group text-center mt-2">
                         <button id="modal-blockui" type="submit" class="btn btn-primary">حفظ </button>
                     </div>

@@ -6,7 +6,14 @@
 @section('content')
                 <div class="card-body" style="text-align: right">
                     <h3 class="text-center  font-size-17 mb-4"> {{ $mokaser_data->name }}</h3>
-                    <h4 class="mb-4 font-size-17" style="font-weight: bold">المستهدف السنوى : <span class="badge badge-soft-primary">{{ $mokaser_data->mokasher_geha_inputs->target }}</span></h4>
+                    @if(!empty($selected_year))
+                        <label> المستهدف فى سنه {{ $selected_year->year_name }}</label>
+                        <input type="text" readonly value="{{$selected_year_value->value}}" class="form-control" >
+                        <input  type="hidden" name="target" value="{{$selected_year_value->value}}">
+                        <input type="hidden" name="year_id" value="{{ $selected_year_value->year_id }}">
+                    @else
+                        <span class="text-danger">* لم يتم  تحديد السنه  المستهدفه </span>
+                    @endif
                    <br>
                     <div class="row">
                         <div class="col-md-6">

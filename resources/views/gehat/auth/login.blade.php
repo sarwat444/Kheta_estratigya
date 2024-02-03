@@ -11,7 +11,7 @@
         {
             direction: rtl;
             font-family: 'Noto Kufi Arabic', sans-serif;
-            background-image: linear-gradient( #0c3f77f2, #0f4e93c7), url(http://127.0.0.1:8000/assets/site/images/background.jpg);
+            background-image: linear-gradient( #0c3f77f2, #0f4e93c7), url({{asset(PUBLIC_PATH.'assets/site/images/background.jpg')}});
             background-size: cover;
             background-position: center;
 

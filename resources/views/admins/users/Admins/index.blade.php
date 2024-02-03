@@ -1,5 +1,4 @@
 @extends('admins.layouts.app')
-
 @push('title','مديري النظام')
 @push('styles')
     <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet"
@@ -42,10 +41,10 @@
                                     <div class="btn-group">
                                         <a href="{{ route('dashboard.admins.edit', $admin->id) }}" data-category-id="{{ $admin->id }}"
                                            class="text-muted font-size-20"><i class="bx bxs-edit"></i></a>
-                                        <form action="{{ route('dashboard.admins.destroy', $admin->id) }}"
-                                              method="POST">@csrf @method('delete')
-                                            <a class="text-muted font-size-20 confirm-delete"><i
-                                                    class="bx bx-trash"></i></a>
+                                        <form action="{{ route('dashboard.admins.destroy') }}" method="POST">
+                                             @csrf
+                                            <input type="hidden" name="admin_id" value="{{$admin->id}}">
+                                            <a class="text-muted font-size-20 confirm-delete"><i class="bx bx-trash"></i></a>
                                         </form>
                                     </div>
                                         @else

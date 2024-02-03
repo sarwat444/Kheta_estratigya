@@ -58,7 +58,6 @@
 
                         @forelse($mokashert  as $mokasher)
 
-                            @if(!empty($mokasher->mokasher_inputs))
                                 @php
                                    $users =  json_decode($mokasher->mokasher_inputs->users)
                                 @endphp
@@ -109,7 +108,6 @@
                                             @endif
                                         </td>
                                     </tr>
-                                    @endif
 
                             @endif
                         @empty

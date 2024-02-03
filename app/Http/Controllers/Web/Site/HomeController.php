@@ -10,8 +10,11 @@ class HomeController extends Controller
 {
     use ResponseJson;
 
+    public function Home()
+    {
+        return view('welcome') ;
+    }
     public function index()
-
     {
         return view('gehat.dashboard.index');
     }

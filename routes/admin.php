@@ -48,8 +48,8 @@ Route::controller(NewPasswordController::class)->prefix('admins')->middleware('g
 /** admin dashboard routes */
 Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as' => 'dashboard.'], function () {
 
-    Route::get('/yearDashboard/{year_id}' , [DashboardController::class, 'yearDashboard'])->name('yearDashboard');
     Route::get('/', [KhetaController::class , 'index'])->name('index');
+    Route::get('/yearDashboard/{year_id}' , [DashboardController::class, 'yearDashboard'])->name('yearDashboard');
     Route::get('/objectivesDashboard/{kheta_id}/{year_id?}' , [DashboardController::class, 'kheta_dashboard'])->name('objectivesDashboard');
     Route::get('/goal_statastics/{kheta_id}/{objective_id}/{year_id?}' , [DashboardController::class, 'goal_statastics'])->name('goal_statastics');
     Route::get('/program_statastics/{kheta_id}/{goal_id}/{year_id?}' , [DashboardController::class, 'program_statastics'])->name('program_statastics');
@@ -100,8 +100,8 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
      Route::get('editadmin/{id}', [UsersController::class, 'editadmin'])->name('admins.edit');
       Route::PUT('updateadmin/{id}', [UsersController::class, 'updateadmin'])->name('admins.updateadmin');
      Route::get('createadmin', [UsersController::class, 'createadmin'])->name('admins.create');
-    Route::get('destory_admin', [UsersController::class, 'destory_admin'])->name('admins.destroy');
-    Route::post('storeadmin', [UsersController::class, 'storeadmin'])->name('admins.storeAdmin');
+      Route::post('destory_admin', [UsersController::class, 'destory_admin'])->name('admins.destroy');
+      Route::post('storeadmin', [UsersController::class, 'storeadmin'])->name('admins.storeAdmin');
 
 
 

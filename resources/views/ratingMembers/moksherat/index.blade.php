@@ -66,7 +66,7 @@
 
                                 <td>
                                     @if(!empty($mokasher->mokasher_geha_inputs))
-                                     <a  class="btn btn-primary btn btn-sm" href="{{ route('rating.ratinginput', $mokasher->id) }}"> عرض المؤشر </a>
+                                     <a  class="btn btn-primary btn btn-sm" href="{{ route('rating.ratinginput', $mokasher->id ) }}"> عرض المؤشر </a>
                                     @else
                                         <span class="text-danger"> توجيه المؤشر أولا</span>
                                     @endif

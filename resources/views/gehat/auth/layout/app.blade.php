@@ -20,15 +20,22 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500&display=swap" rel="stylesheet">
     <style>
+
+        body , html
+        {
+            direction: rtl;
+            text-align: right;
+        }
         body
         {
             direction: rtl;
             font-family: 'Noto Kufi Arabic', sans-serif;
+            background-image: linear-gradient( #0c3f77f2, #0f4e93c7), url({{asset(PUBLIC_PATH.'assets/site/images/background.jpg')}});
+            background-size: cover;
+            background-position: center;
+
         }
-        html
-        {
-            font-family: 'Noto Kufi Arabic', sans-serif;
-        }
+
         .main-content
         {
             margin-left: 0 !important;

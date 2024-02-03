@@ -34,18 +34,20 @@ class MokasherController extends Controller
             $query->where('value', '!=', '0');
         })->where('selected', 1)->first();
 
-
         if ($selectedYear) {
             $selectedYearId = $selectedYear->id;
             $mokashert = $this->mokasherModel
                 ->whereHas('mokasher_execution_years', function ($query) use ($selectedYearId) {
                     $query->where('year_id', $selectedYearId)->where('value', '!=', '0');
-                })->with('mokasher_inputs' ,'mokasher_geha_inputs' ,'addedBy_fun', 'program')
+                })->with('mokasher_geha_inputs' , function ($query) use($selectedYearId){
+                    $query->where('year_id' , $selectedYearId) ;
+                })->with('mokasher_inputs','addedBy_fun', 'program')
                 ->where('program_id', $program_id)
                 ->get();
         } else {
             $mokashert = collect(); // Empty collection if no selected year is found
         }
+
         return view('gehat.moksherat.index', compact('mokashert', 'program_id'));
     }
     public function create(): \Illuminate\View\View
@@ -91,6 +93,7 @@ class MokasherController extends Controller
             ->first();
         $mokasher = Mokasher::with(['mokasher_geha_inputs' => function($query) use($selected_year_value){
              $query->where('year_id' , $selected_year_value->year_id);
+
         }])->with('program.goal.objective.kheta' ,'mokasher_inputs')->where('id', $mokasher_id)->first();
 
         return view('gehat.moksherat.create_mokaseerinput', compact('users', 'mokasher_id', 'mokasher' ,'selected_year_value' ,'selected_year'));
@@ -140,7 +143,7 @@ class MokasherController extends Controller
             $query->where('sub_geha_id', Auth::user()->id);
         })->with(['mokasher_geha_inputs' => function ($query) {
             $query->where('sub_geha_id', Auth::user()->id);
-        }])->get();
+        }])->with('addedBy_fun')->get();
         return view('sub_geha.moksherat.index', compact('mokashert'));
     }
 
@@ -191,13 +194,15 @@ class MokasherController extends Controller
     /** Custom Function  To Store  الادله والشواهد والمعواقات  للجهات  */
     public function store2_sub_geha_mokasher_input(Request $request, $id)
     {
+
         if(!empty($request->part)) {
             if($request->part == 'part_1'){
+
                 $input = MokasherGehaInput::updateOrCreate(
                     [
                         'sub_geha_id' => $request->input('geha_id'),
                         'mokasher_id' => $request->input('mokasher_id') ,
-                        'year_id' => $request->input('year_id')
+                        'year_id' => $request->input('year_id') ,
                     ],
                     [
                         'vivacity1' => $request->input('vivacity1'),
@@ -216,7 +221,6 @@ class MokasherController extends Controller
                     $input->evidence1 = json_encode($existingFilePaths);
                 }
                 $input->save();
-
                 return redirect()->back()->with('success', 'لقد تم أدخال  بيانات الربع الأول  بنجاح ');
             }
             if($request->part == 'part_2'){
@@ -306,10 +310,24 @@ class MokasherController extends Controller
             }
         }
     }
-    public function  mokasherData($id)
+    public function  mokasherData($mokasher_id)
     {
-      $mokaser_data  =  Mokasher::with('mokasher_geha_inputs' , 'mokasher_inputs')->where('id' , $id)->first() ;
-      return view('gehat.moksherat.show' , compact('mokaser_data')) ;
+        $users = User::where('geha_id' , Auth::user()->id)->get();
+        $mokasher_kehta = Mokasher::with('program.goal.objective.kheta')->where('id', $mokasher_id)->first();
+        $stored_kheta_id =  $mokasher_kehta->program->goal->objective->kheta->id ;  //الحصول   على id  الخطه
+
+        $selected_year = Execution_year::whereHas('MokasherExcutionYears')
+            ->where(['kheta_id' => $stored_kheta_id, 'selected' => 1])
+            ->first();
+
+        $selected_year_value = MokasherExecutionYear::where(['mokasher_id' => $mokasher_id, 'year_id' => $selected_year->id])
+            ->first();
+
+        $mokaser_data = Mokasher::with(['mokasher_geha_inputs' => function($query) use($selected_year_value){
+            $query->where('year_id' , $selected_year_value->year_id);
+        }])->with('program.goal.objective.kheta' ,'mokasher_inputs')->where('id', $mokasher_id)->first();
+
+      return view('gehat.moksherat.show' , compact('mokaser_data' , 'selected_year' ,'selected_year_value')) ;
     }
     public function delete_file(Request $request)
     {

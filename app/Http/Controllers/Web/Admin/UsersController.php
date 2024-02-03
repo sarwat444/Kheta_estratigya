@@ -29,9 +29,8 @@ class UsersController extends Controller
     {
         $users  =  $this->user->with('mangemnet')->get() ;
         $kheta = Kheta::find($kheta_id) ;
-        $execution_years  = Execution_year::get() ;
+        $execution_years  = Execution_year::where('kheta_id' , $kheta_id )->get() ;
         return  view('admins.users.geaht.index')->with(compact('users' ,'execution_years' , 'kheta')) ;
-
     }
     /** Gehat  Functions */
     public function createuser($kehta_id)
@@ -163,9 +162,9 @@ class UsersController extends Controller
         }
     }
 
-    public function  destory_admin($id=null): \Illuminate\Http\RedirectResponse
+    public function  destory_admin(Request $request): \Illuminate\Http\RedirectResponse
     {
-        $staff = Admin::find($id) ;
+        $staff = Admin::find($request->admin_id) ;
         if($staff)
         {
             $staff->delete() ;

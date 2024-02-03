@@ -21,6 +21,10 @@ class Mokasher extends Model
         return $this->hasOne(MokasherGehaInput::class , 'mokasher_id' , 'id') ;
 
     }
+    public  function  mokasher_geha_inputss()
+    {
+        return $this->hasMany(MokasherGehaInput::class , 'mokasher_id' , 'id') ;
+    }
     public function mokasher_execution_years()
     {
         return $this->hasMany(MokasherExecutionYear::class , 'mokasher_id' , 'id') ;

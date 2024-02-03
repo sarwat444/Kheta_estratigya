@@ -82,7 +82,7 @@ class UsersController extends Controller
         if($user)
         {
             $user->delete() ;
-            return  redirect()->back()->with('success' , 'User Deleted successfully') ;
+            return  redirect()->back()->with('success' , 'لقد تم حذف  الجهه بنجاح ') ;
         }
         return  redirect()->back()->with('error' , 'User Not Found ') ;
     }
