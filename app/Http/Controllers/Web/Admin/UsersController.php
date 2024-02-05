@@ -27,7 +27,7 @@ class UsersController extends Controller
     {}
     public  function show($kheta_id)
     {
-        $users  =  $this->user->with('mangemnet')->get() ;
+        $users  =  $this->user->where('kehta_id' , $kheta_id )->with('mangemnet')->get() ;
         $kheta = Kheta::find($kheta_id) ;
         $execution_years  = Execution_year::where('kheta_id' , $kheta_id )->get() ;
         return  view('admins.users.geaht.index')->with(compact('users' ,'execution_years' , 'kheta')) ;

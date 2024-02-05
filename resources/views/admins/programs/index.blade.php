@@ -41,7 +41,8 @@
                             <i class="bx bx-add-to-queue font-size-16 align-middle me-2"></i>أضافه برنامج جديد
                         </button>
                     </div>
-                    <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100 text-center">
+                    <div class="table-responsive">
+                      <table id="datatable" class="table table-bordered">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -77,6 +78,7 @@
 
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
         </div>

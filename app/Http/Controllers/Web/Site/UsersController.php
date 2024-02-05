@@ -7,6 +7,8 @@ use App\Http\Requests\Web\Admin\users\StoreUserRequest;
 use App\Http\Requests\Web\Admin\users\UpdateUserRequest;
 use App\Models\Execution_year;
 use App\Models\Mangement;
+use App\Models\Mokasher;
+use App\Models\MokasherGehaInput;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -86,5 +88,51 @@ class UsersController extends Controller
         }
         return  redirect()->back()->with('error' , 'User Not Found ') ;
     }
+
+    /** Report For Every Part - Report  #1  */
+    public function get_users_reports(Request $request)
+    {
+        $gehat = $this->user->where('geha_id', Auth::user()->id)->get();
+        if ($request->isMethod('post')) {
+            if (!empty($request->sub_geha)) {
+                $selected_geha = $request->sub_geha ;
+                $results = MokasherGehaInput::with('mokasher', 'sub_geha')
+                    ->where('sub_geha_id', $request->sub_geha)
+                    ->selectRaw("* ,part_{$request->part} as mostahdf , rate_part_{$request->part} as rating , note_part_{$request->part} as note")
+                    ->get();
+                return view('gehat.reports.mokashert_parts_report', compact('results', 'gehat' ,'selected_geha'));
+            }
+        } else {
+            return view('gehat.reports.mokashert_parts_report', compact('gehat'));
+        }
+    }
+
+
+    /** Report For Every yesr - Report  #2  */
+    public function get_users_reports_year(Request $request)
+    {
+        $gehat = $this->user->where('geha_id', Auth::user()->id)->get();
+        $kheta_id  = Auth::user()->kehta_id ;
+        $years =  Execution_year::where('kheta_id' , $kheta_id )->get() ;
+
+        if ($request->isMethod('post')) {
+            if (!empty($request->sub_geha)) {
+                $selected_geha = $request->sub_geha;
+                $results = MokasherGehaInput::with('mokasher', 'sub_geha')
+                    ->where('geha_id', Auth::user()->id)
+                    ->where(['sub_geha_id' => $request->sub_geha, 'year_id' => $request->year_id])
+                    ->selectRaw("*, (part_1 + part_2 + part_3 + part_4) AS mostahdf  , (rate_part_1 + rate_part_2 + rate_part_3 + rate_part_4) AS rating")
+                    ->get();
+                return view('gehat.reports.mokashert_year_report', compact('results', 'gehat', 'selected_geha' ,'years'));
+            }
+            } else {
+                return view('gehat.reports.mokashert_year_report', compact('gehat' , 'years'));
+            }
+    }
+
+
+
+
+
 
 }

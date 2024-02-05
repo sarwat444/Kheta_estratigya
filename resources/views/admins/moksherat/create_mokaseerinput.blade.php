@@ -20,7 +20,6 @@
         </div>
     </div>
 </div>
-
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
@@ -51,7 +50,8 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label">الجهه المختصه</label>
-                                    <select class="select2 form-control select2-multiple" name="users[]" multiple="multiple" data-placeholder="أختر الجهه المختصه" style="text-align: right">
+                                    <input type="checkbox" id="checkbox"  style="float: left">
+                                    <select  id="e1" class="select2 form-control select2-multiple" name="users[]" multiple="multiple" data-placeholder="أختر الجهه المختصه" style="text-align: right">
                                         @php
                                             $selected_users =[] ;
                                                if(!empty($mokasher->mokasher_inputs->users))
@@ -127,6 +127,21 @@
                 // Update the total field with the calculated sum
                 $('#target').val(total);
             }
+        });
+    </script>
+    <script>
+        $("#checkbox").click(function(){
+            if($("#checkbox").is(':checked') ){
+                $("#e1 > option").prop("selected","selected");
+                $("#e1").trigger("change");
+            }else{
+                $("#e1 > option").removeAttr("selected");
+                $("#e1").trigger("change");
+            }
+        });
+
+        $("#button").click(function(){
+            alert($("#e1").val());
         });
     </script>
     @include('admins.courses.scripts.detect-input-change')

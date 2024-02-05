@@ -11,13 +11,13 @@
     <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <!-- Responsive datatable examples -->
     <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
 
     <style>
         .select2-container--bootstrap4.select2-dropdown--below {
             z-index: 1051; /* Adjust the z-index as needed */
         }
     </style>
-
 @endpush
 @section('content')
 <div class="row">
@@ -45,60 +45,62 @@
                             <i class="bx bx-add-to-queue font-size-16 align-middle me-2"></i>أضافه مؤشر جديد
                         </button>
                     </div>
-                    <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100 text-center">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>المؤشر</th>
-                            <th> نوع المؤشر</th>
-                            <th>مدخلات المؤشر</th>
-                            <th>التحكم</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @forelse($mokashert  as $mokasher)
+                    <div class="table-responsive">
+                        <table id="datatable" class="table table-bordered">
+                            <thead>
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td style="text-align: right">{{ $mokasher->name }} </td>
-                                <td style="text-align: right">
-                                   @if(!empty($mokasher->type))
-                                       @php
-                                       $types = json_decode($mokasher->type) ;
-                                       @endphp
-                                       @foreach ($types as $type)
-                                              @if($type == 0)
-                                                <span class="badge badge-soft-primary font-size-13"> وزاره </span>
-                                               @elseif($type == 1)
-                                                <span class="badge badge-soft-primary font-size-13"> جامعه </span>
-                                                @elseif($type == 2)
-                                                <span class="badge badge-soft-primary font-size-13"> كليه </span>
-                                                @elseif($type == 3)
-                                                <span class="badge badge-soft-primary font-size-13"> الكل </span>
-                                              @endif
-                                        @endforeach
-                                    @endif
-                                </td>
-                                <td><a  class="btn btn-success btn btn-sm" href="{{ route('dashboard.moksherat.mokaseerinput', $mokasher->id) }}"> مدخلات المؤشر </a></td>
-                                <td>
-                                    <div class="btn-group">
-
-                                        <a  href="{{route('dashboard.moksherat.edit' ,$mokasher->id )}}" data-category-id="{{ $mokasher->id }}" class="text-muted font-size-20 "><i class="bx bxs-edit"></i></a>
-                                        <form action="{{ route('dashboard.moksherat.destroy', $mokasher->id) }}"
-                                              method="POST">@csrf @method('delete')
-                                            <a class="text-muted font-size-20 confirm-delete"><i
-                                                    class="bx bx-trash"></i></a>
-                                        </form>
-                                    </div>
-                                </td>
+                                <th>#</th>
+                                <th>المؤشر</th>
+                                <th> نوع المؤشر</th>
+                                <th>مدخلات المؤشر</th>
+                                <th>التحكم</th>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4" class="text-center">لا يوجد بيانات بالجدول</td>
-                            </tr>
-                        @endforelse
+                            </thead>
+                            <tbody>
+                            @forelse($mokashert  as $mokasher)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td style="text-align: right">{{ $mokasher->name }} </td>
+                                    <td style="text-align: right">
+                                       @if(!empty($mokasher->type))
+                                           @php
+                                           $types = json_decode($mokasher->type) ;
+                                           @endphp
+                                           @foreach ($types as $type)
+                                                  @if($type == 0)
+                                                    <span class="badge badge-soft-primary font-size-13 mb-1"> وزاره </span>
+                                                   @elseif($type == 1)
+                                                    <span class="badge badge-soft-primary font-size-13 mb-1"> جامعه </span>
+                                                    @elseif($type == 2)
+                                                    <span class="badge badge-soft-primary font-size-13 mb-1"> كليه </span>
+                                                    @elseif($type == 3)
+                                                    <span class="badge badge-soft-primary font-size-13 mb-1"> الكل </span>
+                                                  @endif
+                                            @endforeach
+                                        @endif
+                                    </td>
+                                    <td><a  class="btn btn-success btn btn-sm font-size-12" href="{{ route('dashboard.moksherat.mokaseerinput', $mokasher->id) }}"> مدخلات المؤشر </a></td>
+                                    <td>
+                                        <div class="btn-group">
 
-                        </tbody>
-                    </table>
+                                            <a  href="{{route('dashboard.moksherat.edit' ,$mokasher->id )}}" data-category-id="{{ $mokasher->id }}" class="text-muted font-size-20 "><i class="bx bxs-edit"></i></a>
+                                            <form action="{{ route('dashboard.moksherat.destroy', $mokasher->id) }}"
+                                                  method="POST">@csrf @method('delete')
+                                                <a class="text-muted font-size-20 confirm-delete"><i
+                                                        class="bx bx-trash"></i></a>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="text-center">لا يوجد بيانات بالجدول</td>
+                                </tr>
+                            @endforelse
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -119,7 +121,7 @@
     <!-- Datatable init js -->
     <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/datatables.init.js')}}"></script>
 
-    <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/js/select2.min.js')}}"></script>
+
     <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/form-advanced.init.js')}}"></script>
     <script>
         $(document).ready(function() {

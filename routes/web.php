@@ -31,15 +31,19 @@ Route::group(['as' => 'gehat.', 'middleware' => ['auth','checkIsManger']], funct
     Route::post('update_mokasher_parts' ,  [MokasherController::class , 'update_mokasher_parts'])->name('update_mokasher_parts') ;
 
     /** Objectives  routes */
+
     Route::resource('objectives', ObjectiveController::class);
 
     /** Goals  routes */
+
     Route::resource('goals', GoalController::class);
 
     /** Programs  routes */
+
     Route::resource('programs', ProgramController::class);
 
     /** Mokshrat  routes */
+
     Route::resource('moksherat', MokasherController::class);
 
     Route::resource('users', UsersController::class);
@@ -51,6 +55,11 @@ Route::group(['as' => 'gehat.', 'middleware' => ['auth','checkIsManger']], funct
     Route::get('mokasherData/{id}' , [MokasherController::class , 'mokasherData'])->name('mokasherData') ;
 
     Route::post('/gehat_logout' , [HomeController::class ,  'logout'])->name('Gehtlogout');
+
+    Route::match(['get', 'post'],'get_users_reports' , [UsersController::class , 'get_users_reports'])->name('get_users_reports') ;
+
+    Route::match(['get', 'post'], 'get_users_reports_year', [UsersController::class, 'get_users_reports_year'])->name('get_users_reports_year');
+
 });
 
 Route::group(['as' => 'sub_geha.'  ,'middleware' => ['auth' ,'CheckSubGehaManger']], function () {
