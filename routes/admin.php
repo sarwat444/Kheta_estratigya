@@ -96,6 +96,9 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
 
     /** Admins Routes */
 
+
+
+
     Route::get('admins', [UsersController::class, 'admins'])->name('users.admins');
      Route::get('editadmin/{id}', [UsersController::class, 'editadmin'])->name('admins.edit');
       Route::PUT('updateadmin/{id}', [UsersController::class, 'updateadmin'])->name('admins.updateadmin');
@@ -115,6 +118,11 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
     Route::get('sections-datatables', [SectionController::class, 'sectionsDatatables'])->name('sections.datatables');
     Route::post('sections/{section}/update-lessons-order', [SectionController::class, 'updateLessonsOrder'])->name('sections.update.order');
 
+
+    /** Reports Routes */
+    Route::get('mokasherat_gehat_report/{kheta_id}/{year_id?}/{part?}' ,[DashboardController::class ,'mokasherat_gehat_report'])->name('mokasherat_gehat_report') ;
+
+    Route::post('mokasherat_gehat_report' ,[DashboardController::class ,'mokasherat_gehat_report']);
 
     /** lessons routes */
     Route::resource('lessons', LessonController::class);

@@ -4,7 +4,7 @@
             <ul class="metismenu list-unstyled" id="side-menu" style="margin-top:45px">
                 <li>
                     <a href="{{route('dashboard.kheta.index')}}">
-                        <i class="bx bx-user-circle"></i>
+                        <i class="bx bx-layout"></i>
                         <span key="t-maps">  الخطط </span>
                     </a>
                 </li>

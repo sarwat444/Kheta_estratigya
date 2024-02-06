@@ -29,7 +29,10 @@
         <a href="{{route('dashboard.objectivesDashboard',$kheta->id)}}" class="btn btn-primary btn-sm" style="margin-left: 5px"> لوحه التحكم </a>
         <a href="{{route('dashboard.users.show',$kheta->id)}}" class="btn btn-success btn-sm" style="margin-left: 5px"> الجهات </a>
         <a href="{{route('dashboard.ratingMembers.show' ,$kheta->id )}}" class="btn btn-success btn-sm" style="margin-left: 5px">لجان التقييم</a>
+        <a href="{{route('dashboard.mokasherat_gehat_report' ,$kheta->id )}}" class="btn btn-success btn-sm" style="margin-left: 5px"> تقرير الجهات </a>
+
     </div>
+
 
     <div class="row">
         <div class="col-12">

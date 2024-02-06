@@ -9,6 +9,7 @@ use App\Models\Mokasher;
 use App\Models\MokasherGehaInput;
 use App\Models\Objective;
 use App\Models\Program ;
+use App\Models\User;
 use DB ;
 
 class DashboardController extends Controller
@@ -80,6 +81,7 @@ class DashboardController extends Controller
         }
         return view('admins.dashboard.programs' , compact('programs','Execution_years','goal_id','year_id' ,'kheta_id'));
     }
+
     public function mokashrat_statastics($kheta_id ,$program_id , $year_id = null , $part = null  )
     {
 
@@ -112,4 +114,20 @@ class DashboardController extends Controller
         }
         return view('admins.dashboard.mokashrat' , compact('mokashers' ,'Execution_years' ,'program_id','year_id','kheta_id' ));
     }
+    /** Mokasherat Report  */
+  public  function mokasherat_gehat_report($kheta_id , $year_id = null , $part = null )
+  {
+      $years  = Execution_year::where('kheta_id', $kheta_id)->get();
+      $gehat = User::where('kehta_id', $kheta_id)->get() ;
+      if (!empty($year_id)) {
+              $results = MokasherGehaInput::select('mokasher_id')
+                  ->where('year_id', $year_id)
+                  ->groupBy('mokasher_id')
+                  ->with('mokasher')
+                  ->get();
+       return view('admins.reports.view_mokasherat_gehat' , compact('results' ,'years' ,'year_id','kheta_id' ,'gehat' ,'part'));
+      }
+      return view('admins.reports.view_mokasherat_gehat' , compact('years' ,'kheta_id' ,'year_id','gehat' ,'part'));
+  }
+
 }

@@ -22,4 +22,8 @@ class MokasherGehaInput extends Model
        return  $this->belongsTo(User::class , 'sub_geha_id' , 'id');
     }
 
+    public function geha()
+    {
+        return $this->belongsTo(User::class , 'geha_id' , 'id');
+    }
 }
