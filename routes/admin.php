@@ -121,8 +121,13 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
 
     /** Reports Routes */
     Route::get('mokasherat_gehat_report/{kheta_id}/{year_id?}/{part?}' ,[DashboardController::class ,'mokasherat_gehat_report'])->name('mokasherat_gehat_report') ;
-
     Route::post('mokasherat_gehat_report' ,[DashboardController::class ,'mokasherat_gehat_report']);
+
+    Route::get('mokasherat_files_report/{kheta_id}/{year_id?}/{part?}' ,[DashboardController::class ,'mokasherat_files_report'])->name('mokasherat_files_report');;
+    Route::post('mokasherat_files_report' ,[DashboardController::class ,'mokasherat_files_report']);
+
+
+
 
     /** lessons routes */
     Route::resource('lessons', LessonController::class);

@@ -130,4 +130,20 @@ class DashboardController extends Controller
       return view('admins.reports.view_mokasherat_gehat' , compact('years' ,'kheta_id' ,'year_id','gehat' ,'part'));
   }
 
+  /* Report  for  count  uploaded of mokashers  files */
+  public function mokasherat_files_report($kheta_id , $year_id = null , $part = null )
+  {
+      $years  = Execution_year::where('kheta_id', $kheta_id)->get();
+      $gehat = User::where('kehta_id', $kheta_id)->get() ;
+      if (!empty($year_id)) {
+
+          $results = MokasherGehaInput::select('geha_id')
+              ->where('year_id', $year_id)
+              ->groupBy('geha_id')
+              ->get();
+          return view('admins.reports.uploaded_files_report' , compact('results' ,'years' ,'year_id','kheta_id' ,'gehat' ,'part'));
+      }
+      return view('admins.reports.uploaded_files_report' , compact('years' ,'kheta_id' ,'year_id','gehat' ,'part'));
+  }
+
 }
