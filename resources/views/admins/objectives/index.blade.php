@@ -31,7 +31,7 @@
         <a href="{{route('dashboard.ratingMembers.show' ,$kheta->id )}}" class="btn btn-success btn-sm" style="margin-left: 5px">لجان التقييم</a>
         <a href="{{route('dashboard.mokasherat_gehat_report' ,$kheta->id )}}" class="btn btn-success btn-sm" style="margin-left: 5px"> تقرير الجهات </a>
         <a href="{{route('dashboard.mokasherat_files_report' , $kheta->id )}}" class="btn btn-success btn-sm" style="margin-left: 5px"> أداء مؤشرات  الجهات </a>
-
+        <a href="{{route('dashboard.Histogram_kheta_objectives_dashboard' , $kheta->id )}}" class="btn btn-success btn-sm" style="margin-left: 5px"> متابعه تطور  الأداء  </a>
     </div>
 
 

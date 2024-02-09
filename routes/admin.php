@@ -50,10 +50,16 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
 
     Route::get('/', [KhetaController::class , 'index'])->name('index');
     Route::get('/yearDashboard/{year_id}' , [DashboardController::class, 'yearDashboard'])->name('yearDashboard');
+
+
+
     Route::get('/objectivesDashboard/{kheta_id}/{year_id?}' , [DashboardController::class, 'kheta_dashboard'])->name('objectivesDashboard');
     Route::get('/goal_statastics/{kheta_id}/{objective_id}/{year_id?}' , [DashboardController::class, 'goal_statastics'])->name('goal_statastics');
     Route::get('/program_statastics/{kheta_id}/{goal_id}/{year_id?}' , [DashboardController::class, 'program_statastics'])->name('program_statastics');
     Route::get('/mokashrat_statastics/{kheta_id}/{program_id}/{year_id?}/{part?}' , [DashboardController::class, 'mokashrat_statastics'])->name('mokashrat_statastics');
+
+
+
 
     /** Filter With Year */
     Route::get('/mokasherat_year/{year_id}' , [DashboardController::class, 'mokasherat_year'])->name('mokasherat_year');
@@ -125,6 +131,18 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
 
     Route::get('mokasherat_files_report/{kheta_id}/{year_id?}/{part?}' ,[DashboardController::class ,'mokasherat_files_report'])->name('mokasherat_files_report');;
     Route::post('mokasherat_files_report' ,[DashboardController::class ,'mokasherat_files_report']);
+
+
+
+    Route::get('/Histogram_kheta_objectives_dashboard/{kheta_id}/{year_id?}' , [DashboardController::class, 'Histogram_kheta_objectives_dashboard'])->name('Histogram_kheta_objectives_dashboard');
+    Route::get('/Histogram_goal_statastics/{kheta_id}/{objective_id}/{year_id?}' , [DashboardController::class, 'Histogram_goal_statastics'])->name('Histogram_goal_statastics');
+    Route::get('/Histogram_program_statastics/{kheta_id}/{goal_id}/{year_id?}' , [DashboardController::class, 'Histogram_program_statastics'])->name('Histogram_program_statastics');
+    Route::get('/Histogram_mokashrat_statastics/{kheta_id}/{program_id}/{year_id?}/{part?}' , [DashboardController::class, 'Histogram_mokashrat_statastics'])->name('Histogram_mokashrat_statastics');
+
+
+
+
+
 
 
 
