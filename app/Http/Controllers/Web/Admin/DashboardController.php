@@ -158,15 +158,49 @@ class DashboardController extends Controller
     {
         return view('admins.dashboard.goals');
     }
-    public function Histogram_program_statastics($kheta_id , $objective_id , $year_id = null )
-    {
-        return view('admins.dashboard.goals');
-    }
-    public function Histogram_mokashrat_statastics($kheta_id , $objective_id , $year_id = null )
-    {
 
-        return view('admins.dashboard.goals');
+    public function Histogram_program_statastics($kheta_id)
+    {
+        $Execution_years = Execution_year::where('kheta_id', $kheta_id)->get();
 
+        $programs = Program::withCount('moksherat')->with(['moksherat.mokasher_geha_inputs' => function ($query) use ($Execution_years) {
+            $query->select('mokasher_id',
+                DB::raw('(SUM(rate_part_1 + rate_part_2 + rate_part_3 + rate_part_4) / SUM(part_1 + part_2 + part_3 + part_4)) * 100 as percentage')
+            )->whereIn('year_id', $Execution_years->pluck('id')) // Filter by the specified years
+            ->groupBy('mokasher_id');
+        }])->get();
+
+        return view('admins.reports.add_mokasher_histogam.programs', compact('programs', 'Execution_years'));
     }
+
+
+    /*Display All MoKASHERS wITH pARTS and  years */
+    public function Histogram_mokashrat_statastics($kheta_id , $program_id ,$year_id = null ,$part = null )
+    {
+        $Execution_years  = Execution_year::where('kheta_id', $kheta_id)->get();
+
+        $mokashers_parts = MokasherGehaInput::with('mokasher')->select(
+                            'mokasher_id',
+                            DB::raw("(SUM(rate_part_1) / SUM(part_1)) * 100 as part_1"),
+                            DB::raw("(SUM(rate_part_2) / SUM(part_2)) * 100 as part_2"),
+                            DB::raw("(SUM(rate_part_3) / SUM(part_3)) * 100 as part_3"),
+                            DB::raw("(SUM(rate_part_4) / SUM(part_4)) * 100 as part_4")
+                           )
+                            ->whereIn('year_id', $Execution_years->pluck('id')) // Filter by the specified years
+                            ->groupBy('mokasher_id')
+                           ->get();
+
+
+        $mokashers_years = MokasherGehaInput::with(['mokasher', 'mokasher.mokasher_execution_years'])
+            ->select(
+                'mokasher_id',
+                DB::raw("(((SUM(rate_part_1) + SUM(rate_part_2) + SUM(rate_part_3) + SUM(rate_part_4)) / SUM(part_1 + part_2 + part_3 + part_4)) * 100) as total_per_year"),
+            )
+            ->whereIn('year_id', $Execution_years->pluck('id')) // Filter by the specified years
+            ->groupBy('mokasher_id') // Group by both mokasher_id and year_id
+            ->get();
+            return view('admins.reports.add_mokasher_histogam.mokasherat' , compact('mokashers_parts' ,'mokashers_years','Execution_years'));
+    }
+
 
 }

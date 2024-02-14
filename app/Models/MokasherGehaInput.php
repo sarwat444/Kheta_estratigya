@@ -11,7 +11,7 @@ class MokasherGehaInput extends Model
     use HasFactory;
     public function mokasher()
     {
-        return $this->belongsTo(Mokasher::class , 'mokasher_id' , 'id') ;
+        return $this->belongsTo(Mokasher::class , 'mokasher_id') ;
     }
     public function ex_year()
     {
