@@ -164,11 +164,8 @@ class DashboardController extends Controller
         $Execution_years = Execution_year::where('kheta_id', $kheta_id)->get();
 
         $programs = Program::withCount('moksherat')->with(['moksherat.mokasher_geha_inputs' => function ($query) use ($Execution_years) {
-            $query->select('mokasher_id',
-                DB::raw('(SUM(rate_part_1 + rate_part_2 + rate_part_3 + rate_part_4) / SUM(part_1 + part_2 + part_3 + part_4)) * 100 as percentage')
-            )->whereIn('year_id', $Execution_years->pluck('id')) // Filter by the specified years
-            ->groupBy('mokasher_id');
-        }])->get();
+            $query->select('mokasher_id')->whereIn('year_id', $Execution_years->pluck('id'))->groupBy('mokasher_id');
+        }  ])->get();
 
         return view('admins.reports.add_mokasher_histogam.programs', compact('programs', 'Execution_years'));
     }

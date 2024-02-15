@@ -17,24 +17,14 @@
                     </div>
                 </div>
                 @php
-                    $custom_programs = \App\Models\Program::withCount('moksherat')->with(['moksherat.mokasher_geha_inputs' => function ($query) use($program) {
-                    $query->select('year_id',
-                            DB::raw('(SUM(rate_part_1 + rate_part_2 + rate_part_3 + rate_part_4) / SUM(part_1 + part_2 + part_3 + part_4)) * 100 as percentage')
-                    )->groupBy('year_id');
-                    }])->where('id', $program->id )->get() ;
+                    $custom_programs = \App\Models\MokasherGehaInput::select('year_id',
+                                        DB::raw('(SUM(rate_part_1 + rate_part_2 + rate_part_3 + rate_part_4) / SUM(part_1 + part_2 + part_3 + part_4)) * 100 as percentage')
+                                        )->groupBy('year_id')->get();
 
-                    $summations = [];
-                    foreach ($custom_programs as $program) {
-                        $total = 0;
-                        if (!empty($program->moksherat)) {
-                            foreach ($program->moksherat as $mokasher) {
-                                if (!empty($mokasher->mokasher_geha_inputs)) {
-                                    $total += $mokasher->mokasher_geha_inputs->percentage;
-                                }
-                            }
-                        }
-                        $summations[] = $total;
-                    }
+                         foreach ($custom_programs as $program)
+                        {
+                              $summations[] = $program->percentage;
+                         }
 
                 @endphp
 
@@ -85,7 +75,7 @@
                     var chart = new ApexCharts(document.querySelector("#year_chart{{$program->id}}"), options);
                     chart.render();
                 </script>
-            @endforeach
-        @endif
+    @endforeach
+    @endif
 @endsection
 
