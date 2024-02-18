@@ -135,7 +135,7 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
 
 
     Route::get('/Histogram_kheta_objectives_dashboard/{kheta_id}/{year_id?}' , [DashboardController::class, 'Histogram_kheta_objectives_dashboard'])->name('Histogram_kheta_objectives_dashboard');
-    Route::get('/Histogram_goal_statastics/{kheta_id}/{objective_id}/{year_id?}' , [DashboardController::class, 'Histogram_goal_statastics'])->name('Histogram_goal_statastics');
+    Route::get('/Histogram_goal_statastics/{kheta_id}/{objective_id}' , [DashboardController::class, 'Histogram_goal_statastics'])->name('Histogram_goal_statastics');
     Route::get('/Histogram_program_statastics/{kheta_id}/{goal_id}/{year_id?}' , [DashboardController::class, 'Histogram_program_statastics'])->name('Histogram_program_statastics');
     Route::get('/Histogram_mokashrat_statastics/{kheta_id}/{program_id}/{year_id?}/{part?}' , [DashboardController::class, 'Histogram_mokashrat_statastics'])->name('Histogram_mokashrat_statastics');
 

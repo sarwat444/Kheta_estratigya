@@ -150,28 +150,40 @@ class DashboardController extends Controller
   }
 
   /* Report  For Histogram  */
-    public  function Histogram_kheta_objectives_dashboard($kheta_id , $year_id = null): \Illuminate\View\View
+    public  function Histogram_kheta_objectives_dashboard($kheta_id): \Illuminate\View\View
     {
-        return view('admins.reports.add_mokasher_histogam.objectives');
+        $Execution_years = Execution_year::where('kheta_id', $kheta_id)->get();
+
+        $objectives  = Objective::withCount('goals')->with(['goals.programs.moksherat.mokasher_geha_inputs' => function ($query) use ($Execution_years) {
+            $query->select('mokasher_id')->whereIn('year_id', $Execution_years->pluck('id'))->groupBy('mokasher_id');
+        }  ])->where('kheta_id', $kheta_id)->get();
+
+        return view('admins.reports.add_mokasher_histogam.objectives', compact('objectives','kheta_id' ,  'Execution_years'));
     }
-    public function Histogram_goal_statastics($kheta_id , $objective_id , $year_id = null )
+    public function Histogram_goal_statastics($kheta_id , $objective_id)
     {
-        return view('admins.dashboard.goals');
+        $Execution_years = Execution_year::where('kheta_id', $kheta_id)->get();
+
+        $goals  = Goal::withCount('programs')->with(['programs.moksherat.mokasher_geha_inputs' => function ($query) use ($Execution_years) {
+            $query->select('mokasher_id')->whereIn('year_id', $Execution_years->pluck('id'))->groupBy('mokasher_id');
+        }  ])->where('objective_id', $objective_id)->get();
+
+        return view('admins.reports.add_mokasher_histogam.golas', compact('goals', 'Execution_years' ,'kheta_id'));
     }
 
-    public function Histogram_program_statastics($kheta_id)
+    public function Histogram_program_statastics($kheta_id , $goal_id)
     {
         $Execution_years = Execution_year::where('kheta_id', $kheta_id)->get();
 
         $programs = Program::withCount('moksherat')->with(['moksherat.mokasher_geha_inputs' => function ($query) use ($Execution_years) {
             $query->select('mokasher_id')->whereIn('year_id', $Execution_years->pluck('id'))->groupBy('mokasher_id');
-        }  ])->get();
+        }  ])->where('goal_id' , $goal_id )->get();
 
-        return view('admins.reports.add_mokasher_histogam.programs', compact('programs', 'Execution_years'));
+        return view('admins.reports.add_mokasher_histogam.programs', compact('programs', 'Execution_years' ,'kheta_id'));
     }
 
 
-    /*Display All MoKASHERS wITH pARTS and  years */
+    /*Display All Mokashers With  Parts and  Years */
     public function Histogram_mokashrat_statastics($kheta_id , $program_id ,$year_id = null ,$part = null )
     {
         $Execution_years  = Execution_year::where('kheta_id', $kheta_id)->get();
@@ -186,7 +198,6 @@ class DashboardController extends Controller
                             ->whereIn('year_id', $Execution_years->pluck('id')) // Filter by the specified years
                             ->groupBy('mokasher_id')
                            ->get();
-
 
         $mokashers_years = MokasherGehaInput::with(['mokasher', 'mokasher.mokasher_execution_years'])
             ->select(

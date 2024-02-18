@@ -158,13 +158,14 @@
                                                                     $filledCount++;
                                                                 }
                                                             }
-                                                            if ($filledCount == 2) {
+                                                            if ($filledCount >= 2) {
                                                                 $total = 1;
                                                             }else if($filledCount == 1) {
                                                                 $total = .50;
                                                             } else {
                                                                 $total = 0;
                                                             }
+
                                                     @endphp
                                                 <td>{{ $geha->geha->geha  }}</td>
                                                 <td>{{ $geha->mokasher->name }}</td>

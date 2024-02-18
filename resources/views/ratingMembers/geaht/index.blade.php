@@ -32,7 +32,6 @@
                                 <td>
                                     <div class="btn-group">
                                         <a class="btn btn-primary" href="{{ route('rating.rating_mokshart',$user->id)}}" data-category-id="{{ $user->id }}"><i class="bx bxs-eye"></i> عرض المؤشرات</a>
-
                                     </div>
                                 </td>
                             </tr>

@@ -6,35 +6,102 @@
 
 @section('content')
     <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18"> تقرير  متابعه أداء المؤشرات - تطور الأداء - البرامج   </h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">  تقرير  متابعه أداء المؤشرات - تطور الأداء </a></li>
+                        <li class="breadcrumb-item active">  التقارير  </li>
+                    </ol>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
         @if(!empty($programs))
             @foreach ($programs  as $program)
                 <div class="col-sm-3">
                     <div class="card">
                         <div class="card-body">
-                            <h3 style="font-size: 14px;margin-bottom: 30px;">{{ $program->program }}</h3>
+                            <h3 style="font-size: 14px;margin-bottom: 30px;"><a href="{{route('dashboard.Histogram_mokashrat_statastics',['kheta_id' => $kheta_id ,'program_id' => $program->id ])}}">{{ $program->program }}</a>  </h3>
                             <div id="year_chart{{$program->id}}"></div>
                         </div>
                     </div>
                 </div>
                 @php
-                    $custom_programs = \App\Models\MokasherGehaInput::select('year_id',
-                                        DB::raw('(SUM(rate_part_1 + rate_part_2 + rate_part_3 + rate_part_4) / SUM(part_1 + part_2 + part_3 + part_4)) * 100 as percentage')
-                                        )->groupBy('year_id')->get();
-
-                         foreach ($custom_programs as $program)
-                        {
-                              $summations[] = $program->percentage;
-                         }
+                    $mokashers_years = \App\Models\MokasherGehaInput::with(['mokasher', 'ex_year', 'mokasher.mokasher_execution_years'])
+                    ->whereHas('mokasher.program', function ($query) use ($program) {
+                        $query->where('id', $program->id);
+                    })
+                    ->select('year_id',
+                        DB::raw('(SUM(rate_part_1 + rate_part_2 + rate_part_3 + rate_part_4) / SUM(part_1 + part_2 + part_3 + part_4)) * 100 as percentage')
+                    )
+                    ->groupBy('year_id')
+                    ->get();
 
                 @endphp
+                    <!--Start Colors -->
+
+                @php
+                    $colors = [];
+                @endphp
+
+                @foreach($Execution_years as $year)
+                    @php
+                        $found = false;
+                    @endphp
+
+                    @foreach($mokashers_years as $mokashers_year)
+                        @if($mokashers_year->year_id == $year->id)
+                            @php
+                                $found = true;
+                                $color = '';
+                                if (round($mokashers_year->percentage)  / $program->moksherat_count < 50) {
+                                    $color = '#f00';
+                                } elseif (round($mokashers_year->percentage) / $program->moksherat_count  >= 50 && round($mokashers_year->percentage) / $program->moksherat_count  < 100) {
+                                    $color = '#f8de26';
+                                } elseif (round($mokashers_year->percentage)  / $program->moksherat_count == 100) {
+                                    $color = '#00ff00';
+                                }
+                                $colors[] = $color;
+                            @endphp
+                        @endif
+                    @endforeach
+
+                    @if (!$found)
+                        @php
+                            $colors[] = '#f00'; // Default color if year not found in $mokashers_years
+                        @endphp
+                    @endif
+                @endforeach
 
                 <script>
-                    var summations = {!! json_encode($summations) !!};
-                    var colors = ['#f8de26']
+
+                    var colors = {!! json_encode($colors) !!};
 
                     var options = {
                         series: [{
-                            data: summations
+                            data: [
+                                @foreach($Execution_years as $year)
+                                    @php
+                                        $found = false;
+                                    @endphp
+                                    @foreach($mokashers_years as $mokashers_year)
+                                    @if($mokashers_year->year_id == $year->id)
+                                    {{ round($mokashers_year->percentage) /$program->moksherat_count }},
+                                @php
+                                    $found = true;
+                                @endphp
+                                    @endif
+                                    @endforeach
+                                    @if (!$found)
+                                    0,
+                                @endif
+                                @endforeach
+                            ]
                         }],
                         chart: {
                             height: 350,

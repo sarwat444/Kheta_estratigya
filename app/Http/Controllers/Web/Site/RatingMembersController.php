@@ -38,10 +38,9 @@ class RatingMembersController extends Controller
     }
     public function rating_gehat()
     {
+        $kheta_id = Auth::guard('ratingMember')->user()->kehta_id ;
         $responsable_gehat = json_decode(Auth::guard('ratingMember')->user()->gehat);
-        $users =  User::whereIn('id' ,$responsable_gehat)->get() ;
-
-
+        $users =  User::whereIn('id' ,$responsable_gehat)->where('kehta_id' , $kheta_id)->get() ;
         return  view('ratingMembers.geaht.index' ,  compact('users'));
     }
     public function rating_mokshart($user_id)
