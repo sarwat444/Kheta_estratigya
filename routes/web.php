@@ -58,6 +58,11 @@ Route::group(['as' => 'gehat.', 'middleware' => ['auth','checkIsManger']], funct
 
     Route::match(['get', 'post'],'get_users_reports' , [UsersController::class , 'get_users_reports'])->name('get_users_reports') ;
 
+    Route::get('print_users_part/{sub_geha}/{part}', [UsersController::class , 'print_users_part'])->name('print_users_part');
+    Route::get('print_users_years/{sub_geha}/{year_id}', [UsersController::class , 'print_users_years'])->name('print_users_years');
+
+
+
     Route::match(['get', 'post'], 'get_users_reports_year', [UsersController::class, 'get_users_reports_year'])->name('get_users_reports_year');
 
 });

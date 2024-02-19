@@ -97,7 +97,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-
                                 @forelse($results as $result)
                                     @if(!empty($part))
                                         @php
@@ -167,21 +166,21 @@
                                                             }
 
                                                     @endphp
-                                                <td>{{ $geha->geha->geha  }}</td>
-                                                <td>{{ $geha->mokasher->name }}</td>
 
+                                                <td> {{ $geha->geha->geha}}</td>
 
-                                                @php
-                                                    if($geha->mokasher_count > 0 )
-                                                    {
+                                                     @php
+                                                      if($geha->mokasher_count > 0 )
+                                                      {
                                                         $performance = ($total/$geha->mokasher_count)*100 ;
-                                                     }else
+                                                       }else
                                                        {
                                                            $performance = 0 ;
                                                        }
                                                     @endphp
 
                                                 <td>
+                                                    {{ $geha->mokasher->name }}
                                                     @if($performance < 50 )
                                                         <span class="performance" style="background-color: #f00 ">{{$performance}} %</span>
                                                     @elseif($performance  >=  50 && $performance < 100 )
@@ -191,10 +190,7 @@
                                                     @endif
                                                 </td>
                                                 @endforeach
-                                            </td>
-                                            <td>
 
-                                            </td>
 
                                             <td> @if(!empty($result->note))
                                                     {{$result->note}}

@@ -91,7 +91,7 @@
                                     @endphp
                                     @foreach($mokashers_years as $mokashers_year)
                                     @if($mokashers_year->year_id == $year->id)
-                                    {{ round($mokashers_year->percentage) /$program->moksherat_count }},
+                                    {{ round( round($mokashers_year->percentage) /$program->moksherat_count ) }},
                                 @php
                                     $found = true;
                                 @endphp

@@ -84,7 +84,10 @@
             <div class="card">
                 <div class="card-body">
                     @if(!empty($results))
-                        <table id="datatable" class="table table-bordered dt-responsive nowrap w-100 table-striped">
+                        <a class="btn btn-primary mb-2" onclick="printReport('{{ $selected_geha }}', '{{ $part }}')"> <i class="bx bx-printer"></i> طباعه التقرير </a>
+
+                        <table class="table-responsive">
+                         <table id="datatable" class="table table-bordered table-striped">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -132,6 +135,7 @@
                             @endforelse
                             </tbody>
                         </table>
+                        </table>
                     @else
                         <span class="badge badge-soft-danger font-size-13">برجاء أختيار الجهه المطلوبه</span>
                     @endif
@@ -158,5 +162,11 @@
     <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/js/select2.min.js')}}"></script>
     <!-- Datatable init js -->
     <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/datatables.init.js')}}"></script>
-
+    <script>
+        function printReport(sub_geha, part) {
+            window.location.href = '{{ route('gehat.print_users_part', ['sub_geha' => ':sub_geha', 'part' => ':part']) }}'
+                .replace(':sub_geha', sub_geha)
+                .replace(':part', part);
+        }
+    </script>
 @endpush
