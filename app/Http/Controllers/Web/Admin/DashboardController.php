@@ -11,7 +11,7 @@ use App\Models\Objective;
 use App\Models\Program ;
 use App\Models\User;
 use DB ;
-
+use App\Services\PDFService;
 class DashboardController extends Controller
 {
     public function index(): \Illuminate\View\View
@@ -148,6 +148,25 @@ class DashboardController extends Controller
       }
       return view('admins.reports.uploaded_files_report' , compact('years' ,'kheta_id' ,'year_id','gehat' ,'part'));
   }
+    public function print_gehat_mokasherat ($kheta_id , $year_id)
+    {
+        $years  = Execution_year::where('kheta_id', $kheta_id)->get();
+        $gehat = User::where('kehta_id', $kheta_id)->get() ;
+        $results = MokasherGehaInput::select('geha_id')
+            ->where('year_id', $year_id)
+            ->groupBy('geha_id')
+            ->get();
+        $data = [
+            'results' => $results,
+            'gehat' => $gehat,
+            'years' => $years,
+        ];
+
+        // Generate PDF using TCPDF
+        $pdfService = new PDFService();
+        $pdfService->generateGehtMokasheratYearsPDF($data, 'GehtMokasheratYears.pdf');
+
+    }
 
   /* Report  For Histogram  */
     public  function Histogram_kheta_objectives_dashboard($kheta_id): \Illuminate\View\View

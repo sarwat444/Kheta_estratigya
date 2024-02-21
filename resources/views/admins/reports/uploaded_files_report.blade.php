@@ -58,23 +58,6 @@
                                class="me-2 btn @if($year_id == $year->id) btn-success @else btn-primary  @endif   waves-effect waves-light">{{ $year->year_name }}</a>
                         @endforeach
                     </div>
-                    <div class="parts d-none">
-                        <h3 class="font-size-15 mb-3"> أختر الربع </h3>
-                        <div class="buttons d-flex mb-3">
-                            <a href="{{route('dashboard.mokasherat_files_report' ,['kheta_id'=>$kheta_id , 'year_id' => $year_id , 'part' => 1])}}"
-                               class="btn @if(!empty($part))@if($part == 1 ) btn-success @else btn-primary  @endif @else btn-primary  @endif btn-sm"
-                               style="margin-left: 5px">الربع الأول</a>
-                            <a href="{{route('dashboard.mokasherat_files_report' ,['kheta_id'=>$kheta_id ,  'year_id' => $year_id, 'part' => 2])}}"
-                               class="btn @if(!empty($part))@if($part == 2 ) btn-success @else btn-primary  @endif @else btn-primary  @endif btn-sm"
-                               style="margin-left: 5px">الربع الثانى </a>
-                            <a href="{{route('dashboard.mokasherat_files_report' ,['kheta_id'=>$kheta_id ,   'year_id' => $year_id , 'part' => 3])}}"
-                               class="btn @if(!empty($part))@if($part == 3 ) btn-success @else btn-primary  @endif @else btn-primary  @endif btn-sm"
-                               style="margin-left: 5px">الربع الثالث </a>
-                            <a href="{{route('dashboard.mokasherat_files_report' ,['kheta_id'=>$kheta_id ,   'year_id' =>$year_id , 'part' => 4])}}"
-                               class="btn @if(!empty($part))@if($part == 4 ) btn-success @else btn-primary  @endif @else btn-primary  @endif btn-sm"
-                               style="margin-left: 5px">الربع الرابع </a>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -85,6 +68,7 @@
             <div class="card">
                 <div class="card-body">
                     @if(!empty($results))
+                        <a class="btn btn-primary mb-2" onclick="printReport('{{ $kheta_id }}', '{{ $year_id }}')"> <i class="bx bx-printer"></i> طباعه التقرير </a>
                         <div class="table-responsive">
                             <table id="datatable" class="table table-bordered table-striped">
                                 <thead>
@@ -92,63 +76,23 @@
                                     <th>#</th>
                                     <th>الجهات المنفذه</th>
                                     <th>المؤشر</th>
-                                    <th> المنجز</th>
                                     <th>ملاحظات</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @forelse($results as $result)
-                                    @if(!empty($part))
-                                        @php
-                                            $geha_execution = \App\Models\MokasherGehaInput::with('geha')->where('geha_id', $result->geha_id)->get();
-                                        @endphp
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $result->mokasher->name }}</td>
-                                            <td>
-                                                @foreach($geha_execution as $geha)
-                                                    @php
-                                                        if($geha->{"part_".$part} > 0 )
-                                                         {
-                                                             $performance = ($geha->{"rate_part_".$part}) / ($geha->{"part_".$part}) * 100;
-                                                         }else{
-                                                            $performance = 0 ;
-                                                         }
-                                                    @endphp
-                                                    <div class="gehat">
-                                                        <div>
-                                                            {{ $geha->geha->geha }}
-                                                            @if($performance < 50)
-                                                                <span class="performance"
-                                                                      style="background-color: #f00">{{ round($performance) }} %</span>
-                                                            @elseif($performance >= 50 && $performance < 100)
-                                                                <span class="performance"
-                                                                      style="background-color: #f8de26">{{ round($performance) }} %</span>
-                                                            @elseif($performance == 100)
-                                                                <span class="performance"
-                                                                      style="background-color: #00ff00">{{ round($performance) }} %</span>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            </td>
-                                            <td>
-                                                @if(!empty($result->note))
-                                                    {{ $result->note }}
-                                                @else
-                                                    <span class="badge badge-soft-danger"> لا يوجد ملاحظات</span>
-                                                @endif
-                                            </td>
-                                        </tr>
+                                      @forelse($results as $result)
 
-                                    @else
                                         @php
                                              $geha_execution  = \App\Models\MokasherGehaInput::with('mokasher' ,'geha')->withCount('mokasher')->where('geha_id' , $result->geha_id)->get();
                                              $total = 0 ;
+
                                         @endphp
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                                @foreach($geha_execution as $geha)
+                                            <td rowspan="{{ $geha_execution->count() }}">{{ $geha_execution->first()->geha->geha }}</td>
+                                            <td>
+                                        @foreach($geha_execution as $geha)
+                                             <div style="margin-bottom: 17px;font-size: 14px;">
                                                     @php
                                                         /* If Geha Abloded  Two Files  it return  1 else  if  uploaded  1 it returns .5 */
                                                          $filledCount = 0; // Variable to keep track of the number of filled evidence variables
@@ -167,8 +111,6 @@
 
                                                     @endphp
 
-                                                <td> {{ $geha->geha->geha}}</td>
-
                                                      @php
                                                       if($geha->mokasher_count > 0 )
                                                       {
@@ -179,7 +121,6 @@
                                                        }
                                                     @endphp
 
-                                                <td>
                                                     {{ $geha->mokasher->name }}
                                                     @if($performance < 50 )
                                                         <span class="performance" style="background-color: #f00 ">{{$performance}} %</span>
@@ -188,19 +129,19 @@
                                                     @elseif($performance  ==  100)
                                                         <span class="performance" style="background-color: #00ff00 ">{{round($performance)}} %</span>
                                                     @endif
-                                                </td>
+                                             </div>
                                                 @endforeach
-
-
-                                            <td> @if(!empty($result->note))
+                                            </td>
+                                            <td>
+                                                @if(!empty($result->note))
                                                     {{$result->note}}
                                                 @else
                                                     <span class="badge badge-soft-danger"> لا يوجد ملاحظات</span>
-                                                @endif</td>
+                                                @endif
+                                            </td>
                                         </tr>
-                                    @endif
 
-                                @empty
+                                    @empty
                                     <tr>
                                         <td colspan="7" class="text-center">No data available</td>
                                     </tr>
@@ -232,5 +173,15 @@
     <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/js/select2.min.js')}}"></script>
     <!-- Datatable init js -->
     <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/datatables.init.js')}}"></script>
+
+
+    <script>
+        function printReport(kheta_id, year_id) {
+            window.location.href = '{{ route('dashboard.print_gehat_mokasherat', ['kheta_id' => ':kheta_id', 'year_id' => ':year_id']) }}'
+                .replace(':kheta_id', kheta_id)
+                .replace(':year_id', year_id);
+        }
+    </script>
+
 
 @endpush
