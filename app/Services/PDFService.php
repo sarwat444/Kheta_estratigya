@@ -67,4 +67,25 @@ class PDFService {
        // Output PDF to browser for preview
        $pdf->Output($fileName, 'I');
    }
+   public  function generateActiveUsersPDF($data, $fileName)
+   {
+       // Create new PDF instance
+       $pdf = new TCPDF();
+       $pdf->setRTL(true); // Set RTL direction
+       $pdf->AddPage();
+
+       // Exclude header and footer
+       $pdf->SetPrintHeader(false);
+       $pdf->SetPrintFooter(false);
+
+       // Set font with UTF-8 encoding for Arabic text
+       $pdf->SetFont('aealarabiya', '', 12); // Set font family and size, with empty string for style (regular)
+
+       // Add content to PDF
+       $html = view('admins.reports.print-report.ActiveUsers', $data)->render();
+       $pdf->writeHTML($html, true, false, false, false, '');
+
+       // Output PDF to browser for preview
+       $pdf->Output($fileName, 'I');
+   }
 }

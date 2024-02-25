@@ -23,6 +23,7 @@ Route::get('/', [HomeController::class, 'Home'])->name('Home');
 Route::get('/login', [HomeController::class, 'login'])->name('login')->middleware('CheckCredentials');
 
 Route::post('/login', [HomeController::class, 'authenticate'])->name('authenticate');
+Route::post('/login', [HomeController::class, 'authenticate'])->name('authenticate');
 
 Route::group(['as' => 'gehat.', 'middleware' => ['auth','checkIsManger']], function () {
 

@@ -12,6 +12,7 @@ use App\Models\Program ;
 use App\Models\User;
 use DB ;
 use App\Services\PDFService;
+use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     public function index(): \Illuminate\View\View
@@ -227,6 +228,37 @@ class DashboardController extends Controller
             ->groupBy('mokasher_id') // Group by both mokasher_id and year_id
             ->get();
             return view('admins.reports.add_mokasher_histogam.mokasherat' , compact('mokashers_parts' ,'mokashers_years','Execution_years'));
+    }
+
+    /** Display Last Seen  Users Report */
+    public  function getLastSeenUsers($kheta_id)
+    {
+        $users  = User::where('kehta_id', $kheta_id)->orderBy('last_seen' , 'desc')->get() ;
+        return  view('admins.reports.view-active-users' , compact('users' ,'kheta_id')) ;
+    }
+    public  function print_users_report(Request $request)
+    {
+
+        $start = $request->start;
+        $end = $request->end;
+
+        if ($start == $end) {
+            // If start is equal to end, get all data on this day
+            $results = User::whereDate('last_seen', '=', $start)->get();
+        } else {
+            // If start is not equal to end, get users where last_seen is between start and end dates
+            $results = User::whereBetween('last_seen', [$start, $end])->get();
+        }
+
+        $data = [
+            'results' => $results,
+            'start' => $start,
+            'end' => $end,
+        ];
+
+        // Generate PDF using TCPDF
+        $pdfService = new PDFService();
+        $pdfService->generateActiveUsersPDF($data, 'active_users.pdf');
     }
 
 

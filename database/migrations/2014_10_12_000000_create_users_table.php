@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('geha')->nullable();
             $table->string('password');
             $table->tinyInteger('is_manger')->default(0) ;
+            $table->string('last_seen')->default('null') ;
             $table->foreignId('kehta_id')->constrained('khetas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->rememberToken();
             $table->timestamps();

@@ -21,8 +21,8 @@ class OnlineUsers
         if(Auth::check())
         {
             $expireAt = now()->addMinutes(2) ;
-            Cache::put('user-is-online' , Auth::id() , true , $expireAt ) ;
-            User::where('id' , Auth::id())->udate(['last_seen'=> now() ]) ;
+            Cache::put('user-is-online-'.Auth::id() , true , $expireAt ) ;
+            User::where('id' , Auth::id())->update(['last_seen'=> now()]) ;
         }
         return $next($request);
     }
