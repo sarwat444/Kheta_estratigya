@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Execution_year;
 use App\Models\Goal;
+use App\Models\Kheta;
 use App\Models\Mokasher;
 use App\Models\MokasherGehaInput;
 use App\Models\Objective;
@@ -134,6 +135,43 @@ class DashboardController extends Controller
       return view('admins.reports.view_mokasherat_gehat' , compact('years' ,'kheta_id' ,'year_id','gehat' ,'part'));
   }
 
+    public  function print_mokasherat_gehat_report($kheta_id , $year_id = null , $part = null )
+    {
+        $years  = Execution_year::where('kheta_id', $kheta_id)->get();
+        $kheta = Kheta::find($kheta_id);
+
+        if ($kheta) {
+            $kheta_name = $kheta->name;
+        } else {
+            // Handle the case where no Kheta record is found for the given ID
+            $kheta_name = ''; // or any default value
+        }
+
+        $gehat = User::where('kehta_id', $kheta_id)->get() ;
+        if (!empty($year_id)) {
+            $results = MokasherGehaInput::select('mokasher_id')
+                ->where('year_id', $year_id)
+                ->groupBy('mokasher_id')
+                ->with('mokasher')
+                ->get();
+            $data = [
+                'results' => $results ,
+                'years' => $years ,
+                'year_id' => $year_id ,
+                'kheta_id' => $kheta_id ,
+                'gehat' => $gehat ,
+                'part' => $part ,
+                'kheta_name' => $kheta_name
+            ];
+            // Generate PDF using TCPDF
+            $pdfService = new PDFService();
+            $pdfService->generate_mokasherat_gehatPDF($data, 'Mokasher_gehat.pdf');
+        }
+
+    }
+
+
+
   /* Report  for  count  uploaded of mokashers  files */
   public function mokasherat_files_report($kheta_id , $year_id = null , $part = null )
   {
@@ -259,6 +297,26 @@ class DashboardController extends Controller
         // Generate PDF using TCPDF
         $pdfService = new PDFService();
         $pdfService->generateActiveUsersPDF($data, 'active_users.pdf');
+    }
+
+
+    public  function print_objectives_histogram($kheta_id)
+    {
+        $Execution_years = Execution_year::where('kheta_id', $kheta_id)->get();
+
+        $objectives  = Objective::withCount('goals')->with(['goals.programs.moksherat.mokasher_geha_inputs' => function ($query) use ($Execution_years) {
+            $query->select('mokasher_id')->whereIn('year_id', $Execution_years->pluck('id'))->groupBy('mokasher_id');
+        }  ])->where('kheta_id', $kheta_id)->get();
+
+        $data = [
+            'objectives' => $objectives ,
+            'Execution_years' => $Execution_years
+        ];
+
+        // Generate PDF using TCPDF
+        $pdfService = new PDFService();
+        $pdfService->generateobjective_histogramPDF($data, 'objective_histogram.pdf');
+
     }
 
 

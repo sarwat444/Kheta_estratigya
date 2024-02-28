@@ -24,6 +24,7 @@ class StoreAdminRequest extends FormRequest
     public function rules()
     {
         return [
+            'kheta_id' => ['required'] ,
             'email'=>['required' ,'unique:admins'] ,
             'password' =>['required']
         ];

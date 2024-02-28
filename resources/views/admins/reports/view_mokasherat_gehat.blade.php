@@ -1,7 +1,5 @@
 @extends('admins.layouts.app')
-
 @push('title','تقرير أداء الجهات')
-
 @push('styles')
     <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet"
           type="text/css"/>
@@ -76,6 +74,7 @@
             <div class="card">
                 <div class="card-body">
                     @if(!empty($results))
+                        <a class="btn btn-primary mb-2" onclick="printReport('{{ $kheta_id }}', '{{ $year_id }}'  , '{{ $part }}')"> <i class="bx bx-printer"></i> طباعه التقرير </a>
                         <div class="table-responsive">
                             <table id="datatable" class="table table-bordered table-striped">
                             <thead>
@@ -193,5 +192,12 @@
     <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/js/select2.min.js')}}"></script>
     <!-- Datatable init js -->
     <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/datatables.init.js')}}"></script>
-
+    <script>
+        function printReport(kheta_id, year_id , part ) {
+            window.location.href = '{{ route('dashboard.print_mokasherat_gehat_report', ['kheta_id' => ':kheta_id', 'year_id' => ':year_id' , 'part' => ':part']) }}'
+                .replace(':kheta_id', kheta_id)
+                .replace(':year_id', year_id)
+                .replace(':part', part);
+        }
+    </script>
 @endpush

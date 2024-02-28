@@ -106,12 +106,13 @@ class UsersController extends Controller
 
     public function admins()
     {
-        $admins = Admin::get();
+        $admins = Admin::with('kheta')->get();
         return view('admins.users.Admins.index')->with(compact('admins'));
     }
     public function createadmin()
     {
-        return  view('admins.users.Admins.create') ;
+        $khetas = Kheta::get() ;
+        return  view('admins.users.Admins.create' , compact('khetas')) ;
     }
     public function storeAdmin(StoreAdminRequest $storeAdminRequest)
     {
@@ -120,18 +121,19 @@ class UsersController extends Controller
         }
         // Create a new Admin instance and save to the database
         $admin = Admin::create([
+            'kheta_id' => $storeAdminRequest->kheta_id ,
             'email' => $storeAdminRequest->email,
             'password' => $hashedPassword,
         ]);
 
         // Redirect back with a success message
         return redirect()->back()->with('success', 'تم أضافة مدير النظام بنجاح');
-
     }
     public function  editadmin($id = null ):\Illuminate\View\View
     {
         $admin  = Admin::find($id) ;
-        return view('admins.users.Admins.edit')->with(compact('admin')) ;
+        $khetas = Kheta::get() ;
+        return view('admins.users.Admins.edit')->with(compact('admin' ,'khetas')) ;
     }
 
 

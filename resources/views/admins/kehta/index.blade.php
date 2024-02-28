@@ -12,10 +12,12 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex flex-wrap gap-2 mb-3">
-                        <button type="button" class="btn btn-primary waves-effect waves-light"
-                                data-bs-toggle="modal" data-bs-target="#create-new-category">
-                            <i class="bx bx-add-to-queue font-size-16 align-middle me-2"></i>أضافه خطه جديده
-                        </button>
+                        @if(Auth::guard('admin')->user()->supper_admin  == 1 )
+                            <button type="button" class="btn btn-primary waves-effect waves-light"
+                                    data-bs-toggle="modal" data-bs-target="#create-new-category">
+                                <i class="bx bx-add-to-queue font-size-16 align-middle me-2"></i>أضافه خطه جديده
+                            </button>
+                        @endif
                     </div>
                     <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100 text-center">
                         <thead>
@@ -35,15 +37,19 @@
                                         class="badge badge-pill badge-soft-primary font-size-12">{{ $kheta->objectives_count }}</span>
                                 </td>
                                 <td>
-                                    <div class="btn-group">
-                                        <a href="javascript:void(0);" data-category-id="{{ $kheta->id }}"
-                                           class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
-                                        <form action="{{ route('dashboard.kheta.destroy', $kheta->id) }}"
-                                              method="POST">@csrf @method('delete')
-                                            <a class="text-muted font-size-20 confirm-delete"><i
-                                                    class="bx bx-trash"></i></a>
-                                        </form>
-                                    </div>
+                                    @if(Auth::guard('admin')->user()->supper_admin  == 1 )
+                                        <div class="btn-group">
+                                            <a href="javascript:void(0);" data-category-id="{{ $kheta->id }}"
+                                               class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
+                                            <form action="{{ route('dashboard.kheta.destroy', $kheta->id) }}"
+                                                  method="POST">@csrf @method('delete')
+                                                <a class="text-muted font-size-20 confirm-delete"><i
+                                                        class="bx bx-trash"></i></a>
+                                            </form>
+                                        </div>
+                                    @else
+                                        <span class="text-danger"> غير مسموح بالتعديل او الحذف </span>
+                                    @endif
                                 </td>
                             </tr>
                         @empty

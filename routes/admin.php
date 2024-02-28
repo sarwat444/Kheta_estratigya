@@ -128,6 +128,8 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
 
     /** Reports Routes */
     Route::get('mokasherat_gehat_report/{kheta_id}/{year_id?}/{part?}' ,[DashboardController::class ,'mokasherat_gehat_report'])->name('mokasherat_gehat_report') ;
+    Route::get('print_mokasherat_gehat_report/{kheta_id}/{year_id?}/{part?}' ,[DashboardController::class ,'print_mokasherat_gehat_report'])->name('print_mokasherat_gehat_report') ;
+
     Route::post('mokasherat_gehat_report' ,[DashboardController::class ,'mokasherat_gehat_report']);
 
     Route::get('mokasherat_files_report/{kheta_id}/{year_id?}/{part?}' ,[DashboardController::class ,'mokasherat_files_report'])->name('mokasherat_files_report');;
@@ -145,6 +147,7 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
     Route::get('/Histogram_program_statastics/{kheta_id}/{goal_id}/{year_id?}' , [DashboardController::class, 'Histogram_program_statastics'])->name('Histogram_program_statastics');
     Route::get('/Histogram_mokashrat_statastics/{kheta_id}/{program_id}/{year_id?}/{part?}' , [DashboardController::class, 'Histogram_mokashrat_statastics'])->name('Histogram_mokashrat_statastics');
 
+    Route::get('print_objectives_histogram/{kheta_id}' ,[DashboardController::class, 'print_objectives_histogram'])->name('print_objectives_histogram') ;
 
    /** Active Users Report  */
 

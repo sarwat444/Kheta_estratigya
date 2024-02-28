@@ -29,7 +29,7 @@
                         <input type="date" name="end" class="form-control" placeholder="النهايه">
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary"> طباعه التقرير<i class="bx bx-printer"></i> </button>
+                        <button type="submit" class="btn btn-primary mt-4"> طباعه التقرير<i class="bx bx-printer"></i> </button>
                     </div>
                 </div>
         </form>

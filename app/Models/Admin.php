@@ -10,4 +10,8 @@ class Admin extends Authenticatable
 {
     use HasFactory;
     protected $table = 'admins'; // Adjust table name if necessary
+    public function kheta()
+    {
+        return $this->belongsTo(Kheta::class , 'kheta_id') ;
+    }
 }

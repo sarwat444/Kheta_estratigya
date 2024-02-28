@@ -10,6 +10,8 @@ use App\Models\Kheta ;
 use App\Models\Execution_year ;
 use App\Traits\ResponseJson;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+
 class KhetaController extends Controller
 {
     use ResponseJson ;
@@ -17,7 +19,15 @@ class KhetaController extends Controller
     {}
     public  function  index()
     {
-        $ketas = $this->khetaModel->withCount('objectives')->get();
+        if(Auth::guard('admin')->user()->supper_admin  != 1  )
+        {
+            $kheta_id = Auth::guard('admin')->user()->kheta_id ;
+            $ketas = $this->khetaModel->where('id' ,$kheta_id)->withCount('objectives')->get();
+        }
+        else
+        {
+            $ketas = $this->khetaModel->withCount('objectives')->get();
+        }
         return view('admins.kehta.index', compact('ketas'));
     }
     public function create(): \Illuminate\View\View
@@ -67,7 +77,7 @@ class KhetaController extends Controller
 
     public function update(UpdateKhetaRequest $UpdateKhetaRequest,  $kheta_id): \Illuminate\Http\RedirectResponse
     {
-        $kheta = Kheta::find($kheta_id)  ; 
+        $kheta = Kheta::find($kheta_id)  ;
         $kheta->update($UpdateKhetaRequest->validated());
         return redirect()->route('dashboard.kheta.index' )->with('success', ' تم  تعديل  الخطه بنجاح  ');
     }

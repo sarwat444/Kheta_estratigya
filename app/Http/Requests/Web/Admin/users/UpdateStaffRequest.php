@@ -24,6 +24,7 @@ class UpdateStaffRequest extends FormRequest
     public function rules()
     {
         return [
+            'kheta_id' => ['required'] ,
             'email'  => ['required']  ,
             'password' => ['sometimes'] ,
         ];

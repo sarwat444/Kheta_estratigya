@@ -27,14 +27,17 @@
                         <thead>
                         <tr>
                             <th>#</th>
+                            <th>الخطه</th>
                             <th>الأيميل</th>
                             <th>التحكم</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($admins as $admin)
+                            @if(!empty($admin->kheta))
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{$admin->kheta->name}}</td>
                                 <td>{{$admin->email}}</td>
                                 <td>
                                     @if(auth()->user()->id != $admin->id)
@@ -52,6 +55,7 @@
                                     @endif
                                 </td>
                             </tr>
+                            @endif
                         @endforeach
                         </tbody>
                     </table>

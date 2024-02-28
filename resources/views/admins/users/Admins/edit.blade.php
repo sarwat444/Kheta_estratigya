@@ -17,6 +17,19 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
+                                    <label for="email" class="form-label">   الخطه  </label>
+                                    <select name="kheta_id" class="form-control select2" required>
+                                        @foreach($khetas as  $kheta)
+                                            <option value="{{$kheta->id}}" @if($admin->kheta_id == $kheta->id) selected @endif> {{$kheta->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
                                     <label for="email" class="form-label">   الأيميل  </label>
                                     <input type="text" name="email" placeholder="الأيميل" class="form-control" id="email" value="{{$admin->email}}" required>
                                 </div>

@@ -8,12 +8,14 @@
                         <span key="t-maps">  الخطط </span>
                     </a>
                 </li>
+                @if(Auth::guard('admin')->user()->supper_admin  == 1 )
                 <li>
                     <a href="{{route('dashboard.users.admins')}}">
                         <i class="bx bx-briefcase"></i>
                         <span key="t-maps">مديري النظام</span>
                     </a>
                 </li>
+                @endif
             </ul>
         </div>
     </div>

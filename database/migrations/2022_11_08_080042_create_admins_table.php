@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('kheta_id')->constrained('khetas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->tinyInteger('supper_admin')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
