@@ -14,14 +14,12 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0 font-size-18">{{ $kheta->name }}</h4>
-
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">{{ $kheta->name }}</a></li>
                         <li class="breadcrumb-item active">لوحه  التحكم </li>
                     </ol>
                 </div>
-
             </div>
         </div>
     </div>
@@ -29,10 +27,11 @@
         <a href="{{route('dashboard.objectivesDashboard',$kheta->id)}}" class="btn btn-primary btn-sm" style="margin-left: 5px"> لوحه التحكم </a>
         <a href="{{route('dashboard.users.show',$kheta->id)}}" class="btn btn-success btn-sm" style="margin-left: 5px"> الجهات </a>
         <a href="{{route('dashboard.ratingMembers.show' ,$kheta->id )}}" class="btn btn-success btn-sm" style="margin-left: 5px">لجان التقييم</a>
-        <a href="{{route('dashboard.mokasherat_gehat_report' ,$kheta->id )}}" class="btn btn-success btn-sm" style="margin-left: 5px"> تقرير الجهات </a>
-        <a href="{{route('dashboard.mokasherat_files_report' , $kheta->id )}}" class="btn btn-success btn-sm" style="margin-left: 5px"> أداء مؤشرات  الجهات </a>
+        <a href="{{route('dashboard.mokasherat_gehat_report' ,$kheta->id )}}" class="btn btn-success btn-sm" style="margin-left: 5px"> تقرير أنجاز الجهات </a>
+        <a href="{{route('dashboard.mokasherat_files_report' , $kheta->id )}}" class="btn btn-success btn-sm" style="margin-left: 5px">  تقرير متابعه الجهات </a>
         <a href="{{route('dashboard.Histogram_kheta_objectives_dashboard' , $kheta->id )}}" class="btn btn-success btn-sm" style="margin-left: 5px"> متابعه تطور  الأداء  </a>
         <a href="{{route('dashboard.active_users' , $kheta->id )}}" class="btn btn-success btn-sm" style="margin-left: 5px"> نشاط الجهات  </a>
+        <a href="{{route('dashboard.mokasherat_wezara' , $kheta->id )}}" class="btn btn-success btn-sm" style="margin-left: 5px">  تقرير متابعه مؤشرات الوزاره  </a>
     </div>
 
 

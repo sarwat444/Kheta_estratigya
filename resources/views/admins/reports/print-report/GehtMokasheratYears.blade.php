@@ -58,7 +58,6 @@
         .logos {
             margin: 0 10px; /* Add margin between items */
             width: 200px;
-            border-bottom: 1px solid #000;
         }
 
         .logos .image
@@ -84,98 +83,89 @@
             font-weight: 500;
             font-size: 12px;
         }
+        .table-responsive
+        {
+            margin-top: 200px !important;
+        }
     </style>
 </head>
 <body>
-<div class="logos" style="height: 200px">
-  <p>ddddddddddd</p>
-</div>
     @if(!empty($results))
+        <div class="Report_Date" >
+            <h4 style="color: #083152 !important;font-size: 15px; ">{{$report_name}}</h4>
+            <p> تاريخ التقرير : <?php echo date('d-m-Y'); ?></p>
+        </div>
         <div class="table-responsive">
 
             <table id="datatable" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>#</th>
-                    <th>المؤشر</th>
-                    <th>الجهات المنفذه </th>
+                    <th style="width: 25px !important;">#</th>
+                    <th style="width:100px !important;">الجهات المنفذه</th>
+                    <th style="width: 300px !important;">المؤشر</th>
                     <th>ملاحظات</th>
                 </tr>
                 </thead>
                 <tbody>
                 @forelse($results as $result)
-                    @if(!empty($part))
-                        @php
-                            $geha_execution = \App\Models\MokasherGehaInput::with('geha')->where('mokasher_id', $result->mokasher_id)->get();
-                        @endphp
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $result->mokasher->name }}</td>
-                            <td>
-                                @foreach($geha_execution as $geha)
+
+                    @php
+                        $geha_execution  = \App\Models\MokasherGehaInput::with('mokasher' ,'geha')->withCount('mokasher')->where('geha_id' , $result->geha_id)->get();
+                        $total = 0 ;
+
+                    @endphp
+                    <tr>
+                        <td  style="width: 25px !important;" >{{ $loop->iteration }}</td>
+                        <td  style="width:100px !important;"  rowspan="{{ $geha_execution->count() }}">{{ $geha_execution->first()->geha->geha }}</td>
+                        <td style="width: 300px !important;font-size: 12px !important;">
+                            @foreach($geha_execution as $geha)
                                     @php
-                                        if($geha->{"part_".$part} > 0 )
+                                        /* If Geha Abloded  Two Files  it return  1 else  if  uploaded  1 it returns .5 */
+                                         $filledCount = 0; // Variable to keep track of the number of filled evidence variables
+                                            for ($i = 1; $i <= 4; $i++) {
+                                                if (!empty($geha->{'evidence' . $i})) {
+                                                    $filledCount++;
+                                                }
+                                            }
+                                            if ($filledCount >= 2) {
+                                                $total = 1;
+                                            }else if($filledCount == 1) {
+                                                $total = .50;
+                                            } else {
+                                                $total = 0;
+                                            }
+
+                                    @endphp
+
+                                    @php
+                                        if($geha->mokasher_count > 0 )
+                                        {
+                                          $performance = ($total/$geha->mokasher_count)*100 ;
+                                         }else
                                          {
-                                             $performance = ($geha->{"rate_part_".$part}) / ($geha->{"part_".$part}) * 100;
-                                         }else{
-                                            $performance = 0 ;
+                                             $performance = 0 ;
                                          }
                                     @endphp
-                                    <div class="gehat">
-                                        <div>
-                                            {{ $geha->geha->geha }}
-                                            @if($performance < 50)
-                                                <span class="performance" style="background-color: #f00">{{ round($performance) }} %</span>
-                                            @elseif($performance >= 50 && $performance < 100)
-                                                <span class="performance" style="background-color: #f8de26">{{ round($performance) }} %</span>
-                                            @elseif($performance == 100)
-                                                <span class="performance" style="background-color: #00ff00">{{ round($performance) }} %</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </td>
-                            <td>
-                                @if(!empty($result->note))
-                                    {{ $result->note }}
-                                @else
-                                    <span class="badge badge-soft-danger"> لا يوجد ملاحظات</span>
-                                @endif
-                            </td>
-                        </tr>
 
-
-                    @else
-                        @php
-                            $geha_execution  = \App\Models\MokasherGehaInput::with('geha')->where('mokasher_id' , $result->mokasher_id)->get();
-                        @endphp
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $result->mokasher->name }}</td>
-                            <td>
-                                @foreach($geha_execution as $geha)
-                                    @php
-                                        $performance = ($geha->rate_part_1 + $geha->rate_part_2 + $geha->rate_part_3 + $geha->rate_part_4) / ($geha->part_1 + $geha->part_2 + $geha->part_3 + $geha->part_4) * 100;
-                                    @endphp
-                                    <div class="gehat">
-                                        <div>
-                                            {{ $geha->geha->geha }}
-                                            @if($performance < 50 )
-                                                <span class="performance" style="background-color: #f00 ">{{round($performance)}} %</span>
-                                            @elseif($performance  >=  50 && $performance < 100 )
-                                                <span class="performance" style="background-color: #f8de26 ">{{round($performance)}} %</span>
-                                            @elseif($performance  ==  100)
-                                                <span class="performance" style="background-color: #00ff00 ">{{round($performance)}} %</span>
-                                            @endif
-
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </td>
-
-                            <td> @if(!empty($result->note)){{$result->note}} @else  <span class="badge badge-soft-danger"> لا يوجد ملاحظات</span>@endif</td>
-                        </tr>
-                    @endif
+                                    {{ $geha->mokasher->name }}
+                                    @if($performance < 50 )
+                                        <span class="performance" style="background-color: #f00  ; font-size: 12px">{{$performance}} %</span>
+                                    @elseif($performance  >=  50 && $performance < 100 )
+                                        <span class="performance" style="background-color: #f8de26 ; font-size: 12px ">{{round($performance)}} %</span>
+                                    @elseif($performance  ==  100)
+                                        <span class="performance" style="background-color: #00ff00 ; font-size: 12px ">{{round($performance)}} %</span>
+                                    @endif
+                           <br> <br>
+                            @endforeach
+                        </td>
+                        <td>
+                            @if(!empty($result->note))
+                                {{$result->note}}
+                            @else
+                                <span class="badge badge-soft-danger"> لا يوجد ملاحظات</span>
+                            @endif
+                        </td>
+                    </tr>
 
                 @empty
                     <tr>

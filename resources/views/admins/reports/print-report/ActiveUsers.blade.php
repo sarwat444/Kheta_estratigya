@@ -58,7 +58,6 @@
         .logos {
             margin: 0 10px; /* Add margin between items */
             width: 200px;
-            border-bottom: 1px solid #000;
         }
 
         .logos .image
@@ -84,37 +83,39 @@
             font-weight: 500;
             font-size: 12px;
         }
+        .table-responsive
+        {
+            margin-top: 200px !important;
+        }
     </style>
 </head>
 <body>
-<div  class="logos">
-    <div class="image" style="margin: 0 !important; ; padding: 0 !important;">
-        <img src="https://test.germaniatek.net/public/assets/admin/images/logo-light.png">
-        <h1 style="font-size: 14px"> نظام أداء جامعه بنها </h1>
-    </div>
-</div>
 
-<h1 style="text-align: center; font-size: 13px ;margin-bottom: 20px"> تقرير متابعه نشاط الجهات  </h1>
-<p> من -  {{$start}} </p>
-<p> الى - {{$end}}  </p>
 @if(!empty($results))
+    <div class="Report_Date" >
+        <h4 style="color: #083152 !important;font-size: 15px; ">{{$report_name}}</h4>
+        <p> تاريخ التقرير : <?php echo date('d-m-Y'); ?></p>
+        <p> من -  {{$start}} </p>
+        <p> الى - {{$end}}  </p>
+    </div>
+
     <div class="table-responsive">
         <table id="datatable" class="table table-bordered table-striped">
             <thead>
-            <tr style="background-color: #eeee">
-                <th style="padding: 15px;padding: 15px;color:#fff">#</th>
-                <th style="padding: 15px;padding: 15px;color:#fff">الجهه</th>
-                <th style="padding: 15px;padding: 15px;color:#fff">أخر ظهور</th>
-            </tr>
+                <tr style="background-color: #eeee;padding: 20px">
+                    <th style="padding: 15px;padding: 15px;color:#fff;">#</th>
+                    <th style="padding: 15px;padding: 15px;color:#fff;">الجهه</th>
+                    <th style="padding: 15px;padding: 15px;color:#fff;">أخر ظهور</th>
+                </tr>
             </thead>
             <tbody>
-            @foreach($results as $user)
-                <tr>
-                    <td style="padding: 15px !important;">{{ $loop->iteration }}</td>
-                    <td style="padding: 15px !important;">{{$user->geha}}</td>
-                    <td style="padding: 15px !important;">{{ \Carbon\Carbon::parse($user->last_seen)->locale('ar')->diffForHumans() }}</td>
-                </tr>
-             @endforeach
+                @foreach($results as $user)
+                    <tr>
+                        <td style="padding: 15px !important;">{{ $loop->iteration }}</td>
+                        <td style="padding: 15px !important;">{{$user->geha}}</td>
+                        <td style="padding: 15px !important;">{{ \Carbon\Carbon::parse($user->last_seen)->locale('ar')->diffForHumans() }}</td>
+                    </tr>
+                 @endforeach
             </tbody>
         </table>
     </div>

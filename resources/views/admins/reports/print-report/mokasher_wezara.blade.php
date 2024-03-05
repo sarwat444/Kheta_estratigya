@@ -91,19 +91,20 @@
 </head>
 <body>
 @if(!empty($results))
-    <div class="Report_Date" >
-        <h4 style="color: #083152 !important;font-size: 15px; ">{{$report_name}}</h4>
+    <h4 style="color: #083152 !important;font-size: 15px; left: 0  ">{{$report_name}}</h4>
+    <div class="Report_Date">
+
         <p> تاريخ التقرير : <?php echo date('d-m-Y'); ?></p>
     </div>
     <div class="table-responsive" >
         <table class="table table-striped table-striped">
             <thead class="table-head">
-                <tr>
-                    <th style="width: 25px !important;">#</th>
-                    <th style="width: 300px !important;">المؤشر</th>
-                    <th style="width:100px !important;">الجهات المنفذه </th>
-                    <th>ملاحظات</th>
-                </tr>
+            <tr>
+                <th style="width: 25px !important;">#</th>
+                <th style="width: 300px !important;">المؤشر</th>
+                <th style="width:100px !important;">الجهات المنفذه </th>
+                <th>ملاحظات</th>
+            </tr>
             </thead>
             <tbody>
             @forelse($results as $result)
@@ -124,16 +125,16 @@
                                         $performance = 0 ;
                                      }
                                 @endphp
-                                        {{ $geha->geha->geha }}
-                                        @if($performance < 50)
-                                            <span class="performance" style="background-color: #f00">{{ round($performance) }} %</span>
-                                        @elseif($performance >= 50 && $performance < 100)
-                                            <span class="performance" style="background-color: #f8de26">{{ round($performance) }} %</span>
-                                        @elseif($performance == 100)
-                                            <span class="performance" style="background-color: #00ff00">{{ round($performance) }} %</span>
-                                        @endif
-                            <br>
-                                    <br>
+                                {{ $geha->geha->geha }}
+                                @if($performance < 50)
+                                    <span class="performance" style="background-color: #f00">{{ round($performance) }} %</span>
+                                @elseif($performance >= 50 && $performance < 100)
+                                    <span class="performance" style="background-color: #f8de26">{{ round($performance) }} %</span>
+                                @elseif($performance == 100)
+                                    <span class="performance" style="background-color: #00ff00">{{ round($performance) }} %</span>
+                                @endif
+                                <br>
+                                <br>
 
                             @endforeach
 
@@ -163,14 +164,14 @@
                                 @endphp
 
 
-                                        {{ $geha->geha->geha }}
-                                        @if($performance < 50 )
-                                            <span class="performance" style="background-color: #f00 ">{{round($performance)}} %</span>
-                                        @elseif($performance  >=  50 && $performance < 100 )
-                                            <span class="performance" style="background-color: #f8de26 ">{{round($performance)}} %</span>
-                                        @elseif($performance  ==  100)
-                                            <span class="performance" style="background-color: #00ff00 ">{{round($performance)}} %</span>
-                                        @endif
+                                {{ $geha->geha->geha }}
+                                @if($performance < 50 )
+                                    <span class="performance" style="background-color: #f00 ">{{round($performance)}} %</span>
+                                @elseif($performance  >=  50 && $performance < 100 )
+                                    <span class="performance" style="background-color: #f8de26 ">{{round($performance)}} %</span>
+                                @elseif($performance  ==  100)
+                                    <span class="performance" style="background-color: #00ff00 ">{{round($performance)}} %</span>
+                                @endif
                                 <br> <br>
                             @endforeach
 

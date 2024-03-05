@@ -132,7 +132,14 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
 
     Route::post('mokasherat_gehat_report' ,[DashboardController::class ,'mokasherat_gehat_report']);
 
-    Route::get('mokasherat_files_report/{kheta_id}/{year_id?}/{part?}' ,[DashboardController::class ,'mokasherat_files_report'])->name('mokasherat_files_report');;
+    Route::get('mokasherat_files_report/{kheta_id}/{year_id?}/{part?}' ,[DashboardController::class ,'mokasherat_files_report'])->name('mokasherat_files_report');
+
+
+   Route::get('mokasherat_wezara/{kheta_id}/{year_id?}/{part?}' ,[DashboardController::class ,'mokasherat_wezara'])->name('mokasherat_wezara');
+    Route::get('print_mokasherat_wezara/{kheta_id}/{year_id}' ,[DashboardController::class ,'print_mokasherat_wezara'])->name('print_mokasherat_wezara');
+
+
+
 
     Route::get('print_gehat_mokasherat/{kheta_id}/{year_id}' ,[DashboardController::class ,'print_gehat_mokasherat'])->name('print_gehat_mokasherat');
     Route::post('print_users_report' ,[DashboardController::class ,'print_users_report'])->name('print_users_report');

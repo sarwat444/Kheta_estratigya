@@ -161,7 +161,8 @@ class DashboardController extends Controller
                 'kheta_id' => $kheta_id ,
                 'gehat' => $gehat ,
                 'part' => $part ,
-                'kheta_name' => $kheta_name
+                'kheta_name' => $kheta_name ,
+                'report_name' => 'تقرير أنجاز الجهات'
             ];
             // Generate PDF using TCPDF
             $pdfService = new PDFService();
@@ -187,8 +188,29 @@ class DashboardController extends Controller
       }
       return view('admins.reports.uploaded_files_report' , compact('years' ,'kheta_id' ,'year_id','gehat' ,'part'));
   }
+    public function mokasherat_wezara($kheta_id , $year_id = null , $part = null )
+    {
+        $years  = Execution_year::where('kheta_id', $kheta_id)->get();
+        $gehat = User::where('kehta_id', $kheta_id)->get() ;
+
+        if (!empty($year_id)) {
+            $results = MokasherGehaInput::select('geha_id')
+                ->where('year_id', $year_id)
+                ->groupBy('geha_id')
+                ->get();
+            return view('admins.reports.mokasherat_wezara' , compact('results' ,'years' ,'year_id','kheta_id' ,'gehat' ,'part'));
+        }
+        return view('admins.reports.mokasherat_wezara' , compact('years' ,'kheta_id' ,'year_id','gehat' ,'part'));
+    }
+
+
+
+
+
+
     public function print_gehat_mokasherat ($kheta_id , $year_id)
     {
+        $kheta = Kheta::where('id' , $kheta_id )->first() ;
         $years  = Execution_year::where('kheta_id', $kheta_id)->get();
         $gehat = User::where('kehta_id', $kheta_id)->get() ;
         $results = MokasherGehaInput::select('geha_id')
@@ -199,6 +221,8 @@ class DashboardController extends Controller
             'results' => $results,
             'gehat' => $gehat,
             'years' => $years,
+            'kheta_name' =>$kheta->name ,
+            'report_name' => 'تقرير متابعه  الجهات'
         ];
 
         // Generate PDF using TCPDF
@@ -276,22 +300,24 @@ class DashboardController extends Controller
     }
     public  function print_users_report(Request $request)
     {
-
         $start = $request->start;
         $end = $request->end;
+        $kheta_id = $request->kheta_id;
+        $kheta = Kheta::where('id' , $kheta_id )->first() ;
 
         if ($start == $end) {
             // If start is equal to end, get all data on this day
-            $results = User::whereDate('last_seen', '=', $start)->get();
+            $results = User::where('kehta_id' , $kheta_id)->whereDate('last_seen', '=', $start)->get();
         } else {
             // If start is not equal to end, get users where last_seen is between start and end dates
-            $results = User::whereBetween('last_seen', [$start, $end])->get();
+            $results = User::where('kehta_id' , $kheta_id)->whereBetween('last_seen', [$start, $end])->get();
         }
-
         $data = [
             'results' => $results,
             'start' => $start,
             'end' => $end,
+            'kheta_name' => $kheta->name ,
+            'report_name' => 'تقرير نشاط المستخدمين'
         ];
 
         // Generate PDF using TCPDF
@@ -318,6 +344,31 @@ class DashboardController extends Controller
         $pdfService->generateobjective_histogramPDF($data, 'objective_histogram.pdf');
 
     }
+
+    public function print_mokasherat_wezara($kheta_id , $year_id)
+    {
+        $kheta = Kheta::where('id' , $kheta_id )->first() ;
+        $years  = Execution_year::where('kheta_id', $kheta_id)->get();
+        $gehat = User::where('kehta_id', $kheta_id)->get() ;
+        $results = MokasherGehaInput::select('geha_id')
+            ->where('year_id', $year_id)
+            ->groupBy('geha_id')
+            ->get();
+
+
+        $data = [
+            'results' => $results,
+            'gehat' => $gehat,
+            'years' => $years,
+            'kheta_name' =>$kheta->name ,
+            'report_name' => 'تقرير متابعه  مؤشرات الوزاره '
+        ];
+        // Generate PDF using TCPDF
+        $pdfService = new PDFService();
+        $pdfService->generateMokasheratWezaraPDF($data, 'Mokasherat_wezara.pdf');
+    }
+
+
 
 
 }

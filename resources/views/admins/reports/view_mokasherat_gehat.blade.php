@@ -89,7 +89,7 @@
                             @forelse($results as $result)
                                      @if(!empty($part))
                                     @php
-                                        $geha_execution = \App\Models\MokasherGehaInput::with('geha')->where('mokasher_id', $result->mokasher_id)->get();
+                                        $geha_execution = \App\Models\MokasherGehaInput::with('geha')->where('geha_id' , $result->geha_id)->get();
                                     @endphp
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
@@ -130,7 +130,7 @@
 
                                     @else
                                       @php
-                                      $geha_execution  = \App\Models\MokasherGehaInput::with('geha')->where('mokasher_id' , $result->mokasher_id)->get();
+                                      $geha_execution  = \App\Models\MokasherGehaInput::with('geha')->where('geha_id' , $result->geha_id)->get();
                                       @endphp
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
