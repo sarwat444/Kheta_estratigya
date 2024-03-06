@@ -25,7 +25,7 @@ class StoreRatingMembersRequest extends FormRequest
     {
         return [
             'username' =>['required'] ,
-            'job_number' => ['required'],
+            'job_number' => ['required' , 'unique:rating_members'],
             'password' => ['required'],
             'geha_id' =>  ['required'],
         ];

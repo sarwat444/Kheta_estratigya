@@ -121,6 +121,7 @@
                                                                                 @csrf
                                                                                 @method('delete')
                                                                                 <input type="hidden" name="id" value="{{$key}}">
+                                                                                <input type="hidden" name="part" value="1">
                                                                                 <button type="button" class="btn btn-danger btn-sm delete_btn_file">
                                                                                     حذف
                                                                                 </button>
@@ -209,6 +210,7 @@
                                                                                 @csrf
                                                                                 @method('delete')
                                                                                 <input type="hidden" name="id" value="{{$key}}">
+                                                                                <input type="hidden" name="part" value="2">
                                                                                 <button type="button" class="btn btn-danger btn-sm delete_btn_file">
                                                                                     حذف
                                                                                 </button>
@@ -241,6 +243,7 @@
                                                     @csrf
                                                         <input type="hidden" name="year_id" value="{{$mokasher->mokasher_geha_inputs->year_id}}">
                                                         <input type="hidden" name="mokasher_id" value="{{$mokasher->id}}">
+
                                                         <input type="hidden" name="geha_id" value="{{\Illuminate\Support\Facades\Auth::user()->id}}">
                                                         <input type="hidden" name="part" value="part_3">
 
@@ -275,7 +278,7 @@
                                             <div class="col-md-5">
                                                 <div class="card">
                                                     <div class="card-body">
-                                                        <h4> الأدله والشواهد الربع الأول </h4>
+                                                        <h4> الأدله والشواهد الربع الثالث </h4>
                                                         @if(!empty($mokasher->mokasher_geha_inputs->evidence3))
                                                             @php
                                                                 $files  = json_decode($mokasher->mokasher_geha_inputs->evidence3) ;
@@ -296,6 +299,7 @@
                                                                                 @csrf
                                                                                 @method('delete')
                                                                                 <input type="hidden" name="id" value="{{$key}}">
+                                                                                <input type="hidden" name="part" value="3">
                                                                                 <button type="button" class="btn btn-danger btn-sm delete_btn_file">
                                                                                     حذف
                                                                                 </button>
@@ -363,7 +367,7 @@
                                             <div class="col-md-5">
                                                 <div class="card">
                                                     <div class="card-body">
-                                                        <h4> الأدله والشواهد الربع الأول </h4>
+                                                        <h4> الأدله والشواهد الربع الرابع </h4>
                                                         @if(!empty($mokasher->mokasher_geha_inputs->evidence4))
                                                             @php
                                                                 $files  = json_decode($mokasher->mokasher_geha_inputs->evidence4) ;
@@ -384,6 +388,7 @@
                                                                                 @csrf
                                                                                 @method('delete')
                                                                                 <input type="hidden" name="id" value="{{$key}}">
+                                                                                <input type="hidden" name="part" value="4">
                                                                                 <button type="button" class="btn btn-danger btn-sm delete_btn_file">
                                                                                     حذف
                                                                                 </button>

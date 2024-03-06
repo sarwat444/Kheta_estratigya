@@ -81,10 +81,13 @@
                                 </thead>
                                 <tbody>
                                 @forelse($results as $result)
-
                                     @php
                                         $geha_execution  = \App\Models\MokasherGehaInput::with('mokasher' ,'geha')->withCount('mokasher')->where('geha_id' , $result->geha_id)->get();
                                     @endphp
+                                    @php
+                                        $types = json_decode($geha_execution->first()->mokasher->type);
+                                    @endphp
+                                    @if(in_array(0, $types))
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td rowspan="{{ $geha_execution->count() }}">{{ $geha_execution->first()->geha->geha }}</td>
@@ -94,14 +97,22 @@
                                                     @php
                                                       $performance = ($geha->rate_part_1 + $geha->rate_part_2 + $geha->rate_part_3 + $geha->rate_part_4) / ($geha->part_1 + $geha->part_2 + $geha->part_3 + $geha->part_4) * 100;
                                                     @endphp
-                                                    {{ $geha->mokasher->name }}
-                                                    @if($performance < 50 )
-                                                        <span class="performance" style="background-color: #f00 ">{{$performance}} %</span>
-                                                    @elseif($performance  >=  50 && $performance < 100 )
-                                                        <span class="performance" style="background-color: #f8de26 ">{{round($performance)}} %</span>
-                                                    @elseif($performance  ==  100)
-                                                        <span class="performance" style="background-color: #00ff00 ">{{round($performance)}} %</span>
-                                                    @endif
+                                                    <div class="mb-2">
+                                                        @if(!empty($geha->mokasher->type))
+                                                            @php
+                                                                $types = json_decode($geha->mokasher->type) ;
+                                                            @endphp
+                                                              @if(in_array(0, $types))
+                                                                                {{ $geha->mokasher->name }}
+                                                                                @if($performance < 50 )
+                                                                                    <span class="performance" style="background-color: #f00 ">{{$performance}} %</span>
+                                                                                @elseif($performance  >=  50 && $performance < 100 )
+                                                                                    <span class="performance" style="background-color: #f8de26 ">{{round($performance)}} %</span>
+                                                                                @elseif($performance  ==  100)
+                                                                                    <span class="performance" style="background-color: #00ff00 ">{{round($performance)}} %</span>
+                                                                                @endif
+                                                                   @endif
+                                                        @endif
                                                 </div>
                                             @endforeach
                                         </td>
@@ -113,7 +124,7 @@
                                             @endif
                                         </td>
                                     </tr>
-
+                                    @endif
                                 @empty
                                     <tr>
                                         <td colspan="7" class="text-center">No data available</td>

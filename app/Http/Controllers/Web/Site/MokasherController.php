@@ -32,7 +32,8 @@ class MokasherController extends Controller
     {
         $selectedYear = Execution_year::whereHas('MokasherExcutionYears', function ($query) {
             $query->where('value', '!=', '0');
-        })->where('selected', 1)->first();
+        })
+         ->where('selected', 1)->first();
 
         if ($selectedYear) {
             $selectedYearId = $selectedYear->id;
@@ -42,6 +43,8 @@ class MokasherController extends Controller
                 })->with('mokasher_geha_inputs' , function ($query) use($selectedYearId){
                     $query->where('year_id' , $selectedYearId) ;
                 })->with('mokasher_inputs','addedBy_fun', 'program')
+                ->where('addedBy' , Auth::user()->id)
+                ->orWhere('addedBy' , 0)
                 ->where('program_id', $program_id)
                 ->get();
         } else {
@@ -332,15 +335,25 @@ class MokasherController extends Controller
     public function delete_file(Request $request)
     {
         $id = $request->id;
+        $part = $request->part ;
         // Assuming $mokasher is your model instance with the files column
         $mokasher = MokasherGehaInput::where('mokasher_id', $request->mokasher_id)->first();
-
         if (!$mokasher) {
             return redirect()->back()->with('error', 'تعذر العثور على الملف');
         }
-
         // Retrieve the file paths from the database
-        $files = json_decode($mokasher->files, true);
+        if($part == 1) {
+            $files = json_decode($mokasher->evidence1, true);
+        }
+        else if($part == 2) {
+            $files = json_decode($mokasher->evidence2, true);
+        }
+        else if($part == 3) {
+            $files = json_decode($mokasher->evidence3, true);
+        }
+        else if($part == 4) {
+            $files = json_decode($mokasher->evidence4, true);
+        }
 
         // Check if the file with the specified key exists
         if (array_key_exists($id, $files)) {
@@ -354,7 +367,20 @@ class MokasherController extends Controller
             unset($files[$id]);
 
             // Update the database with the modified file paths array
-            $mokasher->files = json_encode($files);
+            if($part == 1) {
+                $mokasher->evidence1 = json_encode($files);
+            }
+            else if($part == 2) {
+                $mokasher->evidence2 = json_encode($files);
+            }
+            else if($part == 3) {
+                $mokasher->evidence3 = json_encode($files);
+            }
+            else if($part == 4) {
+                $mokasher->evidence4 = json_encode($files);
+            }
+
+
             $mokasher->save();
 
             return redirect()->back()->with('success', 'تم حذف الملف بنجاح');

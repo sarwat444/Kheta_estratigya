@@ -29,7 +29,7 @@ class RatingMembersController extends Controller
     {
          $kehta = Kheta::find($kheta_id) ;
          $gehat =  User::where(['is_manger' => 1 , 'kehta_id' => $kheta_id])->get() ;
-        return  view('admins.ratingMembers.create')->with(compact('gehat' ,'kehta')) ;
+         return  view('admins.ratingMembers.create')->with(compact('gehat' ,'kehta')) ;
     }
     public function store(StoreRatingMembersRequest $storeRatingMembersRequest): \Illuminate\Http\RedirectResponse
     {
