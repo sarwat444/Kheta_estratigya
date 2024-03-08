@@ -85,6 +85,9 @@ class DashboardController extends Controller
         }
         return view('admins.dashboard.programs' , compact('programs','Execution_years','goal_id','year_id' ,'kheta_id'));
     }
+
+
+
     public function mokashrat_statastics($kheta_id ,$program_id , $year_id = null , $part = null  )
     {
 
@@ -119,6 +122,11 @@ class DashboardController extends Controller
     }
 
     /** Mokasherat Report  */
+
+
+
+
+
 
   public  function mokasherat_gehat_report($kheta_id , $year_id = null , $part = null )
   {

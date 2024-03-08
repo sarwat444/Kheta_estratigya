@@ -6,13 +6,16 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{route('dashboard.kheta.store')}}" id="store-new-category">
+                <form action="{{route('dashboard.kheta.store')}}" id="store-new-category" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-2">
                         <label for="name" class="col-form-label">أسم الخطه </label>
                         <input type="text" name="name" placeholder="اسم الخطه" class="form-control" id="name"
                                required>
-
+                    </div>
+                    <div class="mb-2">
+                        <label for="name" class="col-form-label">لوجو الخطه </label>
+                        <input type="file" name="logo"  class="form-control" id="logo" required>
                     </div>
                     <div class="outer-repeater">
                         <div data-repeater-list="outer-group" class="outer">

@@ -32,7 +32,7 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="type" class="form-label">النوع<span class="text-danger">*</span> </label>
-                                    <select name="type" id="type" class="form-control " required>
+                                    <select name="type" id="type" class="form-control" required onchange="updateLabelAndValidation()">
                                         <option value="parcent" @if(!empty($mokasher->mokasher_inputs)) @if($mokasher->mokasher_inputs->type == 'parcent') selected @endif @endif > نسبه </option>
                                         <option value="num" @if(!empty($mokasher->mokasher_inputs))  @if($mokasher->mokasher_inputs->type == 'num') selected @endif @endif>عدد  </option>
                                     </select>
@@ -71,19 +71,20 @@
                         </div>
                             <p class="text-primary"><span class="text-danger">*</span> برجاء كتابه أرقام صحيحه بدون كسور </p>
                             <label class="mb-3" style="font-weight: bold ; ">المطلوب  انجازه فى السنوات التاليه : </label>
-                            <div class="row">
-                               @forelse($excuction_years as $key => $ex_year)
-                                <div class="col-md-2">
-                                    <div class="mb-4">
-                                        <label for="ex{{$key}}" class="form-label">{{ $ex_year->year_name }}  </label>
-                                        <input type="hidden" name="ids[]" value="{{$ex_year->id}}">
-                                        <input type="number" min="0" name="years[]" placeholder="المستهدف" value="{{ !empty($ex_year->MokasherExcutionYears) ? $ex_year->MokasherExcutionYears->value : 0 }}" class="form-control" id="ex{{ $key }}"  >
-                                    </div>
-                                </div>
-                                @empty
-                                  لم  يتم  تحدي  سنوات  للخطه
-                                @endforelse
-                            </div>
+                         <div class="row">
+                             @forelse($excuction_years as $key => $ex_year)
+                                 <div class="col-md-2">
+                                     <div class="mb-4">
+                                         <label for="ex{{$key}}" class="form-label">{{ $ex_year->year_name }}</label>
+                                         <input type="hidden" name="ids[]" value="{{$ex_year->id}}">
+                                         <input type="number" min="0" id="ex{{ $key }}" name="years[]" placeholder="المستهدف" value="{{ !empty($ex_year->MokasherExcutionYears) ? $ex_year->MokasherExcutionYears->value : 0 }}" class="form-control">
+                                         <span id="unitLabel">{{ $mokasher->mokasher_inputs->type == 'parcent' ? '%' : '' }}</span>
+                                     </div>
+                                 </div>
+                             @empty
+                                 لم يتم تحدي سنوات للخطة
+                             @endforelse
+                         </div>
                             <div class="mb-2 text-center">
                                 <div class="spinner-border text-primary m-1 d-none" role="status"><span class="sr-only"></span></div>
                             </div>
@@ -143,6 +144,28 @@
         $("#button").click(function(){
             alert($("#e1").val());
         });
+    </script>
+    <script>
+        function updateLabelAndValidation() {
+            var selectBox = document.getElementById("type");
+            var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+            var unitLabel = document.getElementById("unitLabel");
+            var targetLabel = document.getElementById("targetLabel");
+
+            if (selectedValue == 'parcent') {
+                unitLabel.textContent = '%';
+                document.querySelectorAll('input[type="number"]').forEach(function(input) {
+                    input.setAttribute('max', 100);
+                });
+                targetLabel.textContent = "المطلوب انجازه في السنوات التالية:";
+            } else {
+                unitLabel.textContent = '';
+                document.querySelectorAll('input[type="number"]').forEach(function(input) {
+                    input.removeAttribute('max');
+                });
+                targetLabel.textContent = "المطلوب انجازه في السنوات:";
+            }
+        }
     </script>
     @include('admins.courses.scripts.detect-input-change')
     @include('admins.courses.scripts.store')
