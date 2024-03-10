@@ -25,6 +25,7 @@ class UpdateKhetaRequest extends FormRequest
     {
         return [
             'name' => ['required' , 'min:3' , 'max:400'] ,
+            'image' => ['sometimes'] ,
              'years' => ['sometimes']
         ];
     }

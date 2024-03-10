@@ -92,7 +92,6 @@
 <body>
 @if(!empty($results))
     <div class="Report_Date" >
-        <h4 style="color: #083152 !important;font-size: 15px; ">{{$report_name}}</h4>
         <p> تاريخ التقرير : <?php echo date('d-m-Y'); ?></p>
     </div>
     <div class="table-responsive" >

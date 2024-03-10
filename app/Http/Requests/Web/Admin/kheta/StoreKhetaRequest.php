@@ -25,7 +25,8 @@ class StoreKhetaRequest extends FormRequest
     {
         return [
             'name' => ['required' , 'min:3','max:400'],
-            'years' => ['sometimes']
+            'years' => ['sometimes'] ,
+            'image' => ['sometimes']
         ];
     }
 }

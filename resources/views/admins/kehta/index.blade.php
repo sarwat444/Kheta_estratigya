@@ -32,9 +32,15 @@
                         @forelse($ketas as $kheta)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>
+                                    @if(!empty($kheta->image))
+                                    <img class="img-thumbnail" src="{{asset(PUBLIC_PATH.$kheta->image)}}" height="70px" style="height: 50px">
+                                  @else
+                                  <img class="img-thumbnail" src="{{asset(PUBLIC_PATH.'uploads/kheta/default.png')}}" height="70px" style="height: 50px">
+                                    @endif
+                                </td>
                                 <td><a href="{{ route('dashboard.objectives.show' , $kheta->id ) }}">{{ $kheta->name }}</a></td>
-                                <td><span
-                                        class="badge badge-pill badge-soft-primary font-size-12">{{ $kheta->objectives_count }}</span>
+                                <td><span  class="badge badge-pill badge-soft-primary font-size-12">{{ $kheta->objectives_count }}</span>
                                 </td>
                                 <td>
                                     @if(Auth::guard('admin')->user()->supper_admin  == 1 )

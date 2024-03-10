@@ -37,8 +37,23 @@ class KhetaController extends Controller
     public function store(StoreKhetaRequest  $StoreKhetaRequest): \Illuminate\Http\JsonResponse
     {
 
+
         $kheta = new Kheta() ;
         $kheta->name = $StoreKhetaRequest->name ;
+        if(!empty( $StoreKhetaRequest->image))
+        {
+            $file = $StoreKhetaRequest->file('image');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+
+            // Concatenate directory path with filename to get the full path
+            $fullPath = 'uploads/kheta/' . $fileName;
+
+            $file->move(public_path('uploads/kheta'), $fileName);
+
+            // Now you can use $fullPath to store the full path in your database or elsewhere
+            // For example, you can store it in the 'image' column of your Kheta model:
+            $kheta->image = $fullPath;
+        }
         $kheta->save() ;
 
         /** Store Execution Year  */
@@ -75,10 +90,38 @@ class KhetaController extends Controller
         return $this->responseJson(['data' => $kheta], Response::HTTP_OK);
     }
 
-    public function update(UpdateKhetaRequest $UpdateKhetaRequest,  $kheta_id): \Illuminate\Http\RedirectResponse
+    public function update(UpdateKhetaRequest $UpdateKhetaRequest, $kheta_id): \Illuminate\Http\RedirectResponse
     {
-        $kheta = Kheta::find($kheta_id)  ;
-        $kheta->update($UpdateKhetaRequest->validated());
-        return redirect()->route('dashboard.kheta.index' )->with('success', ' تم  تعديل  الخطه بنجاح  ');
+        $kheta = Kheta::find($kheta_id);
+
+        // Check if a new image is provided in the request
+        if (!empty($UpdateKhetaRequest->image)) {
+            // Delete the old image (optional step depending on your requirements)
+            if (!empty($kheta->image)) {
+                // Delete the old image file from the server
+                $oldImagePath = public_path('uploads/kheta/' . $kheta->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
+            // Upload and store the new image
+            $file = $UpdateKhetaRequest->file('image');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+
+            // Concatenate directory path with filename to get the full path
+            $fullPath = 'uploads/kheta/' . $fileName;
+
+            $file->move(public_path('uploads/kheta'), $fileName);
+
+            // Now you can use $fullPath to store the full path in your database or elsewhere
+            // For example, you can store it in the 'image' column of your Kheta model:
+            $kheta->image = $fullPath;
+        }
+
+        // Update other attributes using validated data
+        $kheta->name  = $UpdateKhetaRequest->name ;
+        $kheta->save() ;
+        return redirect()->route('dashboard.kheta.index')->with('success', 'تم تعديل الخطة بنجاح');
     }
 }

@@ -88,14 +88,17 @@
                             <tbody>
                             @forelse($results as $result)
                                      @if(!empty($part))
+
                                     @php
-                                        $geha_execution = \App\Models\MokasherGehaInput::with('geha')->where('geha_id' , $result->geha_id)->get();
+                                        $geha_execution = \App\Models\MokasherGehaInput::with('geha')->where('mokasher_id' , $result->mokasher_id)->get();
                                     @endphp
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $result->mokasher->name }}</td>
                                         <td>
+
                                             @foreach($geha_execution as $geha)
+
                                                 @php
                                                    if($geha->{"part_".$part} > 0 )
                                                     {
@@ -105,7 +108,7 @@
                                                     }
                                                 @endphp
                                                 <div class="gehat">
-                                                    <div>
+                                                    <div style=" width: 200px;">
                                                         {{ $geha->geha->geha }}
                                                         @if($performance < 50)
                                                             <span class="performance" style="background-color: #f00">{{ round($performance) }} %</span>
@@ -130,7 +133,7 @@
 
                                     @else
                                       @php
-                                      $geha_execution  = \App\Models\MokasherGehaInput::with('geha')->where('geha_id' , $result->geha_id)->get();
+                                      $geha_execution  = \App\Models\MokasherGehaInput::with('geha')->where('mokasher_id' , $result->mokasher_id)->get();
                                       @endphp
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>

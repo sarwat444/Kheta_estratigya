@@ -170,6 +170,7 @@ class DashboardController extends Controller
                 'gehat' => $gehat ,
                 'part' => $part ,
                 'kheta_name' => $kheta_name ,
+                'kehta_image' =>  $kheta->image ,
                 'report_name' => 'تقرير أنجاز الجهات'
             ];
             // Generate PDF using TCPDF

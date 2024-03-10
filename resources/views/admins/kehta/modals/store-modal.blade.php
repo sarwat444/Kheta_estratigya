@@ -15,7 +15,7 @@
                     </div>
                     <div class="mb-2">
                         <label for="name" class="col-form-label">لوجو الخطه </label>
-                        <input type="file" name="logo"  class="form-control" id="logo" required>
+                        <input type="file" name="image"  class="form-control" id="logo" required>
                     </div>
                     <div class="outer-repeater">
                         <div data-repeater-list="outer-group" class="outer">
