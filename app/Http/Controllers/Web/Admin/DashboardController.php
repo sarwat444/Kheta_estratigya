@@ -370,6 +370,7 @@ class DashboardController extends Controller
             'gehat' => $gehat,
             'years' => $years,
             'kheta_name' =>$kheta->name ,
+            'kehta_image' =>  $kheta->image ,
             'report_name' => 'تقرير متابعه  مؤشرات الوزاره '
         ];
         // Generate PDF using TCPDF

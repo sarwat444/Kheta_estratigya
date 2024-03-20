@@ -14,9 +14,10 @@
     <!-- Include custom CSS with font -->
     <style>
         body {
-            font-family: 'aealarabiya', sans-serif;
+            font-family: 'aealarabiya';
             direction: rtl;
             font-weight: 400;
+            font-size: 11px !important;
         }
 
         /* Add custom styles for the table */
@@ -57,7 +58,6 @@
         .logos {
             margin: 0 10px; /* Add margin between items */
             width: 200px;
-            border-bottom: 1px solid #000;
         }
 
         .logos .image
@@ -83,21 +83,23 @@
             font-weight: 500;
             font-size: 12px;
         }
+        .table-responsive
+        {
+            margin-top: 200px !important;
+        }
     </style>
 </head>
 <body>
 @if(!empty($results))
-        <div class="image" style="margin: 0 !important; ; padding: 0 !important;">
-            <img src="https://test.germaniatek.net/public/assets/admin/images/logo-light.png">
-            <h1 style="font-size: 14px"> نظام أداء جامعه بنها </h1>
-        </div>
+<div class="Report_Date">
+    <p> تاريخ التقرير : <?php echo date('d-m-Y'); ?></p>
+</div>
 
-    <h1 style="text-align: center; font-size: 13px ;margin-bottom: 20px"> تقرير متابعه أداء المؤشرات الربع سنوى </h1>
     <table class="table table-bordered table-striped" style="background-color: #fff">
         <thead>
         <tr style="background-color: #eeee">
             <th style="padding: 15px;padding: 15px;color:#fff">#</th>
-            <th style="padding: 15px;padding: 15px;color:#fff">المؤشر</th>
+            <th style="padding: 15px;padding: 15px;color:#fff; width:200px">المؤشر</th>
             <th style="padding: 15px;padding: 15px;color:#fff">الجهة</th>
             <th style="padding: 15px;padding: 15px;color:#fff">المستهدف</th>
             <th style="padding: 15px;padding: 15px;color:#fff">المنجز</th>
@@ -117,7 +119,7 @@
             @endphp
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $result->mokasher->name }}</td>
+                <td style=" width:200px;">{{ $result->mokasher->name }}</td>
                 <td>{{ $result->sub_geha->geha }}</td>
                 <td>{{ $result->mostahdf }}</td>
                 <td>{{ $result->rating }}</td>

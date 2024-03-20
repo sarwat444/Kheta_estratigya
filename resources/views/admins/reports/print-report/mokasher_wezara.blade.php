@@ -91,9 +91,7 @@
 </head>
 <body>
 @if(!empty($results))
-    <h4 style="color: #083152 !important;font-size: 15px; left: 0  ">{{$report_name}}</h4>
     <div class="Report_Date">
-
         <p> تاريخ التقرير : <?php echo date('d-m-Y'); ?></p>
     </div>
     <div class="table-responsive" >
@@ -132,7 +130,7 @@
                                 @elseif($performance == 100)
                                     <span class="performance" style="background-color: #00ff00">{{ round($performance) }} %</span>
                                 @endif
-                                <br><br>
+                            <br>
                             @endforeach
                         </td>
                         <td>
@@ -174,7 +172,7 @@
                                             @endif
                                         @endif
                                     @endif
-                                    <br><br>
+                                    <br>
                                 @endforeach
                             </td>
                             <td>

@@ -42,7 +42,8 @@
                             <i class="bx bx-add-to-queue font-size-16 align-middle me-2"></i>أضافه مؤشر جديد
                         </button>
                     </div>
-                    <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100 text-center">
+                    <div class="table-responsive">
+                    <table id="datatable" class="table table-bordered ">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -87,9 +88,11 @@
                                         <td><a  class="btn btn-primary  btn-sm" href="{{ route('gehat.mokaseerinput', $mokasher->id) }}"> توجيه المؤشر </a></td>
                                         <td>
                                             @if(!empty($mokasher->mokasher_geha_inputs))
+                                                @if($mokasher->mokasher_geha_inputs->geha_id == Auth::user()->id && !empty($mokasher->mokasher_geha_inputs->sub_geha_id))
                                                  <a  class="btn btn-primary  btn btn-sm" href="{{ route('gehat.mokasherData', $mokasher->id) }}"> عرض المؤشر </a>
-                                            @else
-                                                <span class="text-danger"> توجيه المؤشر أولا</span>
+                                                @else
+                                                    <span class="text-danger"> توجيه المؤشر أولا</span>
+                                                @endif
                                             @endif
                                         </td>
 
@@ -117,6 +120,7 @@
                         @endforelse
                         </tbody>
                     </table>
+                </div>
                 </div>
             </div>
         </div>

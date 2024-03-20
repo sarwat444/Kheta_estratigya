@@ -145,11 +145,6 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="card-title">الربع الرابع</div>
-                                    <div class="form-group mb-2">
-                                        <label>المنجز</label>
-                                        <input type="text" class="form-control" value="{{$mokaser_data->mokasher_geha_inputs->part_4}}"
-                                               readonly>
-                                    </div>
 
                                     <div class="form-group mb-2">
                                         <label>الأنشطه</label>

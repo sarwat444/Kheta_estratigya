@@ -11,7 +11,7 @@ class PDFService extends TCPDF
     public  $report_name  ;
     public  $kheta_image ;
 
-    
+
     public function Header()
     {
         // Logo
@@ -27,7 +27,7 @@ class PDFService extends TCPDF
         $this->SetFont('aealarabiya', 'B', 12); // Adjust font size and style as needed
 
         // Add the image to the header on the right side with specific dimensions
-        $kheta_img= 'https://test.germaniatek.net/public/'.$this->kheta_image ; 
+        $kheta_img= 'https://test.germaniatek.net/public/'.$this->kheta_image ;
 
         $this->Image($kheta_img , 205, 5, 25, 25);
 
@@ -89,34 +89,34 @@ class PDFService extends TCPDF
         $pdf = new PDFService();
         $pdf->setRTL(true); // Set RTL direction
         $pdf->AddPage();
-    
+
         // Set the value of $this->name to $data['kheta_name']
-        
+
         $pdf->name = $data['kheta_name'];
 
         $pdf->kheta_image = $data['kehta_image'];
-    
+
         $pdf->report_name = $data['report_name'];
 
 
         // Set header and footer
         $pdf->Header($data); // Pass $data['kheta_name'] directly to setPrintHeader
         $pdf->setPrintFooter(true);
-    
+
         // Set header and footer data
         $pdf->setHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
-    
+
         // Set font with UTF-8 encoding for Arabic text
         $pdf->SetFont('aealarabiya', '', 12); // Set font family and size, with empty string for style (regular)
-    
+
         // Add content to PDF
         $html = view('admins.reports.print-report.mokasherat_gehat', $data)->render();
         $pdf->writeHTML($html, true, false, false, false, '');
-    
+
         // Output PDF to browser for preview
         $pdf->Output($fileName, 'I');
     }
-    
+
 
     public function Footer()
     {
@@ -130,18 +130,23 @@ class PDFService extends TCPDF
 
     public function generateMokasherPartsPDF($data, $fileName)
     {
-        // Create new PDF instance
-        $pdf = new TCPDF();
-        $pdf->SetPrintHeader(false);
-        $pdf->SetPrintFooter(false);
-        $pdf->setRTL(true); // Set RTL direction
-        $pdf->AddPage();
 
-        // Set font with UTF-8 encoding for Arabic text
-        $pdf->SetFont('aealarabiya'); // 'aealarabiya' is an example Unicode font
+         // Create new PDF instance
+       $pdf = new PDFService();
+       $pdf->setRTL(true); // Set RTL direction
+       $pdf->AddPage();
 
-        // Set background color
-        $pdf->SetFillColor(238, 238, 238); // #eee (light gray) background
+       // Set the value of $this->name to $data['kheta_name']
+       $pdf->name = $data['kheta_name'];
+       // Set header and footer
+       $pdf->report_name = $data['report_name'];
+
+       $pdf->kheta_image = $data['kehta_image'];
+
+
+
+       $pdf->Header(); // Pass $data['kheta_name'] directly to setPrintHeader
+       $pdf->setPrintFooter(true);
         // Add content to PDF
         $html = view('gehat.reports.print-report.mokashert_parts_report', $data)->render();
         $pdf->writeHTML($html, true, false, true, false, '');
@@ -249,6 +254,7 @@ class PDFService extends TCPDF
 
         // Set the value of $this->name to $data['kheta_name']
         $pdf->name = $data['kheta_name'];
+        $pdf->report_name = $data['report_name'];
         // Set header and footer
         $pdf->Header(); // Pass $data['kheta_name'] directly to setPrintHeader
         $pdf->setPrintFooter(true);

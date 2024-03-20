@@ -85,7 +85,6 @@ class MokasherController extends Controller
 
     public function mokaseerinput($mokasher_id)
     {
-
         $users = User::where('geha_id' , Auth::user()->id)->get();
         $mokasher_kehta = Mokasher::with('program.goal.objective.kheta')->where('id', $mokasher_id)->first();
         $stored_kheta_id =  $mokasher_kehta->program->goal->objective->kheta->id ;  //الحصول   على id  الخطه
@@ -95,8 +94,7 @@ class MokasherController extends Controller
         $selected_year_value = MokasherExecutionYear::where(['mokasher_id' => $mokasher_id, 'year_id' => $selected_year->id])
             ->first();
         $mokasher = Mokasher::with(['mokasher_geha_inputs' => function($query) use($selected_year_value){
-             $query->where('year_id' , $selected_year_value->year_id);
-
+             $query->where(['year_id' => $selected_year_value->year_id , 'geha_id' => Auth()->user()->id]);
         }])->with('program.goal.objective.kheta' ,'mokasher_inputs')->where('id', $mokasher_id)->first();
 
         return view('gehat.moksherat.create_mokaseerinput', compact('users', 'mokasher_id', 'mokasher' ,'selected_year_value' ,'selected_year'));
