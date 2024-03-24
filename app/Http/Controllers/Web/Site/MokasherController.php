@@ -93,6 +93,7 @@ class MokasherController extends Controller
             ->first();
         $selected_year_value = MokasherExecutionYear::where(['mokasher_id' => $mokasher_id, 'year_id' => $selected_year->id])
             ->first();
+        dd($selected_year_value) ;
         $mokasher = Mokasher::with(['mokasher_geha_inputs' => function($query) use($selected_year_value){
              $query->where(['year_id' => $selected_year_value->year_id , 'geha_id' => Auth()->user()->id]);
         }])->with('program.goal.objective.kheta' ,'mokasher_inputs')->where('id', $mokasher_id)->first();

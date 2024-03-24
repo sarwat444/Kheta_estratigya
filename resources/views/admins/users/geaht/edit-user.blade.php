@@ -37,6 +37,14 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
+                                    <label for="email" class="form-label">الأيميل </label>
+                                    <input type="email" name="email" value="{{$user->email}}" placeholder="الأيميل" class="form-control" id="email" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
                                     <label for="password" class="form-label">الرقم السري الجديد </label>
                                     <input type="text" name="password" placeholder="الرقم السري الجديد " class="form-control"
                                            id="password" >

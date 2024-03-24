@@ -116,7 +116,7 @@
                     @endphp
                     <tr>
                         <td  style="width: 25px !important;" >{{ $loop->iteration }}</td>
-                        <td  style="width:100px !important;"  rowspan="{{ $geha_execution->count() }}">{{ $geha_execution->first()->geha->geha }}</td>
+                        <td  style="width:100px !important;" >{{ $geha_execution->first()->geha->geha }}</td>
                         <td style="width: 300px !important;font-size: 12px !important;">
                             @foreach($geha_execution as $geha)
                                     @php

@@ -17,8 +17,10 @@ use App\Http\Controllers\Web\Admin\{
     UsersController ,
     MangementController ,
     KhetaController ,
-    RatingMembersController
+    RatingMembersController ,
+    MailController
 };
+
 
 use App\Http\Controllers\Web\Admin\Setting\{CourseSettingController};
 use Illuminate\Support\Facades\Route;
@@ -58,8 +60,8 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
     Route::get('/program_statastics/{kheta_id}/{goal_id}/{year_id?}' , [DashboardController::class, 'program_statastics'])->name('program_statastics');
     Route::get('/mokashrat_statastics/{kheta_id}/{program_id}/{year_id?}/{part?}' , [DashboardController::class, 'mokashrat_statastics'])->name('mokashrat_statastics');
 
-
-
+   /**Send Mail */
+ Route::get('send-mail' , [MailController::class , 'index'])->name('send_mail') ;
 
     /** Filter With Year */
     Route::get('/mokasherat_year/{year_id}' , [DashboardController::class, 'mokasherat_year'])->name('mokasherat_year');

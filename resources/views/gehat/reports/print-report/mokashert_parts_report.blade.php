@@ -8,9 +8,9 @@
     <!-- Include Bootstrap CSS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Noto+Kufi+Arabic:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
     <!-- Include custom CSS with font -->
     <style>
         body {
@@ -29,7 +29,7 @@
 
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 15px;
             text-align: right;
         }
 
@@ -87,6 +87,9 @@
         {
             margin-top: 200px !important;
         }
+        td{
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
@@ -95,16 +98,16 @@
     <p> تاريخ التقرير : <?php echo date('d-m-Y'); ?></p>
 </div>
 
-    <table class="table table-bordered table-striped" style="background-color: #fff">
+    <table class="table">
         <thead>
-        <tr style="background-color: #eeee">
-            <th style="padding: 15px;padding: 15px;color:#fff">#</th>
-            <th style="padding: 15px;padding: 15px;color:#fff; width:200px">المؤشر</th>
-            <th style="padding: 15px;padding: 15px;color:#fff">الجهة</th>
-            <th style="padding: 15px;padding: 15px;color:#fff">المستهدف</th>
-            <th style="padding: 15px;padding: 15px;color:#fff">المنجز</th>
-            <th style="padding: 15px;padding: 15px;color:#fff">الأداء</th>
-            <th style="padding: 15px;padding: 15px;color:#fff">ملاحظات</th>
+        <tr style="padding: 30px !important;">
+            <th style="padding: 15px;padding: 15px;">#</th>
+            <th style="padding: 15px;padding: 15px; width:200px">المؤشر</th>
+            <th style="padding: 15px;padding: 15px;">الجهة</th>
+            <th style="padding: 15px;padding: 15px;">المستهدف</th>
+            <th style="padding: 15px;padding: 15px;">المنجز</th>
+            <th style="padding: 15px;padding: 15px;">الأداء</th>
+            <th style="padding: 15px;padding: 15px;">ملاحظات</th>
         </tr>
         </thead>
         <tbody>
@@ -117,8 +120,8 @@
                    $performance = ($result->rating / $result->mostahdf) * 100;
                 }
             @endphp
-            <tr>
-                <td>{{ $loop->iteration }}</td>
+            <tr style="padding: 20px">
+                <td style="padding: 15px">{{ $loop->iteration }}</td>
                 <td style=" width:200px;">{{ $result->mokasher->name }}</td>
                 <td>{{ $result->sub_geha->geha }}</td>
                 <td>{{ $result->mostahdf }}</td>

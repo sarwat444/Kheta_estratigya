@@ -11,13 +11,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
-
     <!-- Include custom CSS with font -->
     <style>
         body {
             font-family: 'aealarabiya';
             direction: rtl;
             font-weight: 400;
+            font-size: 11px !important;
         }
 
         /* Add custom styles for the table */
@@ -29,7 +29,7 @@
 
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 15px;
             text-align: right;
         }
 
@@ -58,7 +58,6 @@
         .logos {
             margin: 0 10px; /* Add margin between items */
             width: 200px;
-            border-bottom: 1px solid #000;
         }
 
         .logos .image
@@ -84,28 +83,30 @@
             font-weight: 500;
             font-size: 12px;
         }
+        .table-responsive
+        {
+            margin-top: 200px !important;
+        }
+        td{
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
 @if(!empty($results))
-    <div  class="logos">
-        <div class="image" style="margin: 0 !important; ; padding: 0 !important;">
-            <img src="https://test.germaniatek.net/public/assets/admin/images/logo-light.png">
-            <h1 style="font-size: 14px"> نظام أداء جامعه بنها </h1>
-        </div>
+    <div class="Report_Date">
+        <p> تاريخ التقرير : <?php echo date('d-m-Y'); ?></p>
     </div>
-
-    <h1 style="text-align: center; font-size: 13px ;margin-bottom: 20px"> تقرير متابعه أداء المؤشرات الربع سنوى </h1>
-    <table class="table table-bordered table-striped" style="background-color: #fff">
+    <table class="table table-bordered table-striped">
         <thead>
-        <tr style="background-color: #eeee">
-            <th style="padding: 15px;padding: 15px;color:#fff">#</th>
-            <th style="padding: 15px;padding: 15px;color:#fff">المؤشر</th>
-            <th style="padding: 15px;padding: 15px;color:#fff">الجهة</th>
-            <th style="padding: 15px;padding: 15px;color:#fff">المستهدف</th>
-            <th style="padding: 15px;padding: 15px;color:#fff">المنجز</th>
-            <th style="padding: 15px;padding: 15px;color:#fff">الأداء</th>
-            <th style="padding: 15px;padding: 15px;color:#fff">ملاحظات</th>
+        <tr >
+            <th >#</th>
+            <th >المؤشر</th>
+            <th >الجهة</th>
+            <th >المستهدف</th>
+            <th >المنجز</th>
+            <th >الأداء</th>
+            <th >ملاحظات</th>
         </tr>
         </thead>
         <tbody>
@@ -126,11 +127,11 @@
                 <td>{{ $result->rating }}</td>
                 <td>
                     @if($performance < 50 )
-                        <span class="performance" style="background-color: #f00; margin-top: 10px">{{ $performance }} %</span>
+                        <span class="performance" style="background-color: #f00; margin-top: 10px">{{ round($performance) }} %</span>
                     @elseif($performance >= 50 && $performance < 100 )
-                        <span class="performance" style="background-color: #f8de26; margin-top: 10px">{{ $performance }} %</span>
+                        <span class="performance" style="background-color: #f8de26; margin-top: 10px">{{ round($performance)}} %</span>
                     @elseif($performance == 100)
-                        <span class="performance" style="background-color: #00ff00; margin-top: 10px">{{ $performance }} %</span>
+                        <span class="performance" style="background-color: #00ff00; margin-top: 10px">{{ round($performance)}} %</span>
                     @endif
                 </td>
                 <td>

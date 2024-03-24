@@ -35,6 +35,16 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">الأيميل </label>
+                                    <input type="email" name="email" placeholder="الأيميل" class="form-control" id="email" required>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -44,6 +54,8 @@
                                 </div>
                             </div>
                         </div>
+
+
                         <input type="hidden" name="geha_id" value="{{\Illuminate\Support\Facades\Auth::user()->id}}">
                         <div class="row">
                             <div class="col-md-6">

@@ -114,29 +114,7 @@ class UsersController extends Controller
     }
 
     /** Print Parts Report */
-    public function print_users_part($sub_geha, $part)
-    {
 
-        $gehat = User::where('geha_id', Auth::user()->id)->get();
-        $kheta = Kheta::where('id' ,  Auth::user()->kehta_id)->first() ;
-        $results = MokasherGehaInput::with('mokasher', 'sub_geha')
-            ->where('sub_geha_id', $sub_geha)
-            ->selectRaw("* ,part_{$part} as mostahdf , rate_part_{$part} as rating , note_part_{$part} as note")
-            ->get();
-
-        $data = [
-            'results' => $results,
-            'gehat' => $gehat,
-            'kheta_name' => $kheta->name,
-            'kehta_image' =>  $kheta->image ,
-            'selected_geha' => $sub_geha,
-            'report_name' => 'تقرير جهات ربع سنوى ' ,
-        ];
-
-        // Generate PDF using TCPDF
-        $pdfService = new PDFService();
-        $pdfService->generateMokasherPartsPDF($data, 'mokashert_parts.pdf');
-    }
 
     /** Report For Every yesr - Report  #2  */
     public function get_users_reports_year(Request $request)
@@ -167,9 +145,36 @@ class UsersController extends Controller
     }
 
     /** Print Years Report */
+
+    public function print_users_part($sub_geha, $part)
+    {
+
+        $gehat = User::where('geha_id', Auth::user()->id)->get();
+        $kheta = Kheta::where('id' ,  Auth::user()->kehta_id)->first() ;
+        $results = MokasherGehaInput::with('mokasher', 'sub_geha')
+            ->where('sub_geha_id', $sub_geha)
+            ->selectRaw("* ,part_{$part} as mostahdf , rate_part_{$part} as rating , note_part_{$part} as note")
+            ->get();
+
+        $data = [
+            'results' => $results,
+            'gehat' => $gehat,
+            'kheta_name' => $kheta->name,
+            'kehta_image' =>  $kheta->image ,
+            'selected_geha' => $sub_geha,
+            'report_name' => 'تقرير جهات ربع سنوى ' ,
+        ];
+
+        // Generate PDF using TCPDF
+        $pdfService = new PDFService();
+        $pdfService->generateMokasherPartsPDF($data, 'mokashert_parts.pdf');
+    }
+
+
     public function print_users_years($sub_geha, $year_id)
     {
         $gehat = User::where('geha_id', Auth::user()->id)->get();
+        $kheta = Kheta::where('id' ,  Auth::user()->kehta_id)->first() ;
         $results = MokasherGehaInput::with('mokasher', 'sub_geha')
             ->where('geha_id', Auth::user()->id)
             ->where(['sub_geha_id' => $sub_geha, 'year_id' => $year_id])
@@ -179,6 +184,9 @@ class UsersController extends Controller
         $data = [
             'results' => $results,
             'gehat' => $gehat,
+            'kheta_name' => $kheta->name,
+            'kehta_image' =>  $kheta->image ,
+            'report_name' => 'تقرير جهات  السنوى ' ,
             'selected_geha' => $sub_geha,
         ];
 

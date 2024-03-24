@@ -18,6 +18,8 @@ use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpFoundation\Response;
 use App\Traits\ResponseJson ;
 use Illuminate\Support\Facades\Hash;
+use Mail;
+use App\Mail\DemoMail;
 use DB ;
 
 class UsersController extends Controller
@@ -45,10 +47,22 @@ class UsersController extends Controller
         $user->job_number = $storeUserRequest->job_number ;
         $user->password = Hash::make($storeUserRequest->password) ;
         $user->geha = $storeUserRequest->geha ;
+        $user->email = $storeUserRequest->email ;
         $user->is_manger =  1  ;
         $user->kehta_id   = $storeUserRequest->kehta_id ;
-        $user->save() ;
-        return  redirect()->back()->with('success' , 'تم أضافه الجهه بنجاح') ;
+        $mailData = [
+            'job_number' => $storeUserRequest->job_number,
+            'password' => $storeUserRequest->password ,
+        ];
+        try {
+            Mail::to($storeUserRequest->email)->send(new DemoMail($mailData));
+        } catch (\Exception $e) {
+        }
+
+
+        $user->save()  ;
+
+        return  redirect()->back()->with('success' , 'تم أضافه الجهه بنجاح وارسال الأيميل بنجاح ') ;
     }
     public function  edit($id = null ):\Illuminate\View\View
     {
@@ -63,6 +77,8 @@ class UsersController extends Controller
         $is_manger = $userRequest->is_manger ;
 
         $new_user_request  =  $userRequest->safe()->except(['_token']) ;
+
+        $password_email = $new_user_request['password'] ;
         if($user_data)
         {
             if(!empty($new_user_request['password']))
@@ -81,7 +97,14 @@ class UsersController extends Controller
                 $new_user_request['is_manger']  = 0 ;
             }
 
-
+            $mailData = [
+                'job_number' => $userRequest->job_number,
+                'password' => $password_email
+            ];
+            try {
+                Mail::to($userRequest->email)->send(new DemoMail($mailData));
+            } catch (\Exception $e) {
+            }
             $user_data->update($new_user_request) ;
             return  redirect()->back()->with('success' ,  'تم تعديل  بيانات الجهه بنجاح') ;
         }

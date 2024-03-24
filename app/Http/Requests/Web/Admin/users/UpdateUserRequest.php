@@ -29,7 +29,9 @@ class UpdateUserRequest extends FormRequest
             'geha' => ['required']  ,
             'is_manger' => ['sometimes'] ,
             'geha_id'  => ['sometimes'] ,
-            'kehta_id' => ['sometimes']
+            'kehta_id' => ['sometimes'] ,
+            'email' => ['sometimes'] ,
+
         ];
     }
 }

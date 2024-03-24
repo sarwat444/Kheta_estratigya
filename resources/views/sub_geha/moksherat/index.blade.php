@@ -31,50 +31,52 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100 text-center">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>المؤشر</th>
-                            <th> نوع المؤشر</th>
-                            <th>المضاف بواسطه</th>
-                            <th>مدخلات المؤشر </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @forelse($mokashert  as $mokasher)
+                    <div class="table-responsive">
+                        <table id="datatable" class="table table-bordered">
+                            <thead>
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td style="text-align: right">{{ $mokasher->name }} </td>
-                                <td style="text-align: right">
-                                    @if(!empty($mokasher->type))
-                                        @php
-                                            $types = json_decode($mokasher->type) ;
-                                        @endphp
-                                        @foreach ($types as $type)
-                                            @if($type == 0)
-                                                <span class="badge badge-soft-primary font-size-13"> وزاره </span>
-                                            @elseif($type == 1)
-                                                <span class="badge badge-soft-primary font-size-13"> جامعه </span>
-                                            @elseif($type == 2)
-                                                <span class="badge badge-soft-primary font-size-13"> كليه </span>
-                                            @elseif($type == 3)
-                                                <span class="badge badge-soft-primary font-size-13"> الكل </span>
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                </td>
-                                <td>  @if( $mokasher->addedBy == 0 ) الأداره@else {{ $mokasher->addedBy_fun->geha }} @endif  </td>
-                                <td><a  class="btn btn-success btn btn-sm" href="{{ route('sub_geha.sub_geha_mokaseerinput', $mokasher->id) }}"> مدخلات  المؤشر </a></td>
+                                <th>#</th>
+                                <th>المؤشر</th>
+                                <th> نوع المؤشر</th>
+                                <th>المضاف بواسطه</th>
+                                <th>مدخلات المؤشر </th>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4" class="text-center">لا يوجد بيانات بالجدول</td>
-                            </tr>
-                        @endforelse
+                            </thead>
+                            <tbody>
+                            @forelse($mokashert  as $mokasher)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td style="text-align: right">{{ $mokasher->name }} </td>
+                                    <td style="text-align: right">
+                                        @if(!empty($mokasher->type))
+                                            @php
+                                                $types = json_decode($mokasher->type) ;
+                                            @endphp
+                                            @foreach ($types as $type)
+                                                @if($type == 0)
+                                                    <span class="badge badge-soft-primary font-size-13"> وزاره </span>
+                                                @elseif($type == 1)
+                                                    <span class="badge badge-soft-primary font-size-13"> جامعه </span>
+                                                @elseif($type == 2)
+                                                    <span class="badge badge-soft-primary font-size-13"> كليه </span>
+                                                @elseif($type == 3)
+                                                    <span class="badge badge-soft-primary font-size-13"> الكل </span>
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    </td>
+                                    <td>  @if( $mokasher->addedBy == 0 ) الأداره@else {{ $mokasher->addedBy_fun->geha }} @endif  </td>
+                                    <td><a  class="btn btn-success btn btn-sm" href="{{ route('sub_geha.sub_geha_mokaseerinput', $mokasher->id) }}"> مدخلات  المؤشر </a></td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="text-center">لا يوجد بيانات بالجدول</td>
+                                </tr>
+                            @endforelse
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
