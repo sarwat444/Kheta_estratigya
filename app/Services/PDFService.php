@@ -14,72 +14,73 @@ class PDFService extends TCPDF
 
     public function Header()
     {
-        // Logo
-        $image_url = 'https://test.germaniatek.net/public/assets/site/images/benha_logo.png';
+        if ($this->getPage() == 1) {
+            // Logo
+            $image_url = 'https://test.germaniatek.net/public/assets/site/images/benha_logo.png';
 
-        // Add the image to the header on the left side with specific dimensions
-        $this->Image($image_url, 40, 5, 35, 25);
-        $this->SetX(10); // Adjust X position as needed
-        // Move to position below the left image
-        $this->SetY(35); // Adjust Y position as needed
+            // Add the image to the header on the left side with specific dimensions
+            $this->Image($image_url, 40, 5, 35, 25);
+            $this->SetX(10); // Adjust X position as needed
+            // Move to position below the left image
+            $this->SetY(35); // Adjust Y position as needed
 
-        // Set font for text on the left side
-        $this->SetFont('aealarabiya', 'B', 12); // Adjust font size and style as needed
+            // Set font for text on the left side
+            $this->SetFont('aealarabiya', 'B', 12); // Adjust font size and style as needed
 
-        // Add the image to the header on the right side with specific dimensions
-        $kheta_img= 'https://test.germaniatek.net/public/'.$this->kheta_image ;
+            // Add the image to the header on the right side with specific dimensions
+            $kheta_img = 'https://test.germaniatek.net/public/' . $this->kheta_image;
 
-        $this->Image($kheta_img , 205, 5, 40, 25);
+            $this->Image($kheta_img, 205, 5, 40, 25);
 
-        // Move to position below the right image
-        $this->SetY(35); // Adjust Y position as needed
-        $this->SetX(175); // Adjust X position as needed
+            // Move to position below the right image
+            $this->SetY(35); // Adjust Y position as needed
+            $this->SetX(175); // Adjust X position as needed
 
-        // Set font for text on the right side
-        $this->SetFont('aealarabiya', 'B', 12); // Adjust font size and style as needed
+            // Set font for text on the right side
+            $this->SetFont('aealarabiya', 'B', 12); // Adjust font size and style as needed
 
-        // Add text below the right image
-        //$this->Cell(0, 10, 'جامعه بنها', 0, false, 'C', 0, '', 0, false, 'M', 'M');
-
-
-        // Move to position below the right image
-        $this->SetY(10); // Adjust Y position as needed
-        $this->SetX(0); // Adjust X position as needed
-
-        // Set font for text on the right side
-        $this->SetFont('aealarabiya', 'B', 15); // Adjust font size and style as needed
-
-        // Add text below the right image
-        $this->Cell(0, 10, 'نظام أداء جامعه بنها ', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+            // Add text below the right image
+            //$this->Cell(0, 10, 'جامعه بنها', 0, false, 'C', 0, '', 0, false, 'M', 'M');
 
 
-      // Move to position below the right image
-      $this->SetY(20); // Adjust Y position as needed
-      $this->SetX(0); // Adjust X position as needed
+            // Move to position below the right image
+            $this->SetY(10); // Adjust Y position as needed
+            $this->SetX(0); // Adjust X position as needed
 
-      // Set font for text on the right side
-      $this->SetFont('aealarabiya', 'B', 15); // Adjust font size and style as needed
+            // Set font for text on the right side
+            $this->SetFont('aealarabiya', 'B', 15); // Adjust font size and style as needed
 
-      $this->SetTextColor(85, 110, 230); // RGB values for color #556ee6
+            // Add text below the right image
+            $this->Cell(0, 10, 'نظام أداء جامعه بنها ', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+
+
+            // Move to position below the right image
+            $this->SetY(20); // Adjust Y position as needed
+            $this->SetX(0); // Adjust X position as needed
+
+            // Set font for text on the right side
+            $this->SetFont('aealarabiya', 'B', 15); // Adjust font size and style as needed
+
+            $this->SetTextColor(85, 110, 230); // RGB values for color #556ee6
 
 // Add text below the right image with the specified color
-      $this->Cell(0, 10, $this->name, 0, false, 'C', 0, '', 0, false, 'M', 'M');
+            $this->Cell(0, 10, $this->name, 0, false, 'C', 0, '', 0, false, 'M', 'M');
 // Reset text color to black (if needed)
-      $this->SetTextColor(0, 0, 0); // Reset text color to black
+            $this->SetTextColor(0, 0, 0); // Reset text color to black
 
-        // Move to position below the right image
-        $this->SetY(30); // Adjust Y position as needed
-        $this->SetX(0); // Adjust X position as needed
+            // Move to position below the right image
+            $this->SetY(30); // Adjust Y position as needed
+            $this->SetX(0); // Adjust X position as needed
 
-        // Set font for text on the right side
-        $this->SetFont('aealarabiya', 'B', 15); // Adjust font size and style as needed
+            // Set font for text on the right side
+            $this->SetFont('aealarabiya', 'B', 15); // Adjust font size and style as needed
 
-        // Set text color to black
-        $this->SetTextColor(0, 0, 0); // RGB values for color black
+            // Set text color to black
+            $this->SetTextColor(0, 0, 0); // RGB values for color black
 
-        // Add text below the right image with the specified color and bold
-        $this->Cell(0, 10, $this->report_name, 0, false, 'C', 0, '', 0, false, 'M', 'M');
-
+            // Add text below the right image with the specified color and bold
+            $this->Cell(0, 10, $this->report_name, 0, false, 'C', 0, '', 0, false, 'M', 'M');
+        }
 
     }
 
@@ -197,6 +198,7 @@ class PDFService extends TCPDF
 
        // Set the value of $this->name to $data['kheta_name']
        $pdf->name = $data['kheta_name'];
+       $pdf->report_name = $data['report_name'];
        // Set header and footer
        $pdf->Header(); // Pass $data['kheta_name'] directly to setPrintHeader
        $pdf->setPrintFooter(true);

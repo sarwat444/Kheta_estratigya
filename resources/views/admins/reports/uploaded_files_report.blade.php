@@ -71,13 +71,12 @@
                         <a class="btn btn-primary mb-2" onclick="printReport('{{ $kheta_id }}', '{{ $year_id }}')"> <i
                                 class="bx bx-printer"></i> طباعه التقرير </a>
                         <div class="table-responsive">
-                            <table id="datatable" class="table table-bordered table-striped">
+                            <table id="datatable" class="table table-bordered table-striped ">
                                 <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>الجهات المنفذه</th>
-                                    <th>المؤشر</th>
-                                    <th>الأداء</th>
+                                    <th>المؤشر /  الأداء </th>
                                     <th>ملاحظات</th>
                                 </tr>
                                 </thead>
@@ -93,8 +92,11 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $geha_execution->first()->geha->geha }}</td>
                                         <td>
-                                        @foreach($geha_execution as $geha)
+                                            <table class="table table-responsive table-bordered">
+                                                <tbody>
 
+                                        @foreach($geha_execution as $geha)
+                                            <tr>
                                             @php
                                                 /* If Geha Abloded  Two Files  it return  1 else  if  uploaded  1 it returns .5 */
                                                  $filledCount = 0; // Variable to keep track of the number of filled evidence variables
@@ -122,19 +124,24 @@
                                                      $performance = 0 ;
                                                  }
                                             @endphp
-                                        <tr>
-                                            <td>{{ $geha->mokasher->name }}</td>
-                                            <td>
-                                                @if($performance < 50 )
-                                                    <span class="performance" style="background-color: #f00 ">{{$performance}} %</span>
-                                                @elseif($performance  >=  50 && $performance < 100 )
-                                                    <span class="performance" style="background-color: #f8de26 ">{{round($performance)}} %</span>
-                                                @elseif($performance  ==  100)
-                                                    <span class="performance" style="background-color: #00ff00 ">{{round($performance)}} %</span>
-                                                @endif
-                                            </td>
-                                        </tr>
+
+
+                                             <td>{{ $geha->mokasher->name }}</td>
+                                                    <td>
+
+                                                    @if($performance < 50 )
+                                                        <span class="performance" style="background-color: #f00 ">{{$performance}} %</span>
+                                                    @elseif($performance  >=  50 && $performance < 100 )
+                                                        <span class="performance" style="background-color: #f8de26 ">{{round($performance)}} %</span>
+                                                    @elseif($performance  ==  100)
+                                                        <span class="performance" style="background-color: #00ff00 ">{{round($performance)}} %</span>
+                                                    @endif
+                                                    </td>
+                                                </tr>
                                             @endforeach
+
+                                                    </tbody>
+                                            </table>
 
                                       </td>
                                             <td>

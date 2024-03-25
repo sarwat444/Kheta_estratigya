@@ -92,7 +92,6 @@
 <body>
     @if(!empty($results))
         <div class="Report_Date" >
-            <h4 style="color: #083152 !important;font-size: 15px; ">{{$report_name}}</h4>
             <p> تاريخ التقرير : <?php echo date('d-m-Y'); ?></p>
         </div>
         <div class="table-responsive">
@@ -102,7 +101,7 @@
                 <tr>
                     <th style="width: 25px !important;">#</th>
                     <th style="width:100px !important;">الجهات المنفذه</th>
-                    <th style="width: 300px !important;">المؤشر</th>
+                    <th style="width: 300px !important;">المؤشر / الأداء </th>
                     <th>ملاحظات</th>
                 </tr>
                 </thead>
@@ -118,45 +117,55 @@
                         <td  style="width: 25px !important;" >{{ $loop->iteration }}</td>
                         <td  style="width:100px !important;" >{{ $geha_execution->first()->geha->geha }}</td>
                         <td style="width: 300px !important;font-size: 12px !important;">
-                            @foreach($geha_execution as $geha)
-                                    @php
-                                        /* If Geha Abloded  Two Files  it return  1 else  if  uploaded  1 it returns .5 */
-                                         $filledCount = 0; // Variable to keep track of the number of filled evidence variables
-                                            for ($i = 1; $i <= 4; $i++) {
-                                                if (!empty($geha->{'evidence' . $i})) {
-                                                    $filledCount++;
+                            <table class="table table-responsive table-bordered">
+                                <tbody>
+
+                                @foreach($geha_execution as $geha)
+                                    <tr>
+                                        @php
+                                            /* If Geha Abloded  Two Files  it return  1 else  if  uploaded  1 it returns .5 */
+                                             $filledCount = 0; // Variable to keep track of the number of filled evidence variables
+                                                for ($i = 1; $i <= 4; $i++) {
+                                                    if (!empty($geha->{'evidence' . $i})) {
+                                                        $filledCount++;
+                                                    }
                                                 }
-                                            }
-                                            if ($filledCount >= 2) {
-                                                $total = 1;
-                                            }else if($filledCount == 1) {
-                                                $total = .50;
-                                            } else {
-                                                $total = 0;
-                                            }
+                                                if ($filledCount >= 2) {
+                                                    $total = 1;
+                                                }else if($filledCount == 1) {
+                                                    $total = .50;
+                                                } else {
+                                                    $total = 0;
+                                                }
 
-                                    @endphp
+                                        @endphp
 
-                                    @php
-                                        if($geha->mokasher_count > 0 )
-                                        {
-                                          $performance = ($total/$geha->mokasher_count)*100 ;
-                                         }else
-                                         {
-                                             $performance = 0 ;
-                                         }
-                                    @endphp
+                                        @php
+                                            if($geha->mokasher_count > 0 )
+                                            {
+                                              $performance = ($total/$geha->mokasher_count)*100 ;
+                                             }else
+                                             {
+                                                 $performance = 0 ;
+                                             }
+                                        @endphp
 
-                                    {{ $geha->mokasher->name }}
-                                    @if($performance < 50 )
-                                        <span class="performance" style="background-color: #f00  ; font-size: 12px">{{$performance}} %</span>
-                                    @elseif($performance  >=  50 && $performance < 100 )
-                                        <span class="performance" style="background-color: #f8de26 ; font-size: 12px ">{{round($performance)}} %</span>
-                                    @elseif($performance  ==  100)
-                                        <span class="performance" style="background-color: #00ff00 ; font-size: 12px ">{{round($performance)}} %</span>
-                                    @endif
-                           <br> <br>
-                            @endforeach
+
+                                        <td style="width:260px; padding: 20px" ><br> {{ $geha->mokasher->name }} <br></td>
+                                        <td style="width: 40px ;  font-size: 10px; padding: 20px">
+                                            @if($performance < 50 )
+                                                <span class="performance" style="background-color: #f00;margin: 10px  ">{{$performance}} %</span>
+                                            @elseif($performance  >=  50 && $performance < 100 )
+                                                <span class="performance" style="background-color: #f8de26;margin: 10px  ">{{round($performance)}} %</span>
+                                            @elseif($performance  ==  100)
+                                                <span class="performance" style="background-color: #00ff00;margin: 10px  ">{{round($performance)}} %</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
                         </td>
                         <td>
                             @if(!empty($result->note))

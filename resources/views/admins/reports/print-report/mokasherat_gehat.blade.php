@@ -112,9 +112,11 @@
                     @endphp
                     <tr>
                         <td  style="width: 25px !important;">{{ $loop->iteration }}</td>
-                        <td style="width:300px  !important;">{{ $result->mokasher->name }}</td>
+                        <td style="width:300px  !important;"><br>   {{ $result->mokasher->name }}</td>
                         <td style="width:100px !important;">
+                            <table class="table table-responsive table-bordered">
                             @foreach($geha_execution as $geha)
+                                <tr>
                                 @php
                                     if($geha->{"part_".$part} > 0 )
                                      {
@@ -123,18 +125,19 @@
                                         $performance = 0 ;
                                      }
                                 @endphp
-                                        {{ $geha->geha->geha }}
-                                        @if($performance < 50)
-                                            <span class="performance" style="background-color: #f00">{{ round($performance) }} %</span>
-                                        @elseif($performance >= 50 && $performance < 100)
-                                            <span class="performance" style="background-color: #f8de26">{{ round($performance) }} %</span>
-                                        @elseif($performance == 100)
-                                            <span class="performance" style="background-color: #00ff00">{{ round($performance) }} %</span>
-                                        @endif
-                            <br>
-                                    <br>
-
+                                             <td>{{ $geha->geha->geha }} <br></td>
+                                            <td>
+                                                @if($performance < 50)
+                                                    <span class="performance" style="background-color: #f00">{{ round($performance) }} %</span>
+                                                @elseif($performance >= 50 && $performance < 100)
+                                                    <span class="performance" style="background-color: #f8de26">{{ round($performance) }} %</span>
+                                                @elseif($performance == 100)
+                                                    <span class="performance" style="background-color: #00ff00">{{ round($performance) }} %</span>
+                                                @endif
+                                          </td>
+                                </tr>
                             @endforeach
+                            </table>
 
 
                         </td>
@@ -154,24 +157,29 @@
                     @endphp
                     <tr>
                         <td style="width: 25px !important;">{{ $loop->iteration }} </td>
-                        <td style="width:300px !important;"> {{ $result->mokasher->name }}</td>
+                        <td style="width:300px !important;"><br>  {{ $result->mokasher->name }}</td>
                         <td style="width:100px !important;">
+                            <table class="table table-responsive table-bordered">
                             @foreach($geha_execution as $geha)
+                                <tr>
                                 @php
                                     $performance = ($geha->rate_part_1 + $geha->rate_part_2 + $geha->rate_part_3 + $geha->rate_part_4) / ($geha->part_1 + $geha->part_2 + $geha->part_3 + $geha->part_4) * 100;
                                 @endphp
 
 
-                                        {{ $geha->geha->geha }}
-                                        @if($performance < 50 )
-                                            <span class="performance" style="background-color: #f00 ">{{round($performance)}} %</span>
-                                        @elseif($performance  >=  50 && $performance < 100 )
-                                            <span class="performance" style="background-color: #f8de26 ">{{round($performance)}} %</span>
-                                        @elseif($performance  ==  100)
-                                            <span class="performance" style="background-color: #00ff00 ">{{round($performance)}} %</span>
-                                        @endif
-                                <br> <br>
+                                       <td>{{ $geha->geha->geha }} <br>  </td>
+                                         <td>
+                                            @if($performance < 50 )
+                                                <span class="performance" style="background-color: #f00 ">{{round($performance)}} %</span>
+                                            @elseif($performance  >=  50 && $performance < 100 )
+                                                <span class="performance" style="background-color: #f8de26 ">{{round($performance)}} %</span>
+                                            @elseif($performance  ==  100)
+                                                <span class="performance" style="background-color: #00ff00 ">{{round($performance)}} %</span>
+                                            @endif
+                                      </td>
+                                </tr>
                             @endforeach
+                            </table>
 
 
                         </td>
