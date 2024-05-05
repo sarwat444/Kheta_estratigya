@@ -19,7 +19,8 @@ use App\Http\Controllers\Web\Admin\{
     KhetaController ,
     RatingMembersController ,
     MailController ,
-    RolesController
+    RolesController ,
+    permissionController
 };
 
 
@@ -101,13 +102,10 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
     Route::post('change_execution_year' , [UsersController::class ,'change_execution_year'])->name('change_execution_year');
 
     /** Roles Routes  */
-
     Route::resource('roles', RolesController::class);
+  /** Permission Routes */
+  Route::resource('Permissions', permissionController::class);
     /** Admins Routes */
-
-
-
-
     Route::get('admins', [UsersController::class, 'admins'])->name('users.admins');
      Route::get('editadmin/{id}', [UsersController::class, 'editadmin'])->name('admins.edit');
       Route::PUT('updateadmin/{id}', [UsersController::class, 'updateadmin'])->name('admins.updateadmin');

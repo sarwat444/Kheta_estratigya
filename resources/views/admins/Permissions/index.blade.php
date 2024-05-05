@@ -21,20 +21,20 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>الصلاحيه</th>
+                            <th>الصلاحيات</th>
                             <th>التحكم</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse($roles as $role)
+                        @forelse($Permissions as $Permission)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $role->name }}</td>
+                                <td>{{ $Permission->name }}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="javascript:void(0);" data-category-id="{{ $role->id }}"
+                                        <a href="javascript:void(0);" data-category-id="{{ $Permission->id }}"
                                            class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
-                                        <form action="{{ route('dashboard.roles.destroy', $role->id) }}"
+                                        <form action="{{ route('dashboard.Permissions.destroy', $Permission->id) }}"
                                               method="POST">@csrf @method('delete')
                                             <a class="text-muted font-size-20 confirm-delete"><i
                                                     class="bx bx-trash"></i></a>
@@ -55,15 +55,15 @@
         </div>
     </div>
 
-    @include('admins.roles.modals.store-modal')
-    @include('admins.roles.modals.edit-modal')
+    @include('admins.Permissions.modals.store-modal')
+    @include('admins.Permissions.modals.edit-modal')
 @endsection
 
 
 @push('scripts')
     <script src="{{asset('/assets/admin/libs/sweetalert2/sweetalert2.min.js')}}"></script>
     <script src="{{asset('/assets/admin/js/pages/sweet-alerts.init.js')}}"></script>
-    @include('admins.roles.scripts.store')
-    @include('admins.roles.scripts.delete')
-    @include('admins.roles.scripts.edit')
+    @include('admins.Permissions.scripts.store')
+    @include('admins.Permissions.scripts.delete')
+    @include('admins.Permissions.scripts.edit')
 @endpush

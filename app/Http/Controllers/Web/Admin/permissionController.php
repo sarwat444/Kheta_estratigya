@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
+use App\Traits\ResponseJson;
+use Symfony\Component\HttpFoundation\Response;
 use Spatie\Permission\Models\Permission;
 
 class permissionController extends Controller
 {
+    use ResponseJson;
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +18,11 @@ class permissionController extends Controller
      */
     public function index()
     {
-        return view('front.')
+        // Fetch all Permissions from the database
+        $Permissions = Permission::all();
+
+        // Return view with Permissions data
+        return view('admins.Permissions.index', compact('Permissions'));
     }
 
     /**
@@ -26,7 +32,8 @@ class permissionController extends Controller
      */
     public function create()
     {
-        //
+        // Return the create Permission form view
+        return view('admins.Permissions.create');
     }
 
     /**
@@ -37,18 +44,16 @@ class permissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        // Validate the request
+        $validatedData = $request->validate([
+            'name' => 'required|string|unique:Permissions',
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        // Create the new Permission
+        $Permission = Permission::create($validatedData);
+
+        // Redirect with success message
+        return redirect()->route('dashboard.Permissions.index')->with('success', 'تم أضافه الصلاحيه بنجاح');
     }
 
     /**
@@ -57,9 +62,13 @@ class permissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id): \Illuminate\Http\JsonResponse
     {
-        //
+        // Find the Permission by id
+        $Permission = Permission::findOrFail($id);
+
+        // Return the edit Permission form view with Permission data
+        return $this->responseJson(['data' => $Permission], Response::HTTP_OK);
     }
 
     /**
@@ -71,7 +80,17 @@ class permissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Validate the request
+        $validatedData = $request->validate([
+            'name' => 'required|string|unique:Permissions,name,'.$id,
+        ]);
+
+        // Find the Permission by id and update it
+        $Permission = Permission::findOrFail($id);
+        $Permission->update($validatedData);
+
+        // Redirect with success message
+        return redirect()->route('dashboard.Permissions.index')->with('success', 'تم تعديل الصلاحيه  بنجاح');
     }
 
     /**
@@ -82,6 +101,11 @@ class permissionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Find the Permission by id and delete it
+        $Permission = Permission::findOrFail($id);
+        $Permission->delete();
+
+        // Redirect with success message
+        return redirect()->route('dashboard.Permissions.index')->with('success', 'تم حذف الصلاحيه  بنجاح');
     }
 }

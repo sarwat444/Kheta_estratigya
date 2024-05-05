@@ -2,11 +2,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">أضافه دور جديد</h5>
+                <h5 class="modal-title" id="exampleModalLabel">أضافه صلاحيه  جديده</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{route('dashboard.roles.store')}}" id="store-new-category">
+                <form action="{{route('dashboard.Permissions.store')}}" id="store-new-category">
                     @csrf
                     <div class="mb-2">
                         <label for="name" class="col-form-label">الصلاحيه</label>

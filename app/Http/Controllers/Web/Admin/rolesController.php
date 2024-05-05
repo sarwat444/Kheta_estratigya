@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Traits\ResponseJson;
+use Symfony\Component\HttpFoundation\Response;
 use Spatie\Permission\Models\Role;
 
 class RolesController extends Controller
 {
+    use ResponseJson;
     /**
      * Display a listing of the resource.
      *
@@ -50,7 +53,7 @@ class RolesController extends Controller
         $role = Role::create($validatedData);
 
         // Redirect with success message
-        return redirect()->route('dashboard.roles.index')->with('success', 'Role created successfully.');
+        return redirect()->route('dashboard.roles.index')->with('success', 'تم أضافه الصلاحيه بنجاح');
     }
 
     /**
@@ -59,13 +62,13 @@ class RolesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id): \Illuminate\Http\JsonResponse
     {
         // Find the role by id
         $role = Role::findOrFail($id);
 
         // Return the edit role form view with role data
-        return view('admins.roles.edit', compact('role'));
+        return $this->responseJson(['data' => $role], Response::HTTP_OK);
     }
 
     /**
@@ -87,7 +90,7 @@ class RolesController extends Controller
         $role->update($validatedData);
 
         // Redirect with success message
-        return redirect()->route('roles.index')->with('success', 'Role updated successfully.');
+        return redirect()->route('dashboard.roles.index')->with('success', 'تم تعديل الصلاحيه  بنجاح');
     }
 
     /**
@@ -103,6 +106,6 @@ class RolesController extends Controller
         $role->delete();
 
         // Redirect with success message
-        return redirect()->route('roles.index')->with('success', 'Role deleted successfully.');
+        return redirect()->route('dashboard.roles.index')->with('success', 'تم حذف الصلاحيه  بنجاح');
     }
 }
