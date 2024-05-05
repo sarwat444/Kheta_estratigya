@@ -18,7 +18,8 @@ use App\Http\Controllers\Web\Admin\{
     MangementController ,
     KhetaController ,
     RatingMembersController ,
-    MailController
+    MailController ,
+    RolesController
 };
 
 
@@ -66,10 +67,6 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
     /** Filter With Year */
     Route::get('/mokasherat_year/{year_id}' , [DashboardController::class, 'mokasherat_year'])->name('mokasherat_year');
 
-
-
-
-
     /** Kehat Routes */
     Route::resource('kheta', KhetaController::class);
 
@@ -103,6 +100,9 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
     Route::resource('users', UsersController::class);
     Route::post('change_execution_year' , [UsersController::class ,'change_execution_year'])->name('change_execution_year');
 
+    /** Roles Routes  */
+
+    Route::resource('roles', RolesController::class);
     /** Admins Routes */
 
 

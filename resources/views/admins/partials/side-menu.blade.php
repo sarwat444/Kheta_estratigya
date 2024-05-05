@@ -3,9 +3,9 @@
         <div id="sidebar-menu">
             <ul class="metismenu list-unstyled" id="side-menu" style="margin-top:45px">
                 <li>
-                    <a href="{{route('dashboard.kheta.index')}}">
+                    <a href="{{route('dashboard.roles.index')}}">
                         <i class="bx bx-layout"></i>
-                        <span key="t-maps">  الخطط </span>
+                        <span key="t-maps">  الأدوار </span>
                     </a>
                 </li>
                 @if(Auth::guard('admin')->user()->supper_admin  == 1 )

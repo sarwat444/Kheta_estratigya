@@ -19,6 +19,7 @@ class AdminFactory extends Factory
     {
         return [
             'name' => 'admin',
+            'kheta_id' => 1 ,
             'email' => 'admin@gmail.com',
             'password' => Hash::make('password'),
         ];
