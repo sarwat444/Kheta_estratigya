@@ -102,7 +102,10 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
     Route::post('change_execution_year' , [UsersController::class ,'change_execution_year'])->name('change_execution_year');
 
     /** Roles Routes  */
-    Route::resource('roles', RolesController::class);
+    Route::resource('roles', RolesController::class) ;
+
+    Route::get('roles/{roleId}/give-permissions', [RolesController::class, 'addPermissionToRole']);
+    Route::put('roles/{roleId}/give-permissions', [RolesController::class, 'givePermissionToRole']);
   /** Permission Routes */
   Route::resource('Permissions', permissionController::class);
     /** Admins Routes */
