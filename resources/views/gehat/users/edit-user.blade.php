@@ -1,4 +1,4 @@
-@extends('admins.layouts.app')
+@extends('gehat.layouts.app')
 @push('title','تعديل بيانات الجهه')
 
 @push('styles')
