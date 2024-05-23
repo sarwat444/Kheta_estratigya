@@ -34,7 +34,7 @@ class RatingMembersController extends Controller
     public  function logout()
     {
         Auth::logout();
-        return redirect()->intended(route('login')) ;
+        return redirect(route('Home'));
     }
     public function rating_gehat()
     {

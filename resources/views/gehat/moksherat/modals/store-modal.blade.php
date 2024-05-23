@@ -10,10 +10,11 @@
                     @csrf
                     <div class="mb-2">
                         <label for="type" class="col-form-label">نوع المؤشر</label>
-                        <select class="form-control" name="type" >
-                            <option value="مؤشر وزاره">مؤشر وزاره</option>
-                            <option value="مؤشر جامعه" >مؤشر جامعه</option>
-                            <option value="مؤشر كليه" >الكل</option>
+                        <select class="form-control select2" name="type[]" multiple style="width: 100%">
+                            <option value="0">مؤشر وزارة</option>
+                            <option value="1">مؤشر جامعة</option>
+                            <option value="2">مؤشر كلية</option>
+                            <option value="3">الكل</option>
                         </select>
                         <input type="hidden" name="program_id" value="{{$program_id}}">
                         <input type="hidden" name="addedBy" value="{{\Illuminate\Support\Facades\Auth::user()->id }}">

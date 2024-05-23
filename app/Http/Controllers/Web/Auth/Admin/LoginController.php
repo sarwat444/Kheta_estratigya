@@ -22,6 +22,6 @@ class LoginController extends Controller
     public function destroy(): \Illuminate\Http\RedirectResponse
     {
         auth()->guard('admin')->logout();
-        return redirect(route('admins.login'));
+        return redirect(route('Home'));
     }
 }

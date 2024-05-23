@@ -58,8 +58,8 @@
                     <p>الدخول  للنظام</p>
                     <div class="buttons mt-5">
                         <a href="{{route('admins.login')}}" class="btn btn-primary">مدير  نظام </a>
-                        <a href="{{route('dashboard.index')}}" class="btn btn-primary">  مدير الجهه   </a>
-                        <a href="{{route('dashboard.index')}}" class="btn btn-primary">   الجهه   </a>
+                        <a href="{{route('login')}}" class="btn btn-primary">  مدير الجهه   </a>
+                        <a href="{{route('login')}}" class="btn btn-primary">   الجهه   </a>
                         <a href="{{route('ratingLogin')}}" class="btn btn-primary">   لجنه تقييم   </a>
                     </div>
                 </div>

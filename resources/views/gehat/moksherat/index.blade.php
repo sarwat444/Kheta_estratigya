@@ -3,13 +3,15 @@
 @push('title','المؤشرات')
 
 @push('styles')
-    <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
-    <!-- DataTables -->
-    <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-    <!-- Responsive datatable examples -->
-    <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
 
+<link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
+<!-- DataTables -->
+<link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+<!-- Responsive datatable examples -->
+<link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
 @endpush
 @section('content')
 
@@ -41,6 +43,7 @@
                                 data-bs-toggle="modal" data-bs-target="#create-new-category">
                             <i class="bx bx-add-to-queue font-size-16 align-middle me-2"></i>أضافه مؤشر جديد
                         </button>
+
                     </div>
                     <div class="table-responsive">
                     <table id="datatable" class="table table-bordered ">
@@ -58,61 +61,114 @@
                         <tbody>
 
                         @forelse($mokashert  as $mokasher)
-
-                                @php
-                                   $users =  json_decode($mokasher->mokasher_inputs->users)
-                                @endphp
-                                    @if(in_array(\Illuminate\Support\Facades\Auth::user()->id , $users))
-                                        <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td style="text-align: right">{{ $mokasher->name }} </td>
-                                        <td style="text-align: right">
-                                            @if(!empty($mokasher->type))
-                                                @php
-                                                    $types = json_decode($mokasher->type) ;
-                                                @endphp
-                                                @foreach ($types as $type)
-                                                    @if($type == 0)
-                                                        <span class="badge badge-soft-primary font-size-13"> وزاره </span>
-                                                    @elseif($type == 1)
-                                                        <span class="badge badge-soft-primary font-size-13"> جامعه </span>
-                                                    @elseif($type == 2)
-                                                        <span class="badge badge-soft-primary font-size-13"> كليه </span>
-                                                    @elseif($type == 3)
-                                                        <span class="badge badge-soft-primary font-size-13"> الكل </span>
-                                                    @endif
-                                                @endforeach
-                                            @endif
-                                        </td>
-                                        <td>  @if( $mokasher->addedBy == 0 ) الأداره@else {{ $mokasher->addedBy_fun->geha }} @endif  </td>
-                                        <td><a  class="btn btn-primary  btn-sm" href="{{ route('gehat.mokaseerinput', $mokasher->id) }}"> توجيه المؤشر </a></td>
-                                        <td>
-                                            @if(!empty($mokasher->mokasher_geha_inputs))
-                                                @if($mokasher->mokasher_geha_inputs->geha_id == Auth::user()->id && !empty($mokasher->mokasher_geha_inputs->sub_geha_id))
-                                                 <a  class="btn btn-primary  btn btn-sm" href="{{ route('gehat.mokasherData', $mokasher->id) }}"> عرض المؤشر </a>
-                                                @else
-                                                    <span class="text-danger"> توجيه المؤشر أولا</span>
+                           @if(!empty($mokasher->mokasher_inputs))
+                                        @php
+                                        $users =  json_decode($mokasher->mokasher_inputs->users)
+                                        @endphp
+                                        @if(in_array(\Illuminate\Support\Facades\Auth::user()->id , $users))
+                                            <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td style="text-align: right">{{ $mokasher->name }} </td>
+                                            <td style="text-align: right">
+                                                @if(!empty($mokasher->type))
+                                                    @php
+                                                        $types = json_decode($mokasher->type) ;
+                                                    @endphp
+                                                    @foreach ($types as $type)
+                                                        @if($type == 0)
+                                                            <span class="badge badge-soft-primary font-size-13"> وزاره </span>
+                                                        @elseif($type == 1)
+                                                            <span class="badge badge-soft-primary font-size-13"> جامعه </span>
+                                                        @elseif($type == 2)
+                                                            <span class="badge badge-soft-primary font-size-13"> كليه </span>
+                                                        @elseif($type == 3)
+                                                            <span class="badge badge-soft-primary font-size-13"> الكل </span>
+                                                        @endif
+                                                    @endforeach
                                                 @endif
-                                            @endif
-                                        </td>
+                                            </td>
+                                            <td>  @if( $mokasher->addedBy == 0 ) الأداره@else {{ $mokasher->addedBy_fun->geha }} @endif  </td>
+                                            <td><a  class="btn btn-primary  btn-sm" href="{{ route('gehat.mokaseerinput', $mokasher->id) }}"> توجيه المؤشر </a></td>
+                                            <td>
+                                                @if(!empty($mokasher->mokasher_geha_inputs))
+                                                    @if($mokasher->mokasher_geha_inputs->geha_id == Auth::user()->id && !empty($mokasher->mokasher_geha_inputs->sub_geha_id))
+                                                    <a  class="btn btn-primary  btn btn-sm" href="{{ route('gehat.mokasherData', $mokasher->id) }}"> عرض المؤشر </a>
+                                                    @else
+                                                        <span class="text-danger"> توجيه المؤشر أولا</span>
+                                                    @endif
+                                                @endif
+                                            </td>
 
-                                        <td>
-                                            @if($mokasher->addedBy == \Illuminate\Support\Facades\Auth::user()->id )
-                                                <div class="btn-group">
-                                                    <a href="{{ route('dashboard.moksherat.edit', $mokasher->id) }}" class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
-                                                    <form action="{{ route('dashboard.moksherat.destroy', $mokasher->id) }}"
-                                                          method="POST">@csrf @method('delete')
-                                                        <a class="text-muted font-size-20 confirm-delete"><i
-                                                                class="bx bx-trash"></i></a>
-                                                    </form>
-                                                </div>
-                                              @else
-                                                <span class="badge badge-soft-danger">غير مصرح بالتعديل بالحذف </span>
+                                            <td>
+                                                @if($mokasher->addedBy == \Illuminate\Support\Facades\Auth::user()->id )
+                                                    <div class="btn-group">
+                                                        <a href="{{ route('dashboard.moksherat.edit', $mokasher->id) }}" class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
+                                                        <form action="{{ route('dashboard.moksherat.destroy', $mokasher->id) }}"
+                                                            method="POST">@csrf @method('delete')
+                                                            <a class="text-muted font-size-20 confirm-delete"><i
+                                                                    class="bx bx-trash"></i></a>
+                                                        </form>
+                                                    </div>
+                                                @else
+                                                    <span class="badge badge-soft-danger">غير مصرح بالتعديل بالحذف </span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        @endif
+                                    @else
+                                   <!-- فى حاله  تم اضافه  مؤشر  عن طريق  الجهه -->
+
+                                   <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td style="text-align: right">{{ $mokasher->name }} </td>
+                                    <td style="text-align: right">
+                                        @if(!empty($mokasher->type))
+                                            @php
+                                                $types = json_decode($mokasher->type) ;
+                                            @endphp
+                                            @foreach ($types as $type)
+                                                @if($type == 0)
+                                                    <span class="badge badge-soft-primary font-size-13"> وزاره </span>
+                                                @elseif($type == 1)
+                                                    <span class="badge badge-soft-primary font-size-13"> جامعه </span>
+                                                @elseif($type == 2)
+                                                    <span class="badge badge-soft-primary font-size-13"> كليه </span>
+                                                @elseif($type == 3)
+                                                    <span class="badge badge-soft-primary font-size-13"> الكل </span>
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    </td>
+                                    <td>  @if( $mokasher->addedBy == 0 ) الأداره @else {{ $mokasher->addedBy_fun->geha }} @endif  </td>
+                                    <td><a  class="btn btn-primary  btn-sm" href="{{ route('gehat.mokaseerinput', $mokasher->id) }}"> توجيه المؤشر </a></td>
+                                    <td>
+                                        @if(!empty($mokasher->mokasher_geha_inputs))
+                                            @if($mokasher->mokasher_geha_inputs->geha_id == Auth::user()->id && !empty($mokasher->mokasher_geha_inputs->sub_geha_id))
+                                            <a  class="btn btn-primary  btn btn-sm" href="{{ route('gehat.mokasherData', $mokasher->id) }}"> عرض المؤشر </a>
+                                            @else
+                                                <span class="text-danger"> توجيه المؤشر أولا</span>
                                             @endif
-                                        </td>
-                                    </tr>
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        @if($mokasher->addedBy == \Illuminate\Support\Facades\Auth::user()->id )
+                                            <div class="btn-group">
+                                                <a href="{{ route('dashboard.moksherat.edit', $mokasher->id) }}" class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
+                                                <form action="{{ route('dashboard.moksherat.destroy', $mokasher->id) }}"
+                                                    method="POST">@csrf @method('delete')
+                                                    <a class="text-muted font-size-20 confirm-delete"><i
+                                                            class="bx bx-trash"></i></a>
+                                                </form>
+                                            </div>
+                                        @else
+                                            <span class="badge badge-soft-danger">غير مصرح بالتعديل بالحذف </span>
+                                        @endif
+                                    </td>
+                                </tr>
 
                             @endif
+
                         @empty
                             <tr>
                                 <td colspan="4" class="text-center">لا يوجد مؤشرات موجهه </td>
@@ -129,18 +185,29 @@
     @include('gehat.moksherat.modals.edit-modal')
 @endsection
 @push('scripts')
-    <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/sweetalert2/sweetalert2.min.js')}}"></script>
-    <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/sweet-alerts.init.js')}}"></script>
-    <!-- Required datatable js -->
-    <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset(PUBLIC_PATH.'assets/admin/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <!-- Responsive examples -->
-    <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}"></script>
-    <!-- Datatable init js -->
-    <script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/datatables.init.js')}}"></script>
+<script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/sweetalert2/sweetalert2.min.js')}}"></script>
+<script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/sweet-alerts.init.js')}}"></script>
+<!-- Required datatable js -->
+<script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset(PUBLIC_PATH.'assets/admin/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<!-- Responsive examples -->
+<script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}"></script>
+<!-- Datatable init js -->
+<script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/datatables.init.js')}}"></script>
 
+<script src="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/js/select2.min.js')}}"></script>
+
+<script src="{{asset(PUBLIC_PATH.'/assets/admin/js/pages/form-advanced.init.js')}}"></script>
+<script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            dropdownParent: $('#create-new-category') // Adjust selector based on your modal's ID
+        });
+    });
+</script>
     @include('gehat.moksherat.scripts.store')
     @include('gehat.moksherat.scripts.delete')
     @include('gehat.moksherat.scripts.edit')
+
 @endpush

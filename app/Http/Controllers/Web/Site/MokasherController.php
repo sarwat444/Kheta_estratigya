@@ -32,27 +32,41 @@ class MokasherController extends Controller
     {
         $selectedYear = Execution_year::whereHas('MokasherExcutionYears', function ($query) {
             $query->where('value', '!=', '0');
-        })
-         ->where('selected', 1)->first();
+        })->where('selected', 1)->first();
+
+        $authUserId = Auth::user()->id;
 
         if ($selectedYear) {
             $selectedYearId = $selectedYear->id;
+
             $mokashert = $this->mokasherModel
-                ->whereHas('mokasher_execution_years', function ($query) use ($selectedYearId) {
-                    $query->where('year_id', $selectedYearId)->where('value', '!=', '0');
-                })->with('mokasher_geha_inputs' , function ($query) use($selectedYearId){
-                    $query->where('year_id' , $selectedYearId) ;
-                })->with('mokasher_inputs','addedBy_fun', 'program')
-                ->where('addedBy' , Auth::user()->id)
-                ->orWhere('addedBy' , 0)
+                ->where(function($query) use ($authUserId, $selectedYearId) { // Pass $selectedYearId here
+                    $query->where('addedBy', $authUserId)
+                          ->orWhere('addedBy', 0)
+                          ->orWhere(function($query) use ($authUserId, $selectedYearId) { // And here
+                              $query->where('addedBy', '!=', $authUserId)
+                                    ->whereHas('mokasher_execution_years', function ($query) use ($selectedYearId) {
+                                        $query->where('year_id', $selectedYearId)
+                                              ->where('value', '!=', '0');
+                                    });
+                          });
+                })
+                ->with(['mokasher_geha_inputs' => function ($query) use($selectedYearId) {
+                    $query->where('year_id', $selectedYearId);
+                }, 'mokasher_inputs', 'addedBy_fun', 'program'])
                 ->where('program_id', $program_id)
+                ->orderBy('id', 'desc')
                 ->get();
+
+
+
         } else {
             $mokashert = collect(); // Empty collection if no selected year is found
         }
 
         return view('gehat.moksherat.index', compact('mokashert', 'program_id'));
     }
+
     public function create(): \Illuminate\View\View
     {
         return view('gehat.moksherat.create');
@@ -60,7 +74,12 @@ class MokasherController extends Controller
 
     public function store(StoreMokasherRequest $StoreMokasherRequest): \Illuminate\Http\JsonResponse
     {
-        $this->mokasherModel->create($StoreMokasherRequest->validated());
+        $mokasher = new Mokasher() ;
+        $mokasher->name = $StoreMokasherRequest->name ;
+        $mokasher->type = json_encode($StoreMokasherRequest->type);
+        $mokasher->program_id = $StoreMokasherRequest->program_id ;
+        $mokasher->addedBy  = Auth::id() ;
+        $mokasher->save() ;
         return $this->responseJson(['type' => 'success', 'message' => ' تم أضافه المؤشر بنجاح'], Response::HTTP_CREATED);
     }
 
@@ -91,12 +110,28 @@ class MokasherController extends Controller
         $selected_year = Execution_year::whereHas('MokasherExcutionYears')
             ->where(['kheta_id' => $stored_kheta_id, 'selected' => 1])
             ->first();
+
+
         $selected_year_value = MokasherExecutionYear::where(['mokasher_id' => $mokasher_id, 'year_id' => $selected_year->id])
             ->first();
-        dd($selected_year_value) ;
-        $mokasher = Mokasher::with(['mokasher_geha_inputs' => function($query) use($selected_year_value){
-             $query->where(['year_id' => $selected_year_value->year_id , 'geha_id' => Auth()->user()->id]);
-        }])->with('program.goal.objective.kheta' ,'mokasher_inputs')->where('id', $mokasher_id)->first();
+        if($selected_year_value)
+        {
+            $mokasher = Mokasher::whereHas('mokasher_geha_inputs', function($query) use($selected_year_value) {
+                $query->where('year_id', $selected_year_value->year_id)
+                      ->where('geha_id', Auth::user()->id);
+            })
+            ->with('program.goal.objective.kheta', 'mokasher_inputs')
+            ->where('id', $mokasher_id)
+            ->first();
+        }else
+        {
+
+            //فى  حاله تم أضافه المؤشر  عن  طريق  الجهه
+            $mokasher = Mokasher::with('program.goal.objective.kheta', 'mokasher_inputs')
+                                ->where('id', $mokasher_id)
+                                ->first();
+        }
+
 
         return view('gehat.moksherat.create_mokaseerinput', compact('users', 'mokasher_id', 'mokasher' ,'selected_year_value' ,'selected_year'));
     }
@@ -111,6 +146,7 @@ class MokasherController extends Controller
 
     public function redirect_mokasher(Request $request, $id)
     {
+
         $validate = ValidatorFacade::make($request->all(), [
             'target' => 'required',
             'mokasher_id' => 'required',
@@ -120,6 +156,15 @@ class MokasherController extends Controller
         if ($validate->fails()) {
             return redirect()->back()->with('error', 'يوجد خطا  ما  ');
         }
+
+            MokasherExecutionYear::updateOrCreate(
+            [
+                'mokasher_id' => $request->mokasher_id,
+                'year_id' => $request->year_id
+            ],
+            [
+                'value' => $request->target
+            ]);
 
         MokasherGehaInput::updateOrCreate(
             [
