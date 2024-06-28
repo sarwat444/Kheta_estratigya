@@ -42,7 +42,7 @@
                             <i class="bx bx-add-to-queue font-size-16 align-middle me-2"></i>أضافه جهه جديده
                         </a>
                     </div>
-                    <table id="students-datatable" class="table table-bordered dt-responsive  nowrap w-100 text-center">
+                    <table id="students-datatable" class="table table-bordered dt-responsive  nowrap w-100 table-striped">
                         <thead>
                         <tr>
                             <th>#</th>

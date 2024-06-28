@@ -67,7 +67,6 @@ class MokasherController extends Controller
     }
     public function mokaseerinput($mokasher_id)
     {
-
         $mokasher = Mokasher::with('mokasher_inputs', 'mokasher_geha_inputs' , 'program' , 'program.goal.Objective.kheta')->find($mokasher_id) ;
         $kheta_id = $mokasher->program->goal->Objective->kheta->id ;
         $users = User::where('is_manger' , 1)->get() ;

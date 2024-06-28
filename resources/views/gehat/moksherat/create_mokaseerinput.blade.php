@@ -9,6 +9,7 @@
             <div class="card">
                 <div class="card-body" style="text-align: right">
                     <h4 class="card-title mb-5"> توجيه المؤشر </h4>
+
                     <form id="store-mokasher-input" class="repeater" action="{{route('gehat.redirect_mokasher' ,  $mokasher_id )}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">

@@ -30,9 +30,11 @@ class MokasherController extends Controller
 
     public function show($program_id = null): \Illuminate\View\View
     {
+
         $selectedYear = Execution_year::whereHas('MokasherExcutionYears', function ($query) {
             $query->where('value', '!=', '0');
         })->where('selected', 1)->first();
+
 
         $authUserId = Auth::user()->id;
 
@@ -114,8 +116,15 @@ class MokasherController extends Controller
 
         $selected_year_value = MokasherExecutionYear::where(['mokasher_id' => $mokasher_id, 'year_id' => $selected_year->id])
             ->first();
+
+
+
+
         if($selected_year_value)
         {
+
+            // فى  حاله ان مدير  الجهه دخل فيه بيانات والاداره اعطت ليه قيمه فى سنه البث
+
             $mokasher = Mokasher::whereHas('mokasher_geha_inputs', function($query) use($selected_year_value) {
                 $query->where('year_id', $selected_year_value->year_id)
                       ->where('geha_id', Auth::user()->id);
@@ -123,6 +132,13 @@ class MokasherController extends Controller
             ->with('program.goal.objective.kheta', 'mokasher_inputs')
             ->where('id', $mokasher_id)
             ->first();
+            if(empty($mokasher))
+            {
+
+            $mokasher = Mokasher::with('program.goal.objective.kheta', 'mokasher_inputs')
+            ->where('id', $mokasher_id)
+            ->first();
+            }
         }else
         {
 
@@ -131,7 +147,6 @@ class MokasherController extends Controller
                                 ->where('id', $mokasher_id)
                                 ->first();
         }
-
 
         return view('gehat.moksherat.create_mokaseerinput', compact('users', 'mokasher_id', 'mokasher' ,'selected_year_value' ,'selected_year'));
     }
