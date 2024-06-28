@@ -106,49 +106,48 @@ class MokasherController extends Controller
 
     public function mokaseerinput($mokasher_id)
     {
-        $users = User::where('geha_id' , Auth::user()->id)->get();
-        $mokasher_kehta = Mokasher::with('program.goal.objective.kheta')->where('id', $mokasher_id)->first();
-        $stored_kheta_id =  $mokasher_kehta->program->goal->objective->kheta->id ;  //الحصول   على id  الخطه
-        $selected_year = Execution_year::whereHas('MokasherExcutionYears')
-            ->where(['kheta_id' => $stored_kheta_id, 'selected' => 1])
-            ->first();
+        $user = Auth::user();
+        $users = User::where('geha_id', $user->id)->get();
+        $mokasher_kehta = Mokasher::with('program.goal.objective.kheta')->findOrFail($mokasher_id);
+        $stored_kheta_id = $mokasher_kehta->program->goal->objective->kheta->id;
 
+        $selected_year = Execution_year::whereHas('MokasherExcutionYears', function($query) use ($stored_kheta_id) {
+            $query->where(['kheta_id' => $stored_kheta_id, 'selected' => 1]);
+        })->firstOrFail();
 
-        $selected_year_value = MokasherExecutionYear::where(['mokasher_id' => $mokasher_id, 'year_id' => $selected_year->id])
-            ->first();
+        $selected_year_value = MokasherExecutionYear::where(['mokasher_id' => $mokasher_id, 'year_id' => $selected_year->id])->first();
 
+        if ($selected_year_value) {
+            $mokasher = Mokasher::where('id', $mokasher_id)
+                ->whereHas('mokasher_geha_inputs', function($query) use($selected_year_value, $user) {
+                    $query->where('year_id', $selected_year_value->year_id)
+                          ->where('geha_id', $user->id);
+                })
+                ->with([
+                    'program.goal.objective.kheta',
+                    'mokasher_geha_inputs' => function($query) use ($selected_year_value, $user) {
+                        $query->where('year_id', $selected_year_value->year_id)
+                              ->where('geha_id', $user->id);
+                    }
+                ])
+                ->first();
 
+            if (empty($mokasher)) {
+                $mokasher = Mokasher::with('program.goal.objective.kheta', 'mokasher_inputs')
+                ->with([
+                    'mokasher_geha_inputs' => function($query) use ($selected_year_value, $user) {
+                        $query->where('year_id', $selected_year_value->year_id)
+                              ->where('geha_id', $user->id);
+                    }
+                ])->findOrFail($mokasher_id);
 
-
-        if($selected_year_value)
-        {
-
-            // فى  حاله ان مدير  الجهه دخل فيه بيانات والاداره اعطت ليه قيمه فى سنه البث
-
-            $mokasher = Mokasher::whereHas('mokasher_geha_inputs', function($query) use($selected_year_value) {
-                $query->where('year_id', $selected_year_value->year_id)
-                      ->where('geha_id', Auth::user()->id);
-            })
-            ->with('program.goal.objective.kheta', 'mokasher_inputs')
-            ->where('id', $mokasher_id)
-            ->first();
-            if(empty($mokasher))
-            {
-
-            $mokasher = Mokasher::with('program.goal.objective.kheta', 'mokasher_inputs')
-            ->where('id', $mokasher_id)
-            ->first();
             }
-        }else
-        {
-
-            //فى  حاله تم أضافه المؤشر  عن  طريق  الجهه
+        } else {
             $mokasher = Mokasher::with('program.goal.objective.kheta', 'mokasher_inputs')
-                                ->where('id', $mokasher_id)
-                                ->first();
+                ->findOrFail($mokasher_id);
         }
 
-        return view('gehat.moksherat.create_mokaseerinput', compact('users', 'mokasher_id', 'mokasher' ,'selected_year_value' ,'selected_year'));
+        return view('gehat.moksherat.create_mokaseerinput', compact('users', 'mokasher_id', 'mokasher', 'selected_year_value', 'selected_year'));
     }
 
     public function store_mokaseerinput(StoremokasharatInputs $StoremokasharatInputs)

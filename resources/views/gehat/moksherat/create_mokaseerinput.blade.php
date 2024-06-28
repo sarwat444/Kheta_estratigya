@@ -4,6 +4,7 @@
     <link href="{{asset(PUBLIC_PATH.'/assets/admin/libs/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
 @endpush
 @section('content')
+
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
@@ -50,6 +51,7 @@
                         <div class="row mb-2">
 
                         </div>
+
                         <label class="text-primary">المنجز  خلال الفتره</label>
                         @if(!empty($mokasher->mokasher_geha_inputs))
                             <div class="row mb-3">
