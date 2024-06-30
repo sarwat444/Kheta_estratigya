@@ -170,7 +170,7 @@ class MokasherController extends Controller
         if ($validate->fails()) {
             return redirect()->back()->with('error', 'يوجد خطا  ما  ');
         }
-
+/*
             MokasherExecutionYear::updateOrCreate(
             [
                 'mokasher_id' => $request->mokasher_id,
@@ -179,22 +179,22 @@ class MokasherController extends Controller
             [
                 'value' => $request->target
             ]);
-
-        MokasherGehaInput::updateOrCreate(
-            [
-                'mokasher_id' => $request->mokasher_id,
-                'year_id' => $request->year_id,
-                'geha_id' => Auth::user()->id
-            ],
-            [
-                'sub_geha_id' => $request->sub_geha_id,
-                'target' => $request->target,
-                'part_1' => $request->part_1,
-                'part_2' => $request->part_2,
-                'part_3' => $request->part_3,
-                'part_4' => $request->part_4,
-            ]
-        );
+*/
+            MokasherGehaInput::updateOrCreate(
+                [
+                    'mokasher_id' => $request->mokasher_id,
+                    'year_id' => $request->year_id,
+                    'geha_id' => Auth::user()->id
+                ],
+                [
+                    'sub_geha_id' => $request->sub_geha_id,
+                    'target' => $request->target,
+                    'part_1' => $request->part_1,
+                    'part_2' => $request->part_2,
+                    'part_3' => $request->part_3,
+                    'part_4' => $request->part_4,
+                ]
+            );
         return redirect()->back()->with('success', 'تم توجيه المؤشر  للجهه بنجاح ');
     }
 

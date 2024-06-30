@@ -15,20 +15,28 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-4">
-                                @if(!empty($selected_year))
-                                   @if(!empty($selected_year_value))
-                                            <label> المستهدف فى سنه {{ $selected_year->year_name }}</label>
-                                            <input  name="target" type="text" @if($mokasher->addedBy != Auth::id()) readonly  @endif  value="{{$selected_year_value->value}}" class="form-control" >
-                                            <input type="hidden" name="year_id" value="{{ $selected_year_value->year_id }}">
-                                    @else
-
-                                        <label> المستهدف فى سنه {{ $selected_year->year_name }}</label>
-                                        <input  class="form-control" type="text" name="target" >
-                                        <input type="hidden" name="year_id" value="{{ $selected_year->id }}">
-                                    @endif
+                         @if(!empty($selected_year))
+                                @if(!empty($selected_year_value))
+                                    <label>المستهدف فى سنه {{ $selected_year->year_name }}</label>
+                                    <input name="target" type="text"
+                                        @if(!empty( $selected_year_value->value) && $mokasher->addedBy != Auth::id())
+                                            value="{{ $selected_year_value->value }}"
+                                        @else
+                                            @if(!empty($mokasher->mokasher_geha_inputs))
+                                                value="{{ $mokasher->mokasher_geha_inputs->target }}"
+                                            @endif
+                                        @endif
+                                        class="form-control">
+                                    <input type="hidden" name="year_id" value="{{ $selected_year_value->year_id }}">
                                 @else
-                                    <span class="text-danger">* لم يتم  تحديد السنه  المستهدفه </span>
+                                    <label>المستهدف فى سنه {{ $selected_year->year_name }}</label>
+                                    <input class="form-control" type="text" name="target">
+                                    <input type="hidden" name="year_id" value="{{ $selected_year->id }}">
                                 @endif
+                            @else
+                                <span class="text-danger">* لم يتم تحديد السنه المستهدفه </span>
+                            @endif
+
 
 
                             </div>
