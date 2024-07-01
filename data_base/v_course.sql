@@ -990,7 +990,7 @@ CREATE TABLE `mokasher_geha_inputs` (
   `mokasher_id` bigint(20) UNSIGNED NOT NULL,
   `geha_id` bigint(20) UNSIGNED NOT NULL,
   `sub_geha_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `target` text DEFAULT '0',
+  `target` bigint DEFAULT '0',
   `year_id` bigint(20) UNSIGNED NOT NULL,
   `part_1` varchar(255) DEFAULT '0',
   `rate_part_1` varchar(255) NOT NULL DEFAULT '0',
