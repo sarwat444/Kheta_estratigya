@@ -54,6 +54,18 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="url" class="form-label"> الصلاحيه </label>
+                                    <select name="roles[]" class="select2 form-control" multiple>
+                                     @foreach ($roles  as  $role )
+                                         <option value="{{ $role }}">{{ $role }}</option>
+                                     @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
 
                         <input type="hidden" name="geha_id" value="{{\Illuminate\Support\Facades\Auth::user()->id}}">

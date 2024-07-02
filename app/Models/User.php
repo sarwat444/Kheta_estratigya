@@ -11,13 +11,13 @@ use Illuminate\Notifications\Notifiable;
 use App\Enums\InstructorRequestStatus;
 use Laravel\Passport\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\Permission\Traits\HasRoles;
+//use Spatie\Permission\Traits\HasRoles;
 /**
  * @method static OnlyInstructors()
  */
 class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia ; //, HasRoles;
 
     protected $hidden = [
         'remember_token',

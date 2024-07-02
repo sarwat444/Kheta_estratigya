@@ -38,7 +38,8 @@ class UsersController extends Controller
     public function createuser($kehta_id)
     {
            $mangements =  Mangement::get();
-           return  view('admins.users.geaht.create')->with(compact('mangements', 'kehta_id')) ;
+           $roles  = Role::pluck('name' , 'name')->all() ;
+           return  view('admins.users.geaht.create')->with(compact('mangements', 'kehta_id' ,'roles')) ;
     }
     public function store(StoreUserRequest $storeUserRequest): \Illuminate\Http\RedirectResponse
     {

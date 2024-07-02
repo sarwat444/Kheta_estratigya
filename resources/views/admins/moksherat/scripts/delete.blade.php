@@ -1,5 +1,6 @@
 <script>
-    $('.confirm-delete').click(function (event) {
+    $(document).on('click' , '.confirm-delete' , function(){
+
         let form = $(this).closest("form");
         event.preventDefault();
         Swal.fire({

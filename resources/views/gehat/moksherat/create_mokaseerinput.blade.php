@@ -9,7 +9,8 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body" style="text-align: right">
-                    <h4 class="card-title mb-5"> توجيه المؤشر </h4>
+                    <h4 class="card-title mb-4">{{ $mokasher->name }}</h4>
+                    <h4 class="card-title mb-4 font-size-13 text-primary">  : توجيه المؤشر </h4>
 
                     <form id="store-mokasher-input" class="repeater" action="{{route('gehat.redirect_mokasher' ,  $mokasher_id )}}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -19,11 +20,11 @@
                                 @if(!empty($selected_year_value))
                                     <label>المستهدف فى سنه {{ $selected_year->year_name }}</label>
                                     <input name="target" type="text"
-                                        @if(!empty( $selected_year_value->value) && $mokasher->addedBy != Auth::id())
-                                            value="{{ $selected_year_value->value }}"
-                                        @else
+                                        @if($mokasher->addedBy == 0 && !empty( $selected_year_value->value))
+                                            value="{{ $selected_year_value->value }}" readonly
+                                        @elseif($mokasher->addedBy == 0 && (empty( $selected_year_value->value) ||  $selected_year_value->value == 0))
                                             @if(!empty($mokasher->mokasher_geha_inputs))
-                                                value="{{ $mokasher->mokasher_geha_inputs->target }}"
+                                              value="{{ $mokasher->mokasher_geha_inputs->target }}"
                                             @endif
                                         @endif
                                         class="form-control">
