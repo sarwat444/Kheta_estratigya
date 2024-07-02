@@ -123,11 +123,6 @@ class DashboardController extends Controller
 
     /** Mokasherat Report  */
 
-
-
-
-
-
   public  function mokasherat_gehat_report($kheta_id , $year_id = null , $part = null )
   {
       $years  = Execution_year::where('kheta_id', $kheta_id)->get();
@@ -179,6 +174,71 @@ class DashboardController extends Controller
         }
 
     }
+
+    /** Final Report  */
+
+    public  function gehat_targets_report($kheta_id , $year_id = null , $part = null )
+    {
+        $years  = Execution_year::where('kheta_id', $kheta_id)->get();
+        $gehat = User::where('kehta_id', $kheta_id)->get() ;
+        if (!empty($year_id)) {
+                $results = MokasherGehaInput::select('mokasher_id')
+                    ->where('year_id', $year_id)
+                    ->groupBy('mokasher_id')
+                    ->with('mokasher')
+                    ->get();
+         return view('admins.reports.gehat_target' , compact('results' ,'years' ,'year_id','kheta_id' ,'gehat' ,'part'));
+        }
+        return view('admins.reports.gehat_target' , compact('years' ,'kheta_id' ,'year_id','gehat' ,'part'));
+    }
+
+    public  function print_gehat_targets_report($kheta_id , $year_id = null , $part = null )
+    {
+        $years  = Execution_year::where('kheta_id', $kheta_id)->get();
+        $kheta = Kheta::find($kheta_id);
+
+        if ($kheta) {
+            $kheta_name = $kheta->name;
+        } else {
+            // Handle the case where no Kheta record is found for the given ID
+            $kheta_name = ''; // or any default value
+        }
+
+        $gehat = User::where('kehta_id', $kheta_id)->get() ;
+        if (!empty($year_id)) {
+            $results = MokasherGehaInput::select('mokasher_id')
+                ->where('year_id', $year_id)
+                ->groupBy('mokasher_id')
+                ->with('mokasher')
+                ->get();
+            $data = [
+                'results' => $results ,
+                'years' => $years ,
+                'year_id' => $year_id ,
+                'kheta_id' => $kheta_id ,
+                'gehat' => $gehat ,
+                'part' => $part ,
+                'kheta_name' => $kheta_name ,
+                'kehta_image' =>  $kheta->image ,
+                'report_name' => 'تقرير مستهدف الجهات'
+            ];
+            // Generate PDF using TCPDF
+            $pdfService = new PDFService();
+            $pdfService->generate_target_mokasherat_gehatPDF($data, 'Mokasher_target_gehat.pdf');
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 

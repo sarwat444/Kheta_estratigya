@@ -132,8 +132,19 @@ Route::group(['prefix' => 'admins/dashboard', 'middleware' => 'auth:admin', 'as'
     /** Reports Routes */
     Route::get('mokasherat_gehat_report/{kheta_id}/{year_id?}/{part?}' ,[DashboardController::class ,'mokasherat_gehat_report'])->name('mokasherat_gehat_report') ;
     Route::get('print_mokasherat_gehat_report/{kheta_id}/{year_id?}/{part?}' ,[DashboardController::class ,'print_mokasherat_gehat_report'])->name('print_mokasherat_gehat_report') ;
-
     Route::post('mokasherat_gehat_report' ,[DashboardController::class ,'mokasherat_gehat_report']);
+
+
+   /** Gehat Targets And Parts */
+
+   Route::get('gehat_targets_report/{kheta_id}/{year_id?}/{part?}' ,[DashboardController::class ,'gehat_targets_report'])->name('gehat_targets_report') ;
+   Route::get('print_gehat_targets_report/{kheta_id}/{year_id?}/{part?}' ,[DashboardController::class ,'print_gehat_targets_report'])->name('print_gehat_targets_report') ;
+   Route::post('gehat_targets_report' ,[DashboardController::class ,'gehat_targets_report']);
+
+
+
+
+
 
     Route::get('mokasherat_files_report/{kheta_id}/{year_id?}/{part?}' ,[DashboardController::class ,'mokasherat_files_report'])->name('mokasherat_files_report');
 
