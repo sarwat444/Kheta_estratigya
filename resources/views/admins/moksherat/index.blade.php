@@ -52,6 +52,7 @@
                                 <th>#</th>
                                 <th>المؤشر</th>
                                 <th> نوع المؤشر</th>
+                                <th>  مضاف بواسطه</th>
                                 <th>مدخلات المؤشر</th>
                                 <th>التحكم</th>
                             </tr>
@@ -78,6 +79,11 @@
                                                   @endif
                                             @endforeach
                                         @endif
+                                    </td>
+                                    <td style="text-align: right">
+
+                                        {{ $mokasher->addedBy_fun->geha   ?? 'الأداره'}}
+
                                     </td>
                                     <td><a  class="btn btn-success btn btn-sm font-size-12" href="{{ route('dashboard.moksherat.mokaseerinput', $mokasher->id) }}"> مدخلات المؤشر </a></td>
                                     <td>

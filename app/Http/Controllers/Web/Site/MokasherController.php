@@ -93,15 +93,19 @@ class MokasherController extends Controller
         return redirect()->route('gehat.moksherat.show', $program_id)->with('success', ' تم  حذف المؤشر  بنجاح');
     }
 
-    public function edit(Mokasher $mokasher): \Illuminate\Http\JsonResponse
+    public function edit($mokasher_id)
     {
-        return $this->responseJson(['data' => $mokasher], Response::HTTP_OK);
+        $mokasher = Mokasher::find($mokasher_id);
+        return view('gehat.moksherat.edit', compact('mokasher'));
     }
 
     public function update(UpdateMokasherRequest $UpdateMokasherRequest, Mokasher $mokasher): \Illuminate\Http\RedirectResponse
     {
-        $mokasher->update($UpdateMokasherRequest->validated());
-        return redirect()->route('gehat.moksherat.show', $mokasher->program_id)->with('success', ' تم  تعديل  المؤشر بنجاح');
+        $mokasher->where('id' , $UpdateMokasherRequest->id)->update([
+           'name' => $UpdateMokasherRequest->name ,
+           'type'  => $UpdateMokasherRequest->type
+        ]);
+        return redirect()->back()->with('success' , 'تم التعديل بنجاح');
     }
 
     public function mokaseerinput($mokasher_id)

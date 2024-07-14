@@ -102,8 +102,8 @@
                                             <td>
                                                 @if($mokasher->addedBy == \Illuminate\Support\Facades\Auth::user()->id )
                                                     <div class="btn-group">
-                                                        <a href="{{ route('dashboard.moksherat.edit', $mokasher->id) }}" class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
-                                                        <form action="{{ route('dashboard.moksherat.destroy', $mokasher->id) }}"
+                                                        <a href="{{ route('gehat.moksherat.edit', $mokasher->id) }}" class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
+                                                        <form action="{{ route('gehat.moksherat.destroy', $mokasher->id) }}"
                                                             method="POST">@csrf @method('delete')
                                                             <a class="text-muted font-size-20 confirm-delete"><i
                                                                     class="bx bx-trash"></i></a>
@@ -154,8 +154,8 @@
                                     <td>
                                         @if($mokasher->addedBy == \Illuminate\Support\Facades\Auth::user()->id )
                                             <div class="btn-group">
-                                                <a href="{{ route('dashboard.moksherat.edit', $mokasher->id) }}" class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
-                                                <form action="{{ route('dashboard.moksherat.destroy', $mokasher->id) }}"
+                                                <a href="{{ route('gehat.moksherat.edit', $mokasher->id) }}" class="text-muted font-size-20 edit"><i class="bx bxs-edit"></i></a>
+                                                <form action="{{ route('gehat.moksherat.destroy', $mokasher->id) }}"
                                                     method="POST">@csrf @method('delete')
                                                     <a class="text-muted font-size-20 confirm-delete"><i
                                                             class="bx bx-trash"></i></a>

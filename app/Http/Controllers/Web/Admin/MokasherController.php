@@ -24,7 +24,7 @@ class MokasherController extends Controller
     public function show($program_id =null ): \Illuminate\View\View
     {
         $program = Program::find($program_id) ;
-        $mokashert = $this->mokasherModel->where('program_id' , $program_id)->get() ;
+        $mokashert = $this->mokasherModel->with('addedBy_fun')->where('program_id' , $program_id)->get() ;
         return view('admins.moksherat.index', compact('mokashert' ,  'program_id' , 'program'));
     }
 
